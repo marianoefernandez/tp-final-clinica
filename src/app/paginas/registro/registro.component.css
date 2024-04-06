@@ -1,0 +1,43 @@
+title,h2,h4,label,p,span
+{
+    color: white;
+}
+
+body
+{
+	height: 180vh;
+}
+
+::placeholder 
+{
+  color: rgba(40, 40, 48, 0.461);
+  font-size: 1.2em;
+}
+
+.archivo
+{
+    color: white;
+}
+
+#tipo-usuario label
+{
+    font-size: 18px;
+}
+
+.mb-4
+{
+    color: white;
+}
+
+#tipo-usuario select
+{
+    height: 80px;
+    width: 300px;
+    background-color: rgba(189, 14, 14, 0.81);
+    color: white;
+}
+
+.especialidad
+{
+    margin: 7px;
+}

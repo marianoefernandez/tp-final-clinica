@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Paises</title>
+</head>
+<body>
+    <div class="card" id="estructura">
+        <div class="card-body text-black usuarios">
+            <h3>Administradores</h3>
+            <table>
+                <tr>
+                  <th>Apellido</th>
+                  <th>Nombre</th>
+                  <th>DNI</th>
+                  <th>Edad</th>
+                  <th>Email</th>
+                  <th>Foto</th>
+                </tr>
+                <tr (click) = "elegirUsuario(admin)" *ngFor="let admin of listaAdministradores; index as i" class="usuario">
+                  <td>{{admin.apellido}}</td>
+                  <td>{{admin.nombre}}</td>
+                  <td>{{admin.dni}}</td>
+                  <td>{{admin.edad}}</td>
+                  <td>{{admin.email}}</td>
+                  <td><img src="{{admin.imagenUno}}" width="64" height="64"></td>
+                </tr>
+            </table>
+            <hr class="mb-4">
+            
+            <h3>Pacientes</h3>
+            <table>
+                <tr>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>DNI</th>
+                    <th>Edad</th>
+                    <th>Email</th>
+                    <th>Obra Social</th>
+                    <th>Foto 1</th>
+                    <th>Foto 2</th>
+
+                </tr>
+                <tr (click) = "elegirUsuario(paciente)" *ngFor="let paciente of listaPacientes; index as i" class="usuario">
+                  <td>{{paciente.apellido}}</td>
+                  <td>{{paciente.nombre}}</td>
+                  <td>{{paciente.dni}}</td>
+                  <td>{{paciente.edad}}</td>
+                  <td>{{paciente.email}}</td>
+                  <td>{{paciente.obraSocial}}</td>
+                  <td><img src="{{paciente.imagenUno}}" width="64" height="64"></td>
+                  <td><img src="{{paciente.imagenDos}}" width="64" height="64"></td>
+                </tr>
+            </table>
+            <hr class="mb-4">
+
+            <h3>Especialistas</h3>
+            <table>
+                <tr>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>DNI</th>
+                    <th>Edad</th>
+                    <th>Email</th>
+                    <th>Especialidad</th>
+                    <th>Está habilitado</th>
+                    <th>Foto</th>
+                    <th>¿Habilitar/Deshabilitar?</th>
+                </tr>
+                <tr (click) = "elegirUsuario(especialista)" *ngFor="let especialista of listaEspecialistas; index as i" class="usuario">
+                  <td>{{especialista.apellido}}</td>
+                  <td>{{especialista.nombre}}</td>
+                  <td>{{especialista.dni}}</td>
+                  <td>{{especialista.edad}}</td>
+                  <td>{{especialista.email}}</td>
+                  <td>{{especialista.especialidad}}</td>
+                  <td *ngIf="especialista.estaActivo; else elseBlock">Si</td>
+                  <ng-template #elseBlock><td>No</td></ng-template>
+                  <td><img src="{{especialista.imagenUno}}" width="64" height="64"></td>
+                  <td *ngIf="especialista.estaActivo; else elseBlock2"><button class="btn btn-danger" (click)="activarDesactivarEspecialista(especialista)">Deshabilitar</button></td>
+                  <ng-template #elseBlock2><td><button class="btn btn-success" (click)="activarDesactivarEspecialista(especialista)">Habilitar</button></td></ng-template>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

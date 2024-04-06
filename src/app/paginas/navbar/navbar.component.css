@@ -1,0 +1,26 @@
+.btnNavbar
+{
+    width: 40px;
+    height: 40px;
+    margin: 4px;
+    padding: -2px;
+    filter: invert(100%);
+}
+
+.btnNavbar:hover
+{
+    border:solid;
+    border-color: rgba(255, 255, 255, 0.741);
+    cursor: pointer;
+}
+
+#navbar
+{
+    margin: 69px;
+}
+
+.navbar-brand
+{
+    margin: 8px;
+    padding: 3px;
+}

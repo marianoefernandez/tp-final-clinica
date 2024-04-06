@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-2"></div>
+            <div class="col-lg-6 col-md-8 login-box">
+                <div class="col-lg-12 login-key">
+                    <i class="fa fa-key" aria-hidden="true"></i>
+                </div>
+                <div class="col-lg-12 login-title">
+                    LA CLINICA ONLINE
+                </div>
+
+                <div class="col-lg-12 login-form">
+                    <div class="col-lg-12 login-form">
+                        <form (ngSubmit)="loguearse()">
+                            <div class="form-group">
+                                <label class="form-control-label">EMAIL</label>
+                                <input type="text" [(ngModel)] = "email" name = "email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">CONTRASEÑA</label>
+                                <input type="password" class="form-control" [(ngModel)] = "clave" name = "clave">
+                            </div>
+
+                            <div class="col-lg-12 loginbttm">
+                                <div class="col-lg-6 login-btm login-text text-danger">
+                                    {{mensajeError}}
+                                </div>
+                                    <div class="col-lg-6 login-btm login-button">
+                                    <button type="submit" class="btn btn-outline-primary">INICIAR SESION</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2"></div>
+            </div>
+        </div>
+    </div>
+        <br>    
+        <button (click)="accesoRapidoPaciente()" class="btn btn-outline-danger">ACCESO RÁPIDO (PACIENTE)</button>
+        <button (click)="accesoRapidoEspecialista()" class="btn btn-outline-warning">ACCESO RÁPIDO (ESPECIALISTA)</button>
+        <button (click)="accesoRapidoAdmin()" class="btn btn-outline-success">ACCESO RÁPIDO (ADMINISTRADOR)</button>
+    <router-outlet></router-outlet>
+</body>
+</html>

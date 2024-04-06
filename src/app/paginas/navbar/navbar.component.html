@@ -1,0 +1,17 @@
+<div id="navbar">
+  <nav class="navbar navbar-light bg-primary fixed-top">    
+    <a class="navbar-brand text-light">
+        <img style="border-radius: 100%;" src="https://www.delacabeza-rivera.es/wp-content/uploads/2020/06/PERFIL-VACIO.png" width="40" height="40" class="d-inline-block align-top" alt="">
+        {{autenticacion.usuarioActual.email}} ({{tipoSeleccionado}})
+    </a>
+
+    <div>
+      <input (click)="cerrarSesion()" type="image" src="https://static.thenounproject.com/png/29386-200.png"  class="btnNavbar">
+      <input (click)="navigate('home')" type="image" src="https://cdn-icons-png.flaticon.com/512/25/25694.png"  class="btnNavbar">
+      <!-- <input (click)="cambiarModo()" *ngIf="modo.modoNocturno; else elseBlock" type="image" src="./assets/sol.png"  class="btnNavbar">
+      <ng-template #elseBlock><input (click)="cambiarModo()" type="image" src="./assets/luna.png"  class="btnNavbar"></ng-template> -->
+    </div>
+  </nav>
+</div>
+
+<router-outlet></router-outlet>

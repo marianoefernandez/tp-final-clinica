@@ -1,0 +1,68 @@
+table 
+{
+    width: 80%;
+    margin: 30px auto;
+    border-collapse: collapse;
+}
+
+tr:first-child 
+{
+    background-color: #1c87c9;
+    color: #fff;
+}
+  
+th,td 
+{
+    padding: 10px;
+    border: 1px solid #666;
+}
+
+td
+{
+    background-color: #ffffff;
+
+}
+
+.usuarios
+{
+    height: 400px;
+	overflow-y: scroll;
+    flex-wrap: wrap;
+	background-color: #c9bbbb;
+}
+
+#seleccion
+{
+	background-color: #c9bbbb;
+    font-weight: bold;
+}
+
+button:hover
+{
+    border: 5px solid;
+    border-color: rgb(195, 0, 255);
+    cursor: pointer;
+}
+
+p
+{
+    margin: 12px;
+}
+
+body 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #EFD5C3;
+    flex-wrap: wrap;
+}
+
+#estructura
+{
+	flex: auto;
+    border-radius: 40px;
+    overflow: hidden;
+    margin: 10px 10px;
+    transition: .5s;
+}
