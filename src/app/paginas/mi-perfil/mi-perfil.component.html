@@ -1,2 +1,55 @@
-<h1>Mi Perfil</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="bg-dark">
+    <div class="container bootstrap snippets bootdey">
+        <div class="row" *ngIf="firestore.datosUsuarioActual != undefined">
+          <div class="profile-nav col-md-3">
+              <div class="panel">
+                  <div class="user-heading round bg-primary">
+                      <a href="#">
+                          <img src="{{firestore.datosUsuarioActual.imagenUno}}" alt="">
+                      </a>
+                      <h1>{{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</h1>
+                      <p>{{autenticacion.usuarioActual.email}}</p>
+                  </div>
+        
+                  <!-- <ul class="nav nav-pills nav-stacked">
+                      <li class="active"><a href="#"> <i class="fa fa-user"></i>Usuarios</a></li>
+                      <li><a href="#"> <i class="fa fa-calendar"></i> Recent Activity <span class="label label-warning pull-right r-activity">9</span></a></li>
+                      <li><a href="#"> <i class="fa fa-edit"></i> Edit profile</a></li>
+                  </ul> -->
+              </div>
+          </div>
+          <div class="profile-info col-md-9">
+              <div class="panel">
+              </div>
+              <div class="panel">
+                  <div class="bio-graph-heading bg-primary">
+                      Bienvenido a la clinica {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}} usuario de tipo {{firestore.datosUsuarioActual.tipoUsuario}}
+                  </div>
+                  <div class="card panel-body bio-graph-info" style="background-color: #dddbb1; margin-top:10px">
+                      <h1>Información del usuario</h1>
+                        <div class="row">
+                            <ng-container *ngFor="let item of firestore.datosUsuarioActual | keyvalue">
+                                <div class="bio-row" *ngIf="item.key != 'imagenUno' && item.key != 'imagenDos' && item.key != 'uid'">
+                                    <p><span>{{formatearString(item.key)}} </span>: {{obtenerValor(item.value)}}</p>
+                                </div>
+                            </ng-container>
+                        </div>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" class="card" style="margin-top: 10px;">
+            <h1>Aca se van a organizar los horarios (SOLO ESPECIALISTA)</h1>
+          </div>
+        </div>
+    </div>
+</body>
+</html>
+
 <router-outlet></router-outlet>

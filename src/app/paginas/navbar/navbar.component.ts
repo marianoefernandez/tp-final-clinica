@@ -23,7 +23,7 @@ export class NavbarComponent {
   }
 
   async ngOnInit()
-  {
+  {   
     if(this.firestore.datosUsuarioActual == undefined)
     {
       this.spinner.show();
