@@ -17,7 +17,7 @@ export class NavbarComponent {
   public emailUsuario:string | null = null;
   public tipoSeleccionado = "Administrador";
 
-  constructor(public autenticacion:AutenticacionService,private firestore:FirestoreService,private spinner:NgxSpinnerService, private cookieService: CookieService,public modo:ModoNocturnoService,private router:Router)
+  constructor(public autenticacion:AutenticacionService,public firestore:FirestoreService,private spinner:NgxSpinnerService, private cookieService: CookieService,public modo:ModoNocturnoService,private router:Router)
   {
 
   }

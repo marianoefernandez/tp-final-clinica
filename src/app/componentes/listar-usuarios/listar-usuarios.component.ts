@@ -57,4 +57,21 @@ export class ListarUsuariosComponent
       this.spinner.hide();
     }, 300);
   }
+
+  public obtenerEspecialidad(especialidad:any)
+  {
+    let especialidades = ""
+
+    for(let i = 0;i<especialidad.length;i++)
+    {
+      especialidades += especialidad[i]["especialidad"];
+      if(i != (especialidad.length - 1))
+      {
+        especialidades += ",";
+      }
+    }
+
+    return especialidades;
+  }
+  
 }

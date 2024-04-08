@@ -26,21 +26,24 @@ export class RegistrarTodosUsuariosComponent
 
   public tipoUsuario:string = "";
 
-  public seleccionEspecialidad = "";
   public imagenPerfilUno:any = null;
   public imagenPerfilDos:any | null = null;
   public hora: any;
   public mensajeError:string = "";
   public flagRegistro : boolean = false;
+  public mensajeConfirmacion ="";
+  public especialidadAgregada : any = null;
+
+  public listaEspecialidades : any[] = 
+  [
+    {especialidad:"Psicologia"},
+    {especialidad:"Cardiología"},
+    {especialidad:"Neurología"},
+  ]
 
   constructor(private spinner:NgxSpinnerService,private autenticador:AutenticacionService, private forms: FormBuilder,private router:Router)
   {
 
-  }
-
-  get getEspecialidad() 
-  {
-    return this.formulario.get('especialidad') as FormArray;
   }
 
   ngOnInit()
@@ -145,11 +148,6 @@ export class RegistrarTodosUsuariosComponent
     {
       console.log("DATOS BIEN INGRESADOS");
 
-      if(this.formulario.value["especialidad"] != "Otro")
-      {
-        this.seleccionEspecialidad = this.formulario.value["especialidad"];
-      }
-
       const usuario: Usuario = 
       {
         tipo:this.tipoUsuario,
@@ -161,7 +159,7 @@ export class RegistrarTodosUsuariosComponent
         imagenPerfilUno:this.imagenPerfilUno,
         imagenPerfilDos:this.imagenPerfilDos,
         obraSocial:this.formulario.value["obraSocial"],
-        especialidad:this.seleccionEspecialidad,
+        especialidad:this.formulario.value["especialidad"],
         estaActiva:false,
         hora: new Date()
       }
@@ -212,10 +210,6 @@ export class RegistrarTodosUsuariosComponent
                 text: 'Error al crear cuenta',
                 footer: this.mensajeError
               });
-              if(this.formulario.value["especialidad"] != "Otro")
-              {
-                this.seleccionEspecialidad = "";
-              }
             }
             this.spinner.hide()
           }, 100);
@@ -249,6 +243,31 @@ export class RegistrarTodosUsuariosComponent
   public navigate(url:string)
   {
     this.router.navigateByUrl(url);
+  }
+
+  public agregarEspecialidad()
+  {
+    if(this.especialidadAgregada != null)
+    {
+      if(this.listaEspecialidades.find( (esp) => {
+        return esp.especialidad == this.especialidadAgregada;
+      }) == undefined)
+      {
+        const especialidad = {especialidad:this.especialidadAgregada};
+        this.listaEspecialidades.push(especialidad);
+        this.mensajeConfirmacion = "Especialidad " + this.especialidadAgregada + " agregada con éxito";
+        setTimeout(() => {
+          this.mensajeConfirmacion = "";
+        }, 2000);
+      }
+      else
+      {
+        this.mensajeConfirmacion = "La especialidad " + this.especialidadAgregada + " ya existe en la lista";
+        setTimeout(() => {
+          this.mensajeConfirmacion = "";
+        }, 2000);
+      }
+    }
   }
 }
 

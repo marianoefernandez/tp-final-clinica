@@ -7,6 +7,7 @@ import { Usuario } from 'src/app/usuario';
 import swal from 'sweetalert2';
 
 
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -27,12 +28,21 @@ export class RegistroComponent
 
   public tipoUsuario:string = "";
 
-  public seleccionEspecialidad = "";
+  //public seleccionEspecialidad : any[] = [];
   public imagenPerfilUno:any = null;
   public imagenPerfilDos:any | null = null;
   public hora: any;
   public mensajeError:string = "";
   public flagRegistro : boolean = false;
+  public mensajeConfirmacion ="";
+  public especialidadAgregada : any = null;
+
+  public listaEspecialidades : any[] = 
+  [
+    {especialidad:"Psicologia"},
+    {especialidad:"Cardiología"},
+    {especialidad:"Neurología"},
+  ]
 
   constructor(private spinner:NgxSpinnerService,private autenticador:AutenticacionService, private forms: FormBuilder,private router:Router)
   {
@@ -141,10 +151,10 @@ export class RegistroComponent
     {
       console.log("DATOS BIEN INGRESADOS");
 
-      if(this.formulario.value["especialidad"] != "Otro")
-      {
-        this.seleccionEspecialidad = this.formulario.value["especialidad"];
-      }
+      // if(this.formulario.value["especialidad"] != "Otro")
+      // {
+      //   this.seleccionEspecialidad = this.formulario.value["especialidad"];
+      // }
 
       const usuario: Usuario = 
       {
@@ -157,7 +167,7 @@ export class RegistroComponent
         imagenPerfilUno:this.imagenPerfilUno,
         imagenPerfilDos:this.imagenPerfilDos,
         obraSocial:this.formulario.value["obraSocial"],
-        especialidad:this.seleccionEspecialidad,
+        especialidad:this.formulario.value["especialidad"],
         estaActiva:false,
         hora: new Date()
       }
@@ -195,10 +205,6 @@ export class RegistroComponent
                 text: 'Error al crear cuenta',
                 footer: this.mensajeError
               });
-              if(this.formulario.value["especialidad"] != "Otro")
-              {
-                this.seleccionEspecialidad = "";
-              }
             }
             this.spinner.hide()
           }, 100);
@@ -234,4 +240,28 @@ export class RegistroComponent
     this.router.navigateByUrl(url);
   }
 
+  public agregarEspecialidad()
+  {
+    if(this.especialidadAgregada != null)
+    {
+      if(this.listaEspecialidades.find( (esp) => {
+        return esp.especialidad == this.especialidadAgregada;
+      }) == undefined)
+      {
+        const especialidad = {especialidad:this.especialidadAgregada};
+        this.listaEspecialidades.push(especialidad);
+        this.mensajeConfirmacion = "Especialidad " + this.especialidadAgregada + " agregada con éxito";
+        setTimeout(() => {
+          this.mensajeConfirmacion = "";
+        }, 2000);
+      }
+      else
+      {
+        this.mensajeConfirmacion = "La especialidad " + this.especialidadAgregada + " ya existe en la lista";
+        setTimeout(() => {
+          this.mensajeConfirmacion = "";
+        }, 2000);
+      }
+    }
+  }
 }

@@ -100,6 +100,8 @@
 
                 <div class="col-12" *ngIf="tipoUsuario == 'Especialista'">
                     <label for="especialidad" class="form-label">Especialidad</label>
+                    <br>
+                    <!-- <label for="especialidad" class="form-label">Especialidad</label>
                     <br>    
                     <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Psicologia">
                     <label>Psicologia</label><br>
@@ -109,13 +111,22 @@
                     <label>Neurología</label><br>
                     <input formControlName="especialidad" name = "otro" type="radio" name="especialidad" class="especialidad" value="Otro">
                     <label>Otro (Especifica cual)</label>
-                    <input *ngIf="verificarEspecialidad()" [(ngModel)] = "seleccionEspecialidad" name="imagenPerfilUno" [ngModelOptions]="{standalone: true}" type="text" class="especialidad" placeholder="Ej:Genética">
-                    <div class="dato-invalido">
-                        Especialidad invalida, seleccione otra
-                    </div>                
+                    <input *ngIf="verificarEspecialidad()" [(ngModel)] = "seleccionEspecialidad" name="imagenPerfilUno" [ngModelOptions]="{standalone: true}" type="text" class="especialidad" placeholder="Ej:Genética"> -->
+                    
+                    <p-multiSelect [options]="listaEspecialidades" formControlName="especialidad" name="especialidad" class="especialidad" optionLabel="especialidad" placeholder="Elige una especialidad"></p-multiSelect>
+                    <br>
+                    <label for="especialidad" class="form-label">No encuentras tu especialidad. Agregala a la lista: </label>
+                    <input type="text" placeholder="Ej: Genética" style="margin-left: 5px;" [(ngModel)] = "especialidadAgregada" name="especialidad-agregada" [ngModelOptions]="{standalone: true}">       
+                    <input (click)="agregarEspecialidad()" class="btn btn-primary" style="margin-left: 5px;" value="Agregar">
+                    <span *ngIf="esValidoElCampo('especialidad')" class="form-text text-danger">
+                        {{obtenerError('especialidad')}}
+                    </span>
+                    <span>
+                        {{mensajeConfirmacion}}
+                    </span>
                 </div>
             </div>
-            <button class="w-100 btn btn-danger btn-lg" type="submit">Registrarse</button>
+            <button class="w-100 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Registrarse</button>
         </form>
       </div>
     </div>

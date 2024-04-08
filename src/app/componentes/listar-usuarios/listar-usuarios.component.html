@@ -74,7 +74,7 @@
                   <td>{{especialista.dni}}</td>
                   <td>{{especialista.edad}}</td>
                   <td>{{especialista.email}}</td>
-                  <td>{{especialista.especialidad}}</td>
+                  <td>{{obtenerEspecialidad(especialista.especialidad)}}</td>
                   <td *ngIf="especialista.estaActivo; else elseBlock">Si</td>
                   <ng-template #elseBlock><td>No</td></ng-template>
                   <td><img src="{{especialista.imagenUno}}" width="64" height="64"></td>

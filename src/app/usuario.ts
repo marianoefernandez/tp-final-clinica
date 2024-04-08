@@ -9,7 +9,7 @@ export interface Usuario
     imagenPerfilUno:any,
     imagenPerfilDos:any | null,
     obraSocial:string | null,
-    especialidad:string | null,
+    especialidad:any | null,
     estaActiva:boolean,
     hora: any;
 }

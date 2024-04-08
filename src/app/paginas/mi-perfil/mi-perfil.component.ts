@@ -9,7 +9,6 @@ import { FirestoreService } from 'src/app/servicios/firestore.service';
 })
 export class MiPerfilComponent 
 {
-item: any;
   constructor(public autenticacion:AutenticacionService,public firestore:FirestoreService)
   {
     
@@ -27,10 +26,35 @@ item: any;
 
   obtenerValor(dato:any)
   {
+    
     if (typeof dato === "boolean") 
     {
       dato = dato ? "Si" : "No";
     }
+    else
+    {
+      if (Array.isArray(dato))
+      {
+        dato = this.obtenerEspecialidad(dato)
+      }
+    }
+
     return dato;
+  }
+
+  public obtenerEspecialidad(especialidad:any)
+  {
+    let especialidades = ""
+
+    for(let i = 0;i<especialidad.length;i++)
+    {
+      especialidades += especialidad[i]["especialidad"];
+      if(i != (especialidad.length - 1))
+      {
+        especialidades += ",";
+      }
+    }
+
+    return especialidades;
   }
 }

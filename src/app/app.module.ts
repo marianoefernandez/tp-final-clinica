@@ -14,6 +14,7 @@ import {AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAQcbxYDaaTa5gQya6GglbXHSrhD_22-ig",
   authDomain: "clinica-online-laboiv.firebaseapp.com",
