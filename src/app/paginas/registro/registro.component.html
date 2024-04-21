@@ -126,7 +126,11 @@
                     </span>
                 </div>
             </div>
-            <button class="w-100 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Registrarse</button>
+
+            <div class="captcha" *ngIf="validarFormulario()">
+                <re-captcha (resolved)="resolverCaptcha($event)" style="margin-left: 50px;" siteKey="6LczZhApAAAAAInPmFvFW0s_3sLQ2z7p5ElsK5zg"></re-captcha>
+            </div>
+            <button [disabled]="flagCaptcha" class="w-100 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Registrarse</button>
         </form>
       </div>
     </div>

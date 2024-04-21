@@ -10,10 +10,22 @@
         <div class="row" *ngIf="firestore.datosUsuarioActual != undefined">
           <div class="profile-nav col-md-3">
               <div class="panel">
-                  <div class="user-heading round bg-primary">
-                      <a href="{{firestore.datosUsuarioActual.imagenUno}}">
+                  <div class="user-heading round" style="background-color: #1023ca;">
+                      <a *ngIf="firestore.datosUsuarioActual.tipoUsuario != 'Paciente'; else elseblock" href="{{firestore.datosUsuarioActual.imagenUno}}">
                           <img src="{{firestore.datosUsuarioActual.imagenUno}}" alt="">
                       </a>
+                      <ng-template #elseblock>
+                        <a *ngIf="flagImagen; else elseblock2" href="{{firestore.datosUsuarioActual.imagenUno}}">
+                            <img src="{{firestore.datosUsuarioActual.imagenUno}}" alt="">
+                        </a>
+                        <i (click)="cambiarValorBanderaImagen()" [hidden]="!flagImagen" class="arrow right"></i>
+                        <ng-template #elseblock2>
+                            <i (click)="cambiarValorBanderaImagen()" class="arrow left"></i>
+                            <a href="{{firestore.datosUsuarioActual.imagenDos}}">
+                                <img src="{{firestore.datosUsuarioActual.imagenDos}}" alt="">
+                            </a>
+                        </ng-template>
+                      </ng-template>
                       <h1>{{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</h1>
                       <p>{{autenticacion.usuarioActual.email}}</p>
                   </div>
@@ -29,7 +41,7 @@
               <div class="panel">
               </div>
               <div class="panel">
-                  <div class="bio-graph-heading bg-primary">
+                  <div class="bio-graph-heading" style="background-color: #1023ca;">
                       Bienvenido a la clinica {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}} usuario de tipo {{firestore.datosUsuarioActual.tipoUsuario}}
                   </div>
                   <div class="card panel-body bio-graph-info" style="background-color: #dddbb1; margin-top:10px">
@@ -44,9 +56,13 @@
                   </div>
               </div>
           </div>
-          <div *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" class="card" style="margin-top: 10px;">
-            <h1>Aca se van a organizar los horarios (SOLO ESPECIALISTA)</h1>
-          </div>
+
+          <ng-container *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'">
+            <div id="btnHorario">
+                <button (click)="cambiarValorBanderaHorarios()" class="btn btn-lg text-light" style="background-color:#7a1299">Editar horarios</button>
+            </div>
+                <app-registrar-horarios [hidden]="flagHorarios" ></app-registrar-horarios>
+          </ng-container>
         </div>
     </div>
 </body>

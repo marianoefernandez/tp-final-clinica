@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup , Validators} from '@angular/forms';
+import { FormBuilder, FormGroup , Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AutenticacionService } from 'src/app/servicios/autenticacion.service';
-import { Usuario } from 'src/app/usuario';
+import { Usuario } from 'src/app/interfaces/Usuario';
 import swal from 'sweetalert2';
 
 
@@ -44,9 +44,19 @@ export class RegistroComponent
     {especialidad:"Neurología"},
   ]
 
+  public flagCaptcha = true;
+
   constructor(private spinner:NgxSpinnerService,private autenticador:AutenticacionService, private forms: FormBuilder,private router:Router)
   {
 
+  }
+
+  resolverCaptcha(respuestaEvento:string|null)
+  {
+    if(respuestaEvento != null && respuestaEvento.length > 0)
+    {
+      this.flagCaptcha = false;
+    }
   }
 
   ngOnInit()
@@ -127,7 +137,6 @@ export class RegistroComponent
   {
     if(!this.esValidoElCampo("nombre") && !this.esValidoElCampo("apellido") && !this.esValidoElCampo("dni") && !this.esValidoElCampo("edad") && !this.esValidoElCampo("email") && !this.esValidoElCampo("clave") && !this.validarImagenUno())
     {
-      console.log("Se ingresaron bien los datos basicos del usuario")
       if(this.tipoUsuario == "Paciente" && !this.esValidoElCampo("obraSocial") && !this.validarImagenDos())
       {
         return true;

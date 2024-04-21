@@ -1,2 +1,83 @@
-<h1>Solicitar Turno</h1>
-<router-outlet></router-outlet>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Turno</title>
+</head>
+<body class="bg-dark">  
+    <div class="py-5 text-center">
+        <h2>Solicitar turno</h2>
+        <p class="lead text-light">Por medio del siguiente formulario se puede solicitar un nuevo turno para el paciente: {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</p>
+    </div>
+    
+    <ng-container *ngIf="inicializarPagina()">
+    </ng-container>
+
+    <form class="alta-turno card bg-secondary">
+        <div>
+            <div *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Administrador'" id="paciente">
+                <div class="card bg-primary contenido-busqueda" (mouseleave)="desactivarBuscador($event)">     
+                    <h3 class="text-light">Por favor busque al paciente que desea agregar</h3>             
+                    <div class="barra-busqueda" (click)="activarBuscador()">
+                      <input type="text" class="search" placeholder="Buscar paciente" (keyup)="cambioBusqueda($event)">
+                    </div>
+                    <div [hidden]="flagBuscador" class="elemento-busqueda">
+                        <ul *ngFor="let paciente of listaFiltrada index as i" class="lista-busqueda">
+                            <li (click)="elegirPaciente(paciente.uid)">
+                                {{paciente.nombreCompleto}}
+                            </li>
+                        </ul> 
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="pacienteTurno != null" id="especialidad">
+                <h3 *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Administrador'" >Usted eligio al paciente: {{pacienteTurno.nombre}} {{pacienteTurno.apellido}}</h3>
+                <label for="">Elije especialidad:</label>  
+                <select (change)="lanzarSpinner(500)" class="form-select bg-primary" [(ngModel)] = "especialidadSeleccionada" name = "especialidadSeleccionada" required>
+                    <option [disabled]="true" value="">Elegir especialidad...</option>
+                    <option value="{{especialidad}}" *ngFor="let especialidad of especialidadesRegistradas; index as i">{{especialidad}}</option>
+                </select>
+            </div>
+            <div id="especialistas">
+                <h3 *ngIf="especialidadSeleccionada != ''" class="lead text-light">Especialistas encontrados para la especialidad: {{especialidadSeleccionada}}</h3>
+                <p class="lead text-light" *ngIf="especialidadSeleccionada != ''" >Seleccione el especialista al que quiere solicitar un turno</p>
+
+                <div class="seleccion" *ngFor="let especialista of obtenerEspecialistasPorEspecialidad(especialidadSeleccionada); index as i">
+                    <div (click)="elegirEspecialista(especialista)" class="card-body bg-primary text-light especialista">
+                        <h3>{{especialista.nombre}} {{especialista.apellido}}</h3>
+                        <img src="{{especialista.imagenUno}}" alt="" width="64" height="64">
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="flagDiasCargados" id="carga-horaria">
+                <div *ngIf="diasEspecialista.length != 0 else elseblock;">
+                    <h2 class="text-light">El especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}} está disponible los siguientes días: {{formatearDiasEnTexto(diasEspecialista)}}</h2>
+                    <h3 class="text-light">Seleccione un día: (Se muestran los próximos 15 días del mes, no se tienen en cuenta los días en el que el especialista no tiene disponibilidad horaria)</h3>
+                    <input (click)="elegirDia(dia)" *ngFor="let dia of diasDisponibles; index as i" class="btn btn-lg text-light bg-primary dia" type="button" value="{{dia.dia}}/{{dia.mes}}/{{dia.anio}}">
+                    <div *ngIf="diaElegido != null">
+                        <h3 class="text-light">Seleccione el horario que desea elegir:</h3>
+                        <div *ngIf="horarioDiaElegido!=null">
+                            <h3>Horarios disponibles del día {{obtenerDiaPorNumero(diaElegido.diaSemana)}} {{diaElegido.dia}}/{{diaElegido.mes}}/{{diaElegido.anio}} para el especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}} (Tener en cuenta que si el especialista ya tiene disponibilidad horaria o se supero la cantidad de consultorios disponibles no se podra elegir el horario)</h3>
+                            <ng-container *ngFor="let horario of horarioDiaElegido; index as i">
+                                <input [disabled] = '! verificarDisponibilidad(horario.hora)' *ngIf="horario.estaActivo" (click)="elegirTurno(horario.hora)" class="btn btn-lg text-light bg-danger hora" type="button" value="{{horario.hora}} ({{CANTIDADCONSULTORIOS - contarConsultorios(horario.hora)}})">
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #elseblock>
+                    <h1 class="text-light">El especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}} no tiene horarios cargados por ende no está disponible para su turno</h1>
+                </ng-template>
+            </div>
+        </div>
+
+        <!-- <div style="text-align: center;">
+            <button type="submit" class="btn btn-lg text-light bg-success" >Agregar</button>
+        </div> -->
+    </form>
+</body>
+</html>
+

@@ -9,6 +9,10 @@ import { FirestoreService } from 'src/app/servicios/firestore.service';
 })
 export class MiPerfilComponent 
 {
+
+  public flagImagen : boolean = true;
+  public flagHorarios : boolean = true;
+
   constructor(public autenticacion:AutenticacionService,public firestore:FirestoreService)
   {
     
@@ -17,6 +21,16 @@ export class MiPerfilComponent
   ngOnInit()
   {
     
+  }
+
+  cambiarValorBanderaImagen()
+  {
+    this.flagImagen = ! this.flagImagen;
+  }
+
+  cambiarValorBanderaHorarios()
+  {
+    this.flagHorarios = ! this.flagHorarios;
   }
 
   formatearString(dato:any)

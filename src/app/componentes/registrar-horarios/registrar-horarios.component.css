@@ -1,0 +1,93 @@
+body
+{
+    background-color: #523c59af;
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: auto; */
+    border-radius: 40px;
+    overflow: hidden;
+    margin: 10px 100px;
+    transition: .5s;
+}
+
+.lista-horarios
+{
+    height: 800px;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+}
+
+table:hover
+{
+    border: 5px solid;
+    border-color: rgb(195, 0, 255);
+    cursor: pointer;
+}
+
+.alta-horarios
+{
+    height: 400px;
+}
+
+tr:first-child 
+{
+    background-color: #1c87c9;
+    color: #fff;
+}
+
+th,td 
+{
+    padding: 10px;
+    border: 1px solid #666;
+}
+
+td
+{
+    background-color: #ffffff;
+}
+
+
+
+h2,h3
+{
+    color: white;
+}
+
+table 
+{
+    width: 50%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+select
+{
+    height: 40px;
+    width: 300px;
+    /* background-color: rgba(189, 14, 14, 0.81); */
+    color: white;
+}
+label
+{
+    font-size: 18px;
+    color: white;
+}
+
+div
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+span
+{
+    color: white;
+}
+
+button
+{
+    margin-left: 10px;
+}

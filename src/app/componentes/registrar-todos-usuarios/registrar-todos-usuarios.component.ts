@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup , Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AutenticacionService } from 'src/app/servicios/autenticacion.service';
-import { Usuario } from 'src/app/usuario';
+import { Usuario } from 'src/app/interfaces/Usuario';
 import swal from 'sweetalert2';
 
 @Component({
@@ -24,8 +24,8 @@ export class RegistrarTodosUsuariosComponent
     obraSocial: ['', [Validators.required]],
   }); 
 
-  public tipoUsuario:string = "";
-
+  // public tipoUsuario:string = "Administrador";
+  public tipoUsuario:string = "=";
   public imagenPerfilUno:any = null;
   public imagenPerfilDos:any | null = null;
   public hora: any;

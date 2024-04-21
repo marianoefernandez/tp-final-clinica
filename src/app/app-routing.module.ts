@@ -30,11 +30,7 @@ const routes: Routes =
     canActivate:[estaLogueadoGuard]
   },
   {
-    path:"error",
-    component:ErrorComponent
-  },
-  {
-    path:"**", redirectTo:"error"
+    path:"**", component:ErrorComponent
   }
 ];
 

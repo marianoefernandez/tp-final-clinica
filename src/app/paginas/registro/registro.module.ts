@@ -4,6 +4,7 @@ import { RegistroRoutingModule } from './registro-routing.module';
 import { RegistroComponent } from './registro.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    MultiSelectModule
+    MultiSelectModule,
+    RecaptchaFormsModule,
+    RecaptchaModule
   ]
 })
 export class RegistroModule { }

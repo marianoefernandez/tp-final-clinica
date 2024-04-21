@@ -33,13 +33,13 @@ export class NavbarComponent {
 
     this.tipoSeleccionado = this.firestore.datosUsuarioActual.tipoUsuario;
 
-    if(this.cookieService.check("modo-nocturno"))
-    {
-      if(this.cookieService.get("modo-nocturno") == "true")
-      {
-        this.modo.modoNocturno = true
-      }
-    }
+    // if(this.cookieService.check("modo-nocturno"))
+    // {
+    //   if(this.cookieService.get("modo-nocturno") == "true")
+    //   {
+    //     this.modo.modoNocturno = true
+    //   }
+    // }
   }
 
   public cambiarModo()

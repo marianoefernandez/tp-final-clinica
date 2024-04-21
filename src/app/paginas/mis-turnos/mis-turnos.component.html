@@ -1,2 +1,56 @@
-<h1>Mis turnos</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Turnos</title>
+</head>
+<body class="bg-dark">
+    <br>
+    <h2 class="text-light" style="text-align: center; margin:auto">Mis turnos</h2>
+    <br>
+    <div class="card contenido" style="background-color: yellow;">      
+        <div class="contenido-busqueda">     
+            <br>
+            <h3 style="text-align: center;">Puede buscar el turno que desee</h3>    
+            <br>         
+            <div class="barra-busqueda">
+                <p>Filtrar por: {{tipoFiltrado}}</p>
+                <button (click)="cambiarTipoFiltro('Especialidad')" class="btn btn-outline-light bg-primary">Especialidad</button>
+                <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente'" (click)="cambiarTipoFiltro('Especialista')" class="btn btn-outline-light bg-primary">Especialista</button>
+                <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro('Paciente')" class="btn btn-outline-light bg-primary">Paciente</button>
+                <input type="text" [(ngModel)]="palabraBusqueda" class="busqueda" placeholder="Buscar turno...">
+            </div>
+            <br>
+            <h3 class="text-dark" style="text-align: center; margin:auto">Turnos en la clinica del {{firestore.datosUsuarioActual.tipoUsuario}} {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</h3>
+            <br>
+            <div class="lista-turnos" *ngFor="let turno of turnosDisponibles index as i">
+                <div *ngIf="verificarBusqueda(turno)" class="card bg-primary turno">
+                    <h3 *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente'" class="text-light texto-turnos">Especialista: {{obtenerApellidoNombre(turno.uidEspecialista)}}</h3>
+                    <h3 *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" class="text-light texto-turnos">Paciente: {{obtenerApellidoNombre(turno.uidPaciente)}}</h3>
+                    <p class="text-light texto-turnos">Especialidad: {{turno.especialidad}} </p>
+                    <p *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente'"  class="text-light texto-turnos">Paciente: {{obtenerApellidoNombre(turno.uidPaciente)}}</p>
+                    <p *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" class="text-light texto-turnos">Especialista: {{obtenerApellidoNombre(turno.uidEspecialista)}}</p>
+                    <p class="text-light texto-turnos">Fecha y Hora:{{obtenerFechaYHora(turno.horarioTurno)}}</p>
+                    <p class="text-light texto-turnos" *ngIf="turno.estadoTurno == 'Aceptado' || turno.estadoTurno == 'Realizado'">Nro de Consultorio: {{turno.consultorio}}</p>
+                    <p *ngIf="turno.estadoTurno == 'Pendiente'" class="text-warning bg-dark texto-turnos">Estado: Pendiente</p>
+                    <p *ngIf="turno.estadoTurno == 'Aceptado'" class="text-success bg-dark texto-turnos">Estado: Aceptado</p>
+                    <p *ngIf="turno.estadoTurno == 'Cancelado'" class="text-danger bg-dark texto-turnos">Estado: Cancelado</p>
+                    <p *ngIf="turno.estadoTurno == 'Rechazado'" class="text-secondary bg-dark texto-turnos">Estado: Rechazado</p>
+                    <p *ngIf="turno.estadoTurno == 'Realizado'" style="color: rgb(55, 198, 246);" class="bg-dark texto-turnos">Estado: Realizado</p>
+                    <hr class="mb-4" style="color: white;">
+                    <button class="btn btn-outline-light" style="background-color: rgb(195, 141, 14);" (click)="mostrarComentario(turno)" *ngIf="turno.estadoTurno == 'Cancelado' || turno.estadoTurno == 'Rechazado'">Ver comentario</button>
+                    <button class="btn btn-outline-light" style="background-color: rgb(42, 107, 138);" (click)="mostrarComentario(turno)" *ngIf="turno.estadoTurno == 'Realizado'">Ver reseña/comentario Especialista</button>
+                    <button class="btn btn-outline-light" style="background-color: rgb(180, 153, 16);" (click)="calificarAtencion(turno)" *ngIf="turno.estadoTurno == 'Realizado' && validarResenia(turno)">Calificar Atención</button>
+                    <button class="btn btn-outline-light bg-danger boton" (click)="cancelarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente'">Cancelar Turno</button>
+                    <button class="btn btn-outline-light bg-secondary boton" (click)="rechazarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente' && firestore.datosUsuarioActual.tipoUsuario == 'Especialista'">Rechazar Turno</button>
+                    <button class="btn btn-outline-light bg-success boton" (click)="aceptarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente' && firestore.datosUsuarioActual.tipoUsuario == 'Especialista'">Aceptar Turno</button>
+                    <button class="btn btn-outline-light boton" style="background-color: rgb(128, 19, 128);" (click)="finalizarTurno(turno)" *ngIf="turno.estadoTurno == 'Aceptado' && firestore.datosUsuarioActual.tipoUsuario == 'Especialista'">Finalizar Turno</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
 <router-outlet></router-outlet>

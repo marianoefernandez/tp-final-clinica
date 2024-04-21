@@ -1,0 +1,56 @@
+.contenido
+{
+    /* display: flex;
+    align-items:center;
+    justify-content: center; */
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    min-height: 90vh;
+    border-radius: 40px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.barra-busqueda
+{
+    text-align: center;
+}
+
+.busqueda
+{
+    width: 512px;
+}
+
+.boton
+{
+    border-radius: 40px;
+    overflow: hidden;
+}
+
+.turno
+{
+    border-radius: 40px;
+    overflow: hidden;
+    height: 380px;
+    width: 440px;
+    transition: .5s;
+    text-align: center;
+    border: 5px solid;
+    border-color: rgb(0, 0, 0);
+    margin: 10px;
+}
+
+.texto-turnos
+{
+    text-align: center;
+}
+
+.lista-turnos
+{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    float: left;
+    flex-wrap: wrap;
+    min-height: 60vh;
+}

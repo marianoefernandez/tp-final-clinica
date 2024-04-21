@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { VerTurnosRoutingModule } from './ver-turnos-routing.module';
 import { VerTurnosComponent } from './ver-turnos.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { VerTurnosComponent } from './ver-turnos.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     VerTurnosRoutingModule
   ]
 })

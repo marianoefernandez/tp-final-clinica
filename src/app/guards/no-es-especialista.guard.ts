@@ -1,4 +1,4 @@
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, CanDeactivateFn } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../servicios/firestore.service';
@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root'
 })
 
-export class esAdminGuard {
+export class noEsEspecialistaGuard {
   constructor(private firestore:FirestoreService, private autenticacion:AutenticacionService,private router: Router,private spinner:NgxSpinnerService) 
   {
     
@@ -21,21 +21,20 @@ export class esAdminGuard {
     this.spinner.show();
     await this.firestore.obtenerInfoUsuario(this.autenticacion.usuarioActual?.uid);
     this.spinner.hide();
-    if(this.firestore.datosUsuarioActual.tipoUsuario == "Administrador")
+    if(this.firestore.datosUsuarioActual.tipoUsuario != "Especialista")
     {
       return true;
     }
-
-    console.log(this.router.url);
 
     await swal.fire
     (
       {
         icon: 'error',
         title: 'Acceso restringido',
-        text: "El usuario logueado actualmente es de tipo " + this.firestore.datosUsuarioActual.tipoUsuario + " y no tiene permitido el acceso a está seccion ya que solo está permitida para usuarios administradores.",
+        text: "No está permitido el ingreso de especialistas a está seccion"
       }
     )
+    
     this.router.navigateByUrl("bienvenido");
 
     return false;

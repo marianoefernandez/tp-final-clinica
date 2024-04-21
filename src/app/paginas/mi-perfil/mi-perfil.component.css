@@ -1,15 +1,59 @@
-body {
+body 
+{
     color: #797979;
     padding: 0px !important;
     margin: 0px !important;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
-    height: 100vh;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 90vh;
 }
 
 .profile-nav, .profile-info{
     margin-top:30px;   
+}
+
+.arrow
+{
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.right 
+{
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left 
+{
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+i
+{
+    cursor: pointer;
+}
+
+#btnHorario
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: auto;
+}
+
+button
+{
+    margin-top: 10px;
+    width: 256px;
 }
 
 .profile-nav .user-heading {

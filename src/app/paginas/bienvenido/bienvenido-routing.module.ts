@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { esAdminGuard } from 'src/app/guards/es-admin.guard';
+import { esEspecialistaGuard } from 'src/app/guards/es-especialista.guard';
 
 const routes: Routes = 
 [
@@ -11,7 +12,8 @@ const routes: Routes =
     children:
     [
       {
-        path:"",redirectTo:"mi-perfil",pathMatch:"full"
+        path:"",
+        loadChildren: ()=>import('../inicio/inicio.module').then(modulo => modulo.InicioModule)
       },
       {
         path:"turnos",
@@ -31,7 +33,8 @@ const routes: Routes =
       ,
       {
         path:"pacientes",
-        loadChildren: ()=>import('../pacientes/pacientes.module').then(modulo => modulo.PacientesModule)
+        loadChildren: ()=>import('../pacientes/pacientes.module').then(modulo => modulo.PacientesModule),
+        canActivate:[esEspecialistaGuard]
       },
     ]
   }

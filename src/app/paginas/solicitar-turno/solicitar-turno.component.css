@@ -1,0 +1,165 @@
+body
+{
+    flex-wrap: wrap;
+    min-height: 90vh;
+    overflow: hidden;
+    transition: .5s;
+}
+
+.contenido
+{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.lista-horarios
+{
+    height: 800px;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+}
+
+.contenido-busqueda
+{
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    max-height: 400px;
+    min-height: 200px;
+}
+
+img
+{
+    border-radius: 40px;
+    border: 2px solid;
+    border-color: rgb(255, 255, 255);
+}
+
+h2,h3
+{
+    color: white;
+}
+
+select
+{
+    height: 40px;
+    width: 300px;
+    /* background-color: rgba(189, 14, 14, 0.81); */
+    color: white;
+}
+
+label
+{
+    font-size: 18px;
+    color: white;
+}
+
+.especialista
+{
+    border-radius: 40px;
+    overflow: hidden;
+    width: 256px;
+    transition: .5s;
+    text-align: center;
+}
+
+div
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+span
+{
+    color: white;
+}
+
+button
+{
+    margin-left: 10px;
+}
+
+.seleccion :hover:not(h3,img)
+{
+    border: 5px solid;
+    border-color: rgb(195, 0, 255);
+    cursor: pointer;
+}
+
+.dia
+{
+    width: 128px;
+    height: 64px;
+    margin: 4px;
+    border-color: white;
+}
+
+.lista-busqueda
+{
+    background-color: white;
+}
+
+.barra-busqueda input
+{
+    width: 256px;
+}
+
+.barra-busqueda
+{
+    margin-top: -10px;
+    margin-bottom: -9px;
+}
+
+.elemento-busqueda
+{
+    width: 256px;
+    border: 1.5px solid;
+    border-color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.805);
+    opacity: 0.7;
+}
+
+
+
+ul
+{
+    border: 0.5px solid;
+    border-color: rgb(0, 0, 0);
+    margin-top: 0px;
+    margin-bottom: 0px;
+    list-style-type: none;
+}
+
+ul:hover
+{
+    border: 2px solid;
+    background-color: rgba(180, 180, 17, 0.671);
+    cursor: pointer;
+}
+
+.hora
+{
+    width: 100px;
+    height: 50px;
+    margin: 4px;
+    border-color: white;
+}
+
+.dia:hover
+{
+    border: 5px solid;
+    border-color: rgb(195, 0, 255);
+}
+
+.hora:hover
+{
+    border: 5px solid;
+    border-color: rgb(0, 0, 0);
+}
+
+input:disabled
+{
+    opacity: 0.2;
+}

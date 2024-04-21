@@ -1,2 +1,45 @@
-<h1>Ver Turnos</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnos</title>
+</head>
+<body class="bg-dark">
+    <br>
+    <h2 class="text-light" style="text-align: center; margin:auto">Turnos cargados en la clinica</h2>
+    <br>
+    <div class="card contenido" style="background-color: yellow;">        
+        <div class="contenido-busqueda">     
+            <br>
+            <h3 style="text-align: center;">Puede buscar el turno que desee</h3>    
+            <br>         
+            <div class="barra-busqueda">
+                <p>Filtrar por: {{tipoFiltrado}}</p>
+                <button (click)="cambiarTipoFiltro('Especialidad')" class="btn btn-outline-light bg-primary">Especialidad</button>
+                <button (click)="cambiarTipoFiltro('Especialista')" class="btn btn-outline-light bg-primary">Especialista</button>
+                <input type="text" [(ngModel)]="palabraBusqueda" class="busqueda" placeholder="Buscar turno...">
+            </div>
+            <br>
+            <h3 style="text-align: center;">Turnos disponibles</h3>
+            <br>
+            <div class="lista-turnos" *ngFor="let turno of turnosDisponibles index as i">
+                <div *ngIf="verificarBusqueda(turno)" class="card bg-primary turno">
+                    <h3 class="text-light texto-turnos">Especialista: {{obtenerApellidoNombre(turno.uidEspecialista)}}</h3>
+                    <p class="text-light texto-turnos">Especialidad: {{turno.especialidad}} </p>
+                    <p class="text-light texto-turnos">Paciente: {{obtenerApellidoNombre(turno.uidPaciente)}}</p>
+                    <p class="text-light texto-turnos">Fecha y Hora:{{obtenerFechaYHora(turno.horarioTurno)}}</p>
+                    <p *ngIf="turno.estadoTurno == 'Pendiente'" class="text-warning bg-dark texto-turnos">Estado: Pendiente</p>
+                    <p *ngIf="turno.estadoTurno == 'Aceptado'" class="text-sucess bg-dark texto-turnos">Estado: Aceptado</p>
+                    <p *ngIf="turno.estadoTurno == 'Cancelado'" class="text-danger bg-dark texto-turnos">Estado: Cancelado</p>
+                    <p *ngIf="turno.estadoTurno == 'Realizado'" class="text-primary bg-dark texto-turnos">Estado: Finalizado</p>
+                    <hr class="mb-4" style="color: white;">
+                    <button class="btn btn-outline-light bg-danger boton" (click)="cancelarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente'">Cancelar Turno</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
 <router-outlet></router-outlet>

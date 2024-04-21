@@ -63,7 +63,7 @@ export class LoginComponent {
             await this.firestore.obtenerInfoUsuario(respuesta.user?.uid);
             if(this.firestore.datosUsuarioActual.tipoUsuario === "Administrador" || this.firestore.datosUsuarioActual.tipoUsuario === "Paciente" || this.firestore.datosUsuarioActual.estaActivo)
             {
-              this.navigate("bienvenido/mi-perfil");
+              this.navigate("bienvenido");
             }
             else
             {

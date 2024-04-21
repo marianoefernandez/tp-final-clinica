@@ -5,8 +5,8 @@ import { Firestore, collection, addDoc, onSnapshot } from '@angular/fire/firesto
 
 import  firebase  from 'firebase/compat/app';
 import { FirestoreService } from './firestore.service';
-import { Usuario } from '../usuario';
-import { DniDuplicadoError } from '../DniDuplicadoException';
+import { Usuario } from '../interfaces/Usuario';
+import { DniDuplicadoError } from '../clases/DniDuplicadoException';
 
 @Injectable({
   providedIn: 'root'
