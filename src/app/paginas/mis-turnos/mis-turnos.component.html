@@ -39,9 +39,10 @@
                     <p *ngIf="turno.estadoTurno == 'Rechazado'" class="text-secondary bg-dark texto-turnos">Estado: Rechazado</p>
                     <p *ngIf="turno.estadoTurno == 'Realizado'" style="color: rgb(55, 198, 246);" class="bg-dark texto-turnos">Estado: Realizado</p>
                     <hr class="mb-4" style="color: white;">
-                    <button class="btn btn-outline-light" style="background-color: rgb(195, 141, 14);" (click)="mostrarComentario(turno)" *ngIf="turno.estadoTurno == 'Cancelado' || turno.estadoTurno == 'Rechazado'">Ver comentario</button>
-                    <button class="btn btn-outline-light" style="background-color: rgb(42, 107, 138);" (click)="mostrarComentario(turno)" *ngIf="turno.estadoTurno == 'Realizado'">Ver reseña/comentario Especialista</button>
-                    <button class="btn btn-outline-light" style="background-color: rgb(180, 153, 16);" (click)="calificarAtencion(turno)" *ngIf="turno.estadoTurno == 'Realizado' && validarResenia(turno)">Calificar Atención</button>
+                    <button class="btn btn-outline-light boton" style="background-color: rgb(195, 141, 14);" (click)="mostrarComentario(turno)" *ngIf="turno.estadoTurno == 'Cancelado' || turno.estadoTurno == 'Rechazado'">Ver comentario</button>
+                    <button class="btn btn-outline-light boton" style="background-color: rgb(42, 107, 138);" (click)="mostrarComentario(turno)" *ngIf="turno.estadoTurno == 'Realizado'">Ver reseña/comentario Especialista</button>
+                    <button class="btn btn-outline-light boton" style="background-color: rgb(209, 19, 216);" (click)="calificarAtencion(turno)" *ngIf="turno.estadoTurno == 'Realizado' && turno.calificacion == 0">Calificar Atención</button>
+                    <button class="btn btn-outline-light boton" style="background-color: rgb(180, 153, 16);" (click)="realizarEncuesta(turno)" *ngIf="turno.estadoTurno == 'Realizado' && validarResenia(turno) && turno.encuesta.length == 0">Realizar Encuesta</button>
                     <button class="btn btn-outline-light bg-danger boton" (click)="cancelarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente'">Cancelar Turno</button>
                     <button class="btn btn-outline-light bg-secondary boton" (click)="rechazarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente' && firestore.datosUsuarioActual.tipoUsuario == 'Especialista'">Rechazar Turno</button>
                     <button class="btn btn-outline-light bg-success boton" (click)="aceptarTurno(turno)" *ngIf="turno.estadoTurno == 'Pendiente' && firestore.datosUsuarioActual.tipoUsuario == 'Especialista'">Aceptar Turno</button>

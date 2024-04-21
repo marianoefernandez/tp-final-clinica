@@ -277,17 +277,209 @@ export class MisTurnosComponent implements OnInit,OnDestroy
 
   async calificarAtencion(turnoSeleccionado:Turno)
   {
+    const formulario = await swal.fire
+    (
+      {
+        title:"Califica la atención del especialista " + this.obtenerApellidoNombre(turnoSeleccionado.uidEspecialista),
+        html: `
+          <label for="swal-input1">¿Qué te parecio la atención de ${this.obtenerApellidoNombre(turnoSeleccionado.uidEspecialista)}?</label>
+          <input id="swal-input1" class="swal2-input" type="text">
+  
+          <label for="swal-input2">Califica la experiencia del 1 al 10</label>
+          <select name="swal-input2" id="swal-input2" class="swal2-input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+  
+        `,
+        focusConfirm: false,
+        showCancelButton:true,
+        cancelButtonText:"Cancelar",
+        preConfirm: () => {
+          return [
+            (document.getElementById("swal-input1") as HTMLInputElement).value,
+            (document.getElementById("swal-input2") as HTMLInputElement).value,
+          ];
+        }
+      }
+    )
 
+    if (formulario.value[0] != "") 
+    {
+      swal.fire({
+        title: "Confirmar calificación",
+        text: "¿Está seguro qué desea presentar está calificación, está acción no se puede deshacer?\n Comentario:" + formulario.value[0]+ "\n Calificiación: " + formulario.value[1] + "/10",
+        icon: "question",
+        showDenyButton:true,
+        showCancelButton:true,
+        denyButtonText:"Volver atras",
+        confirmButtonText:"Aceptar",
+        cancelButtonText:"Cancelar"
+    }).then((respuesta) => 
+      {
+        if(respuesta.isConfirmed)
+        {
+          swal.fire({
+            title: "Atencion calificada con exito!",
+            text: "Gracias por calificar a " + this.obtenerApellidoNombre(turnoSeleccionado.uidEspecialista),
+            icon: "success",
+        }).then(() => 
+          {
+            this.firestore.editarTurnos(turnoSeleccionado.idTurno,
+              {
+                reseñaPaciente:formulario.value[0],
+                calificacion:parseInt(formulario.value[1])
+              })
+          });
+        }
+        else
+        {
+          if(respuesta.isDenied)
+          {
+            this.calificarAtencion(turnoSeleccionado);
+          }
+        }
+      });
+    }
+    else
+    {
+      swal.fire({
+        title: "No deberia quedar vacio el mensaje",
+        text: `Por favor completar nuevamente`,
+        icon: "error",
+    }).then(()=>
+      {
+        this.calificarAtencion(turnoSeleccionado);
+      })
+    }
   }
 
   async realizarEncuesta(turnoSeleccionado:Turno)
   {
-    
+    const formulario = await swal.fire
+    (
+      {
+        title:"Encuesta de finalización",
+        html: `
+          <label for="swal-input1">1.Califica en una escala del 1 al 10 como sentiste con la interfaz del usuario navegando en la página</label>
+          <select name="swal-input1" id="swal-input1" class="swal2-input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+  
+          <label for="swal-input2">2.Califica en una escala del 1 al 10 tu experiencia al pedir un turno</label>
+          <select name="swal-input2" id="swal-input2" class="swal2-input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+
+          <label for="swal-input3">3.Califica en una escala del 1 al 10 la calidad de las intalaciones de la clinica</label>
+          <select name="swal-input3" id="swal-input3" class="swal2-input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+
+          <label for="swal-input4">4.¿Quê cosas deberiamos mejorar en la clinica? (Ya sea en el edificio como en la página web)</label>
+          <input id="swal-input4" class="swal2-input" type="text">
+        `,
+        focusConfirm: false,
+        showCancelButton:true,
+        cancelButtonText:"Cancelar",
+        preConfirm: () => {
+          return [
+            (document.getElementById("swal-input1") as HTMLInputElement).value,
+            (document.getElementById("swal-input2") as HTMLInputElement).value,
+            (document.getElementById("swal-input3") as HTMLInputElement).value,
+            (document.getElementById("swal-input4") as HTMLInputElement).value
+          ];
+        }
+      }
+    )
+
+    if (formulario.value[3] != "") 
+    {
+      swal.fire({
+        title: "Confirmar encuesta",
+        text: "¿Está seguro qué desea presentar está encuesta, está acción no se puede deshacer?\n 1):" + formulario.value[0]+ "/10\n 2): " + formulario.value[1] + "/10\n " + formulario.value[2] + "/10\n 4) " + formulario.value[3],
+        icon: "question",
+        showDenyButton:true,
+        showCancelButton:true,
+        denyButtonText:"Volver atras",
+        confirmButtonText:"Aceptar",
+        cancelButtonText:"Cancelar"
+    }).then((respuesta) => 
+      {
+        if(respuesta.isConfirmed)
+        {
+          swal.fire({
+            title: "Encuesta realizada con exito!",
+            text: "Gracias por completar la encuesta , esperemos que hayas tenido una excelente atención en la clinica",
+            icon: "success",
+        }).then(() => 
+          {
+            this.firestore.editarTurnos(turnoSeleccionado.idTurno,
+              {
+                encuesta:formulario.value
+              })
+          });
+        }
+        else
+        {
+          if(respuesta.isDenied)
+          {
+            this.realizarEncuesta(turnoSeleccionado);
+          }
+        }
+      });
+    }
+    else
+    {
+      swal.fire({
+        title: "No deberia quedar vacio el mensaje",
+        text: `Por favor completar nuevamente`,
+        icon: "error",
+    }).then(()=>
+      {
+        this.realizarEncuesta(turnoSeleccionado);
+      })
+    }
   }
 
   validarResenia(turno:Turno)
   {
-    return turno.reseñaPaciente.length == 0
+    return turno.reseña.length > 0
   }
 
   finalizarTurno(turnoSeleccionado:Turno)
