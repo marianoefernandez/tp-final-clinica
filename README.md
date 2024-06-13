@@ -27,3 +27,13 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 ![Image text](https://i.ibb.co/Gt6xsQd/Captura-de-pantalla-2024-06-13-a-la-s-19-17-55.png)
 
 -Esta pantalla me permite iniciar sesión de una cuenta de Paciente, Especialista o Administrador, tambien tengo botones de acceso rápido para iniciar sesión automáticamente.
+
+# Ahora voy a mostrar cada una de las pantallas dependiendo de cada tipo de usuario
+
+# Pacientes
+
+# Especialista
+
+# Administrador
+
+
