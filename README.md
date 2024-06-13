@@ -8,4 +8,10 @@ Tambien hay usuarios de tipo Administrador que son los encargados de aceptar o r
 
 
 # PANTALLAS
+
+# Pantalla Principal
+
 ![Image text](https://i.ibb.co/NnrgLSw/Captura-de-pantalla-2024-06-13-a-la-s-18-55-59.png)
+
+En esta pantalla nos vamos a poder registrar (como paciente o especialista) o iniciar sesión si es que ya tenemos cuenta creada.
+Es la pantalla incial de mi web cuando se accede y uno no está logueado
