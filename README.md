@@ -20,4 +20,10 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 ![Image text](https://i.ibb.co/ygRPrCn/Captura-de-pantalla-2024-06-13-a-la-s-19-04-03.png)
 
--En esta pantalla me permite registrarme una cuenta de Paciente o de Especialista, si me registro como especialista necesito una validación de un administrador para habilitar la cuenta
+-Esta pantalla me permite registrarme una cuenta de Paciente o de Especialista, si me registro como especialista necesito una validación de un administrador para habilitar la cuenta
+
+# Pantalla Login
+
+![Image text](https://i.ibb.co/Gt6xsQd/Captura-de-pantalla-2024-06-13-a-la-s-19-17-55.png)
+
+-Esta pantalla me permite iniciar sesión de una cuenta de Paciente, Especialista o Administrador, tambien tengo botones de acceso rápido para iniciar sesión automáticamente.
