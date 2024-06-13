@@ -13,7 +13,8 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import {AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { RecaptchaModule } from "ng-recaptcha";
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from '../environments/environment';
 
 
 const firebaseConfig = {
@@ -44,10 +45,17 @@ const firebaseConfig = {
     AngularFirestoreModule,
     AngularFireStorageModule,
     RecaptchaModule,
+    RecaptchaFormsModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore())
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
+  ],  bootstrap: [AppComponent]
 })
 export class AppModule { }

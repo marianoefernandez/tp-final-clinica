@@ -23,7 +23,7 @@
             </div>
         </div>
         <hr class="mb-4">
-        <form *ngIf="tipoUsuario != ''" [formGroup]="formulario" (ngSubmit)="registrarse()" class="needs-validation" novalidate>
+        <form *ngIf="tipoUsuario != ''" [formGroup]="formulario" (ngSubmit)="registrarse()" class="needs-validation" novalidate #form="ngForm">
             <h4 class="mb-3">Registro de usuario de tipo : {{tipoUsuario}}</h4>
             <div class="row g-3">
                 <div class="col-sm-6">
@@ -128,7 +128,10 @@
             </div>
 
             <div class="captcha" *ngIf="validarFormulario()">
-                <re-captcha (resolved)="resolverCaptcha($event)" style="margin-left: 50px;" siteKey="6LczZhApAAAAAInPmFvFW0s_3sLQ2z7p5ElsK5zg"></re-captcha>
+                <re-captcha (resolved)="resolverCaptcha($event)" id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
+                <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
+                  <div *ngIf="recaptcha.errors?.['required']">This field is required.</div>
+                </div>
             </div>
             <button [disabled]="flagCaptcha" class="w-100 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Registrarse</button>
         </form>

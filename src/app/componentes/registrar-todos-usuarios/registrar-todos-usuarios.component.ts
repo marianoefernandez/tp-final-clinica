@@ -25,7 +25,7 @@ export class RegistrarTodosUsuariosComponent
   }); 
 
   // public tipoUsuario:string = "Administrador";
-  public tipoUsuario:string = "=";
+  public tipoUsuario:string = "";
   public imagenPerfilUno:any = null;
   public imagenPerfilDos:any | null = null;
   public hora: any;

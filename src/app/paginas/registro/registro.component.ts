@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup , Validators} from '@angular/forms';
+import { FormBuilder, FormGroup , NgForm, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AutenticacionService } from 'src/app/servicios/autenticacion.service';
@@ -36,6 +36,8 @@ export class RegistroComponent
   public flagRegistro : boolean = false;
   public mensajeConfirmacion ="";
   public especialidadAgregada : any = null;
+  token: string|undefined;
+
 
   public listaEspecialidades : any[] = 
   [
@@ -48,7 +50,7 @@ export class RegistroComponent
 
   constructor(private spinner:NgxSpinnerService,private autenticador:AutenticacionService, private forms: FormBuilder,private router:Router)
   {
-
+    this.token = undefined;
   }
 
   resolverCaptcha(respuestaEvento:string|null)
@@ -57,6 +59,17 @@ export class RegistroComponent
     {
       this.flagCaptcha = false;
     }
+  }
+
+  public send(form: NgForm): void {
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+
+    console.debug(`Token [${this.token}] generated`);
   }
 
   ngOnInit()
