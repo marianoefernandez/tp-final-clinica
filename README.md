@@ -15,3 +15,7 @@ Tambien hay usuarios de tipo Administrador que son los encargados de aceptar o r
 
 En esta pantalla nos vamos a poder registrar (como paciente o especialista) o iniciar sesión si es que ya tenemos cuenta creada.
 Es la pantalla incial de mi web cuando se accede y uno no está logueado
+
+![Image text](https://i.ibb.co/ygRPrCn/Captura-de-pantalla-2024-06-13-a-la-s-19-04-03.png)
+
+
