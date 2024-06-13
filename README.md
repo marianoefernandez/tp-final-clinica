@@ -43,6 +43,8 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 ![Image text](https://i.ibb.co/1qLvy56/Captura-de-pantalla-2024-06-13-a-la-s-19-51-29.png)
 
+-En está sección puedo ver los datos de mi perfil, cuando estoy logueado como paciente se ve así. Puedo cambiar la imagen de perfil
+
 # Especialista
 
 # Administrador
