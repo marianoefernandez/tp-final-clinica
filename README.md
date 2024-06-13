@@ -8,3 +8,4 @@ Tambien hay usuarios de tipo Administrador que son los encargados de aceptar o r
 
 
 # PANTALLAS
+![Image text](https://i.ibb.co/NnrgLSw/Captura-de-pantalla-2024-06-13-a-la-s-18-55-59.png)
