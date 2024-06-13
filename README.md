@@ -32,7 +32,7 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 # Pacientes-Pantalla Principal (https://clinica-online-laboiv.web.app/bienvenido)
 
-![Image text](https://i.ibb.co/G7gw6QF/Captura-de-pantalla-2024-06-13-a-la-s-19-38-37.png)
+![Image text](https://i.ibb.co/BL8Dp2w/Captura-de-pantalla-2024-06-13-a-la-s-19-38-37.png)
 
 # Especialista
 
