@@ -34,6 +34,15 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 ![Image text](https://i.ibb.co/BL8Dp2w/Captura-de-pantalla-2024-06-13-a-la-s-19-38-37.png)
 
+-En está pantalla el paciente puede acceder a cada una de sus opciones
+-Mi Perfil para ver sus datos
+-Mis turnos para ver la información de todos los turnos que haya sido asignado ese paciente
+-Solicitar turno para pedir un nuevo turno
+
+# Pacientes-Mi Perfil (https://clinica-online-laboiv.web.app/bienvenido/mi-perfil)
+
+![Image text](https://i.ibb.co/1qLvy56/Captura-de-pantalla-2024-06-13-a-la-s-19-51-29.png)
+
 # Especialista
 
 # Administrador
