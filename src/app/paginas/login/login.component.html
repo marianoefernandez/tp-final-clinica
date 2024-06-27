@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
 <body>
+
+
+    <div class="botones-acceso">
+        <input (click)="accesoRapido('marification66@gmail.com','12345678')" class="acceso paciente" type="image" src="https://firebasestorage.googleapis.com/v0/b/clinica-online-laboiv.appspot.com/o/imagenes-usuarios%2Ffoto-perfil-1-42877058?alt=media&token=e727f127-8513-4f2f-b49c-a9b967cec667" width="64px" height="48px">
+        <input (click)="accesoRapido('saboga9408@dalebig.com','12345678')" class="acceso paciente" type="image" src="https://firebasestorage.googleapis.com/v0/b/clinica-online-laboiv.appspot.com/o/imagenes-usuarios%2Ffoto-perfil-1-11111111?alt=media&token=38c9cd16-4408-4865-bb30-985174b47adf" width="64px" height="48px">
+        <input (click)="accesoRapido('wanit31712@dalebig.com','12345678')" class="acceso paciente" type="image" src="https://firebasestorage.googleapis.com/v0/b/clinica-online-laboiv.appspot.com/o/imagenes-usuarios%2Ffoto-perfil-1-12121214?alt=media&token=b042c388-8716-4e64-8d95-da64bdb31aec" width="64px" height="48px">
+        <input (click)="accesoRapido('budarojo69@gmail.com','12345678')" class="acceso especialista" type="image" src="https://firebasestorage.googleapis.com/v0/b/clinica-online-laboiv.appspot.com/o/imagenes-usuarios%2Ffoto-perfil-1-2555555?alt=media&token=9172957e-da7a-4619-88cd-ae8c68e24011" width="64px" height="48px">
+        <input (click)="accesoRapido('rurzefostu@gufum.com','12345678')" class="acceso especialista" type="image" src="https://firebasestorage.googleapis.com/v0/b/clinica-online-laboiv.appspot.com/o/imagenes-usuarios%2Ffoto-perfil-1-24142442?alt=media&token=9d75f20a-7edd-4b93-8e99-7fb935e57360" width="64px" height="48px">
+        <input (click)="accesoRapido('mezequielfernandez4@hotmail.com','12345678')" class="acceso admin" type="image" src="https://firebasestorage.googleapis.com/v0/b/clinica-online-laboiv.appspot.com/o/imagenes-usuarios%2Ffoto-perfil-1-33016244?alt=media&token=bcba2798-4bf6-44fd-adb3-fc4b116c1672" width="64px" height="48px">
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-2"></div>
@@ -33,10 +37,13 @@
                                 <div class="col-lg-6 login-btm login-text text-danger">
                                     {{mensajeError}}
                                 </div>
-                                    <div class="col-lg-6 login-btm login-button">
-                                    <button type="submit" class="btn btn-outline-primary">INICIAR SESION</button>
-                                </div>
                             </div>
+
+                            <div style="text-align: center;">
+                                <button type="submit" class="btn btn-outline-primary">INICIAR SESION</button>
+                            </div>
+                            <br>
+
                         </form>
                     </div>
                 </div>
@@ -45,9 +52,7 @@
         </div>
     </div>
         <br>    
-        <button (click)="accesoRapidoPaciente()" class="btn btn-outline-danger">ACCESO RÁPIDO (PACIENTE)</button>
-        <button (click)="accesoRapidoEspecialista()" class="btn btn-outline-warning">ACCESO RÁPIDO (ESPECIALISTA)</button>
-        <button (click)="accesoRapidoAdmin()" class="btn btn-outline-success">ACCESO RÁPIDO (ADMINISTRADOR)</button>
     <router-outlet></router-outlet>
 </body>
-</html>
+
+<router-outlet></router-outlet>

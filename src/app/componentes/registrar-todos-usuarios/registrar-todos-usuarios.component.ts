@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup , Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup , NgForm, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AutenticacionService } from 'src/app/servicios/autenticacion.service';
@@ -21,11 +21,12 @@ export class RegistrarTodosUsuariosComponent
     especialidad: ['', [Validators.required]],
     email: ['', [Validators.email, Validators.required]],
     clave: ['', [Validators.required, Validators.minLength(6)]],
-    obraSocial: ['', [Validators.required]],
+    obraSocial: ['', [Validators.required]]
   }); 
 
-  // public tipoUsuario:string = "Administrador";
   public tipoUsuario:string = "";
+
+  //public seleccionEspecialidad : any[] = [];
   public imagenPerfilUno:any = null;
   public imagenPerfilDos:any | null = null;
   public hora: any;
@@ -33,6 +34,8 @@ export class RegistrarTodosUsuariosComponent
   public flagRegistro : boolean = false;
   public mensajeConfirmacion ="";
   public especialidadAgregada : any = null;
+  token: string|undefined;
+
 
   public listaEspecialidades : any[] = 
   [
@@ -41,9 +44,30 @@ export class RegistrarTodosUsuariosComponent
     {especialidad:"Neurología"},
   ]
 
+  public flagCaptcha = true;
+
   constructor(private spinner:NgxSpinnerService,private autenticador:AutenticacionService, private forms: FormBuilder,private router:Router)
   {
+    this.token = undefined;
+  }
 
+  resolverCaptcha(respuestaEvento:string|null)
+  {
+    if(respuestaEvento != null && respuestaEvento.length > 0)
+    {
+      this.flagCaptcha = false;
+    }
+  }
+
+  public send(form: NgForm): void {
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+
+    console.debug(`Token [${this.token}] generated`);
   }
 
   ngOnInit()
@@ -124,7 +148,6 @@ export class RegistrarTodosUsuariosComponent
   {
     if(!this.esValidoElCampo("nombre") && !this.esValidoElCampo("apellido") && !this.esValidoElCampo("dni") && !this.esValidoElCampo("edad") && !this.esValidoElCampo("email") && !this.esValidoElCampo("clave") && !this.validarImagenUno())
     {
-      console.log("Se ingresaron bien los datos basicos del usuario")
       if(this.tipoUsuario == "Paciente" && !this.esValidoElCampo("obraSocial") && !this.validarImagenDos())
       {
         return true;
@@ -148,6 +171,11 @@ export class RegistrarTodosUsuariosComponent
     {
       console.log("DATOS BIEN INGRESADOS");
 
+      // if(this.formulario.value["especialidad"] != "Otro")
+      // {
+      //   this.seleccionEspecialidad = this.formulario.value["especialidad"];
+      // }
+
       const usuario: Usuario = 
       {
         tipo:this.tipoUsuario,
@@ -169,22 +197,7 @@ export class RegistrarTodosUsuariosComponent
           setTimeout(() => {
             if(typeof respuesta != "string")
             {
-              let mensaje = "";
-              switch(usuario.tipo)
-              {
-                case "Administrador":
-                  mensaje = "Has dado de alta a un nuevo usuario como administrador exitosamente. Recuerde verificar el email: "+ usuario.email + " para poder ingresar";
-                  break;
-
-                case "Paciente":
-                  mensaje = "Has dado de alta a un nuevo paciente exitosamente. Recuerde verificar el email: " + usuario.email + " para poder ingresar";
-                  break;
-
-                default:
-                  mensaje = "Has dado de alta a un nuevo especialista exitosamente. Recuerde verificar el email: " + usuario.email + " para poder ingresar, recuerde que aparte de ello debe activar el usuario.";
-                  break;
-              }
-
+              let mensaje : string = usuario.tipo == "Paciente" ? "Se ha registrado como paciente exitosamente. Se enviado un correo electronico al email: " + usuario.email + " por favor verifiquelo para poder iniciar sesión" : "Se ha registrado como especialista exitosamente. Se enviado un correo electronico al email: " + usuario.email + " por favor verifiquelo para poder iniciar sesión. Recuerde que para poder iniciar sesión su cuenta debe ser validada por un administrador, proceso que puede llevar hasta 48 hs habiles en resolverse. Tenga paciencia.";
               swal.fire(
               {
                 icon: 'success',
@@ -197,6 +210,8 @@ export class RegistrarTodosUsuariosComponent
                 setTimeout(async () => 
                 {
                   this.spinner.hide();
+                  await this.autenticador.cerrarSesion();
+                  this.navigate("sesiones/login");
                 }, 500);
               });
             }
@@ -219,6 +234,18 @@ export class RegistrarTodosUsuariosComponent
     {
       console.log("REVISE LOS DATOS INGRESADOS");
       this.formulario.markAllAsTouched();
+    }
+  }
+
+  public elegirTipo(tipo:string)
+  {
+    if(tipo != this.tipoUsuario)
+    {
+      this.spinner.show();
+      setTimeout(() => {
+        this.tipoUsuario = tipo;      
+        this.spinner.hide();
+      }, 1500);
     }
   }
 

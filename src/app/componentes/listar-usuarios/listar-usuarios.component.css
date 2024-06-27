@@ -1,8 +1,18 @@
 table 
 {
-    width: 80%;
-    margin: 30px auto;
     border-collapse: collapse;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 25px 0;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.especial
+{
+    margin: 30px auto;
 }
 
 tr:first-child 
@@ -51,11 +61,11 @@ p
 
 body 
 {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     background: #EFD5C3;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 #estructura
@@ -66,3 +76,44 @@ body
     margin: 10px 10px;
     transition: .5s;
 }
+
+.boton {
+    margin: 10px;
+	border-radius: 20px;
+	border: 1px solid #ffffff;
+	background-color: #ca1010;
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 8px 30px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+    opacity: 0.8;
+}
+
+.grande
+{
+    padding: 15px 45px;
+    font-size: 15px;
+}
+
+.boton:active {
+	transform: scale(0.95);
+}
+
+.boton:focus {
+	outline: none;
+}
+
+.boton.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+
+.boton:hover
+{
+    opacity: 1;
+}
+
+

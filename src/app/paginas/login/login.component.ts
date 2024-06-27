@@ -25,6 +25,12 @@ export class LoginComponent {
 
   }
 
+  public accesoRapido(email:string,contraseña:string)
+  {
+    this.email = email;
+    this.clave = contraseña;
+  }
+
   public accesoRapidoPaciente()
   {
     this.email = "marification66@gmail.com";

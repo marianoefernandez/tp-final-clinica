@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <body class="bg-dark">
     <div class="container bootstrap snippets bootdey">
-        <div class="row" *ngIf="firestore.datosUsuarioActual != undefined">
+        <div class="row" *ngIf="firestore.datosUsuarioActual != undefined && flagHorarios">
           <div class="profile-nav col-md-3">
               <div class="panel">
                   <div class="user-heading round" style="background-color: #1023ca;">
@@ -42,10 +35,10 @@
               </div>
               <div class="panel">
                   <div class="bio-graph-heading" style="background-color: #1023ca;">
-                      Bienvenido a la clinica {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}} usuario de tipo {{firestore.datosUsuarioActual.tipoUsuario}}
+                      Bienvenido a la clinica {{firestore.datosUsuarioActual.tipoUsuario}} {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}
                   </div>
                   <div class="card panel-body bio-graph-info" style="background-color: #dddbb1; margin-top:10px">
-                      <h1>Información del usuario</h1>
+                      <h1 style="margin-left: 5px;">Información del usuario</h1>
                         <div class="row">
                             <ng-container *ngFor="let item of firestore.datosUsuarioActual | keyvalue">
                                 <div class="bio-row" *ngIf="item.key != 'imagenUno' && item.key != 'imagenDos' && item.key != 'uid'">
@@ -61,11 +54,13 @@
             <div id="btnHorario">
                 <button (click)="cambiarValorBanderaHorarios()" class="btn btn-lg text-light" style="background-color:#7a1299">Editar horarios</button>
             </div>
-                <app-registrar-horarios [hidden]="flagHorarios" ></app-registrar-horarios>
           </ng-container>
         </div>
+        <div *ngIf="!flagHorarios" style="text-align: center;">
+            <button (click)="cambiarValorBanderaHorarios()" class="boton grande">Volver Atras</button>
+            <app-registrar-horarios [hidden]="flagHorarios" ></app-registrar-horarios>
+        </div> 
     </div>
 </body>
-</html>
 
 <router-outlet></router-outlet>

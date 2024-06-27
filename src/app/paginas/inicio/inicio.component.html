@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juegos</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
 <body #pagina class="modo-nocturno">
-    <div class="card">
+    <div class="card" [ngClass]="{'admin' : tipoSeleccionado == 'Administrador'}" >
         <div class="head">
             <div class="circle"></div>
             <div class="img">
@@ -39,7 +29,7 @@
         </div> 
     </div>
     
-    <div *ngIf="tipoSeleccionado != 'Especialista'" class="card">
+    <div *ngIf="tipoSeleccionado != 'Especialista'" class="card" [ngClass]="{'admin' : tipoSeleccionado == 'Administrador'}">
         <div class="head">
             <div class="circle"></div>
             <div class="img">
@@ -64,12 +54,12 @@
 
         <div class="description">
             <h3>Pacientes</h3>
-            <p>LALALALA</p>
+            <p>En desarrollo (Forma parte del Sprint 3)</p>
             <button (click)="navigate('principal/quien-soy')">Conocerme</button>
         </div> 
     </div>
 
-    <div *ngIf="tipoSeleccionado == 'Administrador'" class="card">
+    <div *ngIf="tipoSeleccionado == 'Administrador'" class="card admin">
         <div class="head">
             <div class="circle"></div>
             <div class="img">
@@ -84,7 +74,7 @@
         </div> 
     </div>
 
-    <div *ngIf="tipoSeleccionado == 'Administrador'" class="card">
+    <div *ngIf="tipoSeleccionado == 'Administrador'" class="card admin">
         <div class="head">
             <div class="circle"></div>
             <div class="img">
@@ -99,5 +89,4 @@
         </div> 
     </div>
 </body>
-</html>
 <router-outlet></router-outlet>

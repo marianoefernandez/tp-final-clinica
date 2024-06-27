@@ -1,80 +1,90 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Horarios Especialista</title>
-</head>
-<body>  
-    <div *ngIf="accion == 'ver'" class="lista-horarios">
-        <div *ngIf="horarioUsuario != null; else elseblock">
-            <h2>Horarios disponibles del especialista (Haz click en los horarios para editar/eliminar el día) </h2>
+<div *ngIf="accion == 'ver'" class="lista-horarios">
+    <div *ngIf="horarioUsuario != null; else elseblock">
+        <h3>Horarios disponibles del especialista</h3>
 
-            <div *ngFor="let diaHorario of horarioUsuario.diasHorarios; index as i">
-                <h3>{{diaHorario.dia}}</h3>        
-                <table (click)="cambiarAccion('editar-eliminar',diaHorario)">
-                    <tr>
-                      <th>Hora</th>
-                      <!-- <th>Disponible</th> -->
-                    </tr>
-                    <ng-container *ngFor="let horario of diaHorario.horarios; index as i">
-                        <tr *ngIf="horario.estaActivo">
-                            <td>{{horario.hora}}</td>
-                            <!-- <td *ngIf="horario.estaActivo; else elseblock3">Si</td>
-                            <ng-template #elseblock3>
-                              <td>No</td>
-                            </ng-template> -->
-                        </tr>
+        <div *ngFor="let diaHorario of horarioUsuario.diasHorarios; index as i">
+            <h4 class="text-light">{{diaHorario.dia}}</h4>  
+            <div class="horarios">
+                <ng-container *ngFor="let horario of diaHorario.horarios; index as i">
+                    <button class="btn btn-lg text-light hora" *ngIf="horario.estaActivo">{{horario.hora}}</button>
+                </ng-container>
+            </div>  
+            <hr class="mb-4" style="color: white;">
+        </div>
+    </div>
+    <ng-template #elseblock>
+        <div>
+            <h2>No hay ningun horario cargado en el especialista</h2>
+        </div>
+    </ng-template>
+    <div>
+        <button (click)="cambiarAccion('alta','')" class="btn btn-lg text-light bg-primary" *ngIf="horarioUsuario == null;" >Agregar horario</button>
+        <button (click)="cambiarAccion('alta','')" class="btn btn-lg text-light bg-primary" *ngIf="horarioUsuario != null;" >Agregar/Editar horario</button>
+    </div>
+</div>
+
+<div *ngIf="accion != 'ver'" class="alta-horarios">
+    <!-- <div>
+        <label for="">¿Para qué consultorio quiere dar de alta su horario?</label>
+        <select (change)="lanzarSpinner(500)" class="form-select bg-primary" [(ngModel)] = "consultorio" name = "diaSemana" let usuario required>
+            <option [disabled]="true" value="0">Consultorio...</option>
+            <option value="{{consultorioNumber}}" *ngFor="let consultorioNumber of cantidadConsultorios; index as i">{{consultorioNumber}}</option>
+        </select>
+    </div> -->
+
+    <div *ngIf="accion == 'alta'">
+        <h2>HORARIOS</h2>
+        <!-- <form [formGroup]="formulario"novalidate>
+            <ng-container *ngFor="let hora of horariosDiaSemana; let i=index">
+              <input class="check" type="checkbox" formArrayName="horarios" [value]="hora.hora" (change)="cambioHorario($event)" />
+              <label class="check-text" for="check"> {{hora.hora}} </label>
+            </ng-container>
+        </form> -->
+        <form [formGroup]="formulario"novalidate (ngSubmit)="darDeAltaHorario()">
+            <div *ngFor="let dia of diasSemana; index as i">
+                <h3 class="text-light">{{dia}}</h3>  
+                <div class="horarios">
+                    <ng-container  *ngFor="let hora of horariosDiaSemana; let i=index">
+                        <input *ngIf="dia != 'Sábado' && !verificarHorarios(dia,hora.hora)" class="check" type="checkbox" formArrayName="horarios" [value]="hora.hora" (change)="cambioHorario(dia,$event)" />
+                        <input checked *ngIf="dia != 'Sábado' && verificarHorarios(dia,hora.hora)" class="check" type="checkbox" formArrayName="horarios" [value]="hora.hora" (change)="cambioHorario(dia,$event)" />
+                        <label *ngIf="dia != 'Sábado'" class="check-text" for="check"> {{hora.hora}} </label>
                     </ng-container>
-                </table>
+                    <ng-container *ngFor="let hora of horariosSabados; let i=index">
+                        <input *ngIf="dia == 'Sábado' && !verificarHorarios(dia,hora.hora)" class="check" type="checkbox" formArrayName="horarios" [value]="hora.hora" (change)="cambioHorario(dia,$event)" />
+                        <input checked *ngIf="dia == 'Sábado' && verificarHorarios(dia,hora.hora)" class="check" type="checkbox" formArrayName="horarios" [value]="hora.hora" (change)="cambioHorario(dia,$event)" />                        
+                        <label *ngIf="dia == 'Sábado'" class="check-text" for="check"> {{hora.hora}} </label>
+                    </ng-container>                
+                </div>  
                 <hr class="mb-4" style="color: white;">
             </div>
-        </div>
-        <ng-template #elseblock>
-            <div>
-                <h2>No hay ningun horario cargado en el especialista</h2>
-            </div>
+            <button type="submit" class="btn btn-lg text-light bg-primary" >Guardar Horarios</button>
+        </form>
+        <button style="margin-top: 10px;" (click)="cambiarAccion('ver','')" class="btn btn-lg text-light bg-danger" >Cancelar</button>
+        <!-- <h3 for="">Día del turno</h3>   -->
+        <!-- <select (change)="lanzarSpinner(500)" class="form-select bg-primary" [(ngModel)] = "diaSemana" name = "diaSemana" required>
+            <option [disabled]="true" value="">Elegir día de la semana...</option>
+            <option [disabled]="!diasRestantes.includes(diaDeSemana)" value="{{diaDeSemana}}" *ngFor="let diaDeSemana of diasSemana; index as i">{{diaDeSemana}}</option>
+        </select> -->
+        <!-- <p-multiSelect [(ngModel)]="diasRegistrados" (onChange)="mostrarDiaSeleccionado()" [options]="diasSemanaSinSabado" name="dia" optionLabel="dia" placeholder="Elige un dia"></p-multiSelect> -->
+        <!-- <h4 style="margin-top: 20px;" class="text-light">Haz click en el boton para editar los horarios del día Sábado solamente</h4> -->
+        <!-- <button style="margin-bottom: 20px;" class="btn btn-lg text-light bg-primary">Sabado</button> -->
+    </div>
+
+    <!-- <h3 *ngIf="accion == 'editar-eliminar'">Edito/Elimino horarios del especialista para el dia {{diaSemana}}</h3>
+
+    <div *ngIf="diaSemana != ''">
+
+        <p-multiSelect *ngIf="diaSemana!='Sábado'; else elseblock2" [(ngModel)]="horarios" (onChange)="mostrarHorarioSeleccionado()" [options]="horariosDiaSemana" name="hora" optionLabel="hora" placeholder="Elige una hora"></p-multiSelect>
+        <ng-template #elseblock2>
+            <p-multiSelect [(ngModel)]="horarios" (onChange)="mostrarHorarioSeleccionado()" [options]="horariosSabados" name="hora" optionLabel="hora" placeholder="Elige una hora"></p-multiSelect>
         </ng-template>
-        <div>
-            <button (click)="cambiarAccion('alta','')" class="btn btn-lg text-light bg-primary">Agregar horario</button>
-        </div>
+        <span *ngIf="mensajeHorarios != ''">Horarios seleccionados: ({{mensajeHorarios}})</span>
     </div>
 
-    <div *ngIf="accion != 'ver'" class="alta-horarios">
-        <!-- <div>
-            <label for="">¿Para qué consultorio quiere dar de alta su horario?</label>
-            <select (change)="lanzarSpinner(500)" class="form-select bg-primary" [(ngModel)] = "consultorio" name = "diaSemana" let usuario required>
-                <option [disabled]="true" value="0">Consultorio...</option>
-                <option value="{{consultorioNumber}}" *ngFor="let consultorioNumber of cantidadConsultorios; index as i">{{consultorioNumber}}</option>
-            </select>
-        </div> -->
-
-        <div *ngIf="accion == 'alta'">
-            <label for="">Día del turno</label>  
-            <select (change)="lanzarSpinner(500)" class="form-select bg-primary" [(ngModel)] = "diaSemana" name = "diaSemana" required>
-                <option [disabled]="true" value="">Elegir día de la semana...</option>
-                <option [disabled]="!diasRestantes.includes(diaDeSemana)" value="{{diaDeSemana}}" *ngFor="let diaDeSemana of diasSemana; index as i">{{diaDeSemana}}</option>
-            </select>
-        </div>
-
-        <h3 *ngIf="accion == 'editar-eliminar'">Edito/Elimino horarios del especialista para el dia {{diaSemana}}</h3>
-
-        <div *ngIf="diaSemana != ''">
-
-            <p-multiSelect *ngIf="diaSemana!='Sábado'; else elseblock2" [(ngModel)]="horarios" (onChange)="mostrarHorarioSeleccionado()" [options]="horariosDiaSemana" name="hora" optionLabel="hora" placeholder="Elige una hora"></p-multiSelect>
-            <ng-template #elseblock2>
-                <p-multiSelect [(ngModel)]="horarios" (onChange)="mostrarHorarioSeleccionado()" [options]="horariosSabados" name="hora" optionLabel="hora" placeholder="Elige una hora"></p-multiSelect>
-            </ng-template>
-            <span *ngIf="mensajeHorarios != ''">Horarios seleccionados: ({{mensajeHorarios}})</span>
-        </div>
-
-        <div>
-            <button *ngIf="accion == 'alta' && mensajeHorarios != ''" (click)="darDeAltaHorario()" class="btn btn-lg text-light bg-primary" >Agregar</button>
-            <button *ngIf="accion == 'editar-eliminar' && mensajeHorarios != ''" (click)="editarHorario()" class="btn btn-lg text-light bg-primary" >Editar</button>
-            <button *ngIf="accion == 'editar-eliminar'" (click)="borrarHorario()" class="btn btn-lg text-light bg-secondary" >Eliminar</button>
-            <button (click)="cambiarAccion('ver','')" class="btn btn-lg text-light bg-danger" >Cancelar</button>
-        </div>
-    </div>
-</body>
-</html>
-
+    <div>
+        <button *ngIf="accion == 'alta' && mensajeHorarios != ''" (click)="darDeAltaHorario()" class="btn btn-lg text-light bg-primary" >Agregar</button>
+        <button *ngIf="accion == 'editar-eliminar' && mensajeHorarios != ''" (click)="editarHorario()" class="btn btn-lg text-light bg-primary" >Editar</button>
+        <button *ngIf="accion == 'editar-eliminar'" (click)="borrarHorario()" class="btn btn-lg text-light bg-secondary" >Eliminar</button>
+        <button (click)="cambiarAccion('ver','')" class="btn btn-lg text-light bg-danger" >Cancelar</button>
+    </div> -->
+</div>
