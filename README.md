@@ -47,7 +47,7 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 # Pacientes-Mis Turnos (https://clinica-online-laboiv.web.app/bienvenido/turnos/mis-turnos)
 
-![Image text](https://i.ibb.co/gJf2gNX/Captura-de-pantalla-2024-06-27-a-la-s-1-57-34-a-m.png)
+![Image text](https://i.ibb.co/HPx6qvH/Captura-de-pantalla-2024-06-27-a-la-s-2-10-47-a-m.png)
 
 -En está sección puedo ver cada uno de los turnos que el paciente solicito, pudiendo filtrar por especialidad tanto como especialista.
 
