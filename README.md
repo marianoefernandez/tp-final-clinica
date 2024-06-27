@@ -86,6 +86,13 @@ El especialista debe tener disponibilidad horaria y también deben haber consult
 
 -Está sección va a formar parte de la entrega del Sprint 3
 
-# Administrador
+# Administrador-Pantalla Principal (https://clinica-online-laboiv.web.app/bienvenido)
 
+![Image text](https://i.ibb.co/Bf67WqH/Captura-de-pantalla-2024-06-27-a-la-s-2-32-28-a-m.png)
+
+-En está pantalla el administrador puede acceder a cada una de sus opciones
+-Mi Perfil para ver sus datos
+-Solicitar Turno para solicitar un turno en nombre del cliente que él elija.
+-Usuarios para ver la información de los usuarios , habilitar especialistas y registrar cualquier tipo de usuario
+-Turnos para ver todos los turnos de la clinica y poder cancelarlo si es necesario.
 
