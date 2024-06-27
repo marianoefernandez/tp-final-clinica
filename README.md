@@ -11,7 +11,7 @@ Tambien hay usuarios de tipo Administrador que son los encargados de aceptar o r
 
 # Pantalla Principal (https://clinica-online-laboiv.web.app/home)
 
-![Image text](https://i.ibb.co/0VKpftP/Captura-de-pantalla-2024-06-13-a-la-s-18-55-59.png)
+![Image text](https://i.ibb.co/jb8tSVx/Captura-de-pantalla-2024-06-27-a-la-s-1-52-21-a-m.png)
 
 -En esta pantalla nos vamos a poder registrar (como paciente o especialista) o iniciar sesión si es que ya tenemos cuenta creada.
 Es la pantalla incial de mi web cuando se accede y uno no está logueado
