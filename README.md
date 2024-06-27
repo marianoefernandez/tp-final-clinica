@@ -70,7 +70,7 @@ El especialista debe tener disponibilidad horaria y también deben haber consult
 
 # Especialista-Mi Perfil (https://clinica-online-laboiv.web.app/bienvenido/mi-perfil)
 
-![Image text](https://i.ibb.co/fnLX92G/Captura-de-pantalla-2024-06-27-a-la-s-2-19-22-a-m.png)
+![Image text](https://i.ibb.co/VtCy4Df/Captura-de-pantalla-2024-06-27-a-la-s-2-29-30-a-m.png)
 ![Image text](https://i.ibb.co/PMNgmCF/Captura-de-pantalla-2024-06-27-a-la-s-2-20-31-a-m.png)
 ![Image text](https://i.ibb.co/YhvgT4H/Captura-de-pantalla-2024-06-27-a-la-s-2-21-53-a-m.png)
 
