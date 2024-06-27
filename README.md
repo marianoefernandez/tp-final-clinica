@@ -38,8 +38,11 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 ![Image text](https://i.ibb.co/ZzG4kVs/Captura-de-pantalla-2024-06-27-a-la-s-1-54-48-a-m.png)
 
 -En está pantalla el paciente puede acceder a cada una de sus opciones
+
 -Mi Perfil para ver sus datos
+
 -Mis turnos para ver la información de todos los turnos que haya sido asignado ese paciente
+
 -Solicitar turno para pedir un nuevo turno
 
 # Pacientes-Mi Perfil (https://clinica-online-laboiv.web.app/bienvenido/mi-perfil)
@@ -67,8 +70,11 @@ El especialista debe tener disponibilidad horaria y también deben haber consult
 ![Image text](https://i.ibb.co/rF0bRFS/Captura-de-pantalla-2024-06-27-a-la-s-2-13-24-a-m.png)
 
 -En está pantalla el especialista puede acceder a cada una de sus opciones
+
 -Mi Perfil para ver sus datos
+
 -Mis turnos para ver la información de todos los turnos que tenga asignado ese especialista
+
 -Pacientes (En desarrollo presente en el sprint 3)
 
 # Especialista-Mi Perfil (https://clinica-online-laboiv.web.app/bienvenido/mi-perfil)
@@ -94,8 +100,12 @@ El especialista debe tener disponibilidad horaria y también deben haber consult
 ![Image text](https://i.ibb.co/Bf67WqH/Captura-de-pantalla-2024-06-27-a-la-s-2-32-28-a-m.png)
 
 -En está pantalla el administrador puede acceder a cada una de sus opciones
+
 -Mi Perfil para ver sus datos
+
 -Solicitar Turno para solicitar un turno en nombre del cliente que él elija.
+
 -Usuarios para ver la información de los usuarios , habilitar especialistas y registrar cualquier tipo de usuario
+
 -Turnos para ver todos los turnos de la clinica y poder cancelarlo si es necesario.
 
