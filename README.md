@@ -109,3 +109,33 @@ El especialista debe tener disponibilidad horaria y también deben haber consult
 
 -Turnos para ver todos los turnos de la clinica y poder cancelarlo si es necesario.
 
+# Administrador-Mi Perfil (https://clinica-online-laboiv.web.app/bienvenido/mi-perfil)
+
+![Image text](https://i.ibb.co/cymYMpt/Captura-de-pantalla-2024-06-27-a-la-s-2-50-29-a-m.png)
+
+-En está sección puedo ver los datos de mi perfil como administrador
+
+# Administrador-Solicitar Turno (https://clinica-online-laboiv.web.app/bienvenido/turnos/solicitar-turno)
+
+![Image text](https://i.ibb.co/FmjgH25/Captura-de-pantalla-2024-06-27-a-la-s-2-52-29-a-m.png)
+![Image text](https://i.ibb.co/5M3nwDD/Captura-de-pantalla-2024-06-27-a-la-s-2-54-19-a-m.png)
+![Image text](https://i.ibb.co/BCCNQqp/Captura-de-pantalla-2024-06-27-a-la-s-2-57-01-a-m.png)
+
+-En está sección puedo solicitar turno a cualquiera de los pacientes.
+
+# Administrador-Usuarios (https://clinica-online-laboiv.web.app/bienvenido/usuarios)
+
+![Image text](https://i.ibb.co/3dtLRmZ/Captura-de-pantalla-2024-06-27-a-la-s-2-57-50-a-m.png)
+![Image text](https://i.ibb.co/6brWvJz/Captura-de-pantalla-2024-06-27-a-la-s-2-58-14-a-m.png)
+![Image text](https://i.ibb.co/TvFfhCx/Captura-de-pantalla-2024-06-27-a-la-s-2-58-31-a-m.png)
+![Image text](https://i.ibb.co/fNt9CLg/Captura-de-pantalla-2024-06-27-a-la-s-2-58-53-a-m.png)
+![Image text](https://i.ibb.co/BcQ64t0/Captura-de-pantalla-2024-06-27-a-la-s-3-00-24-a-m.png)
+![Image text](https://i.ibb.co/0fNtpWd/Captura-de-pantalla-2024-06-27-a-la-s-3-01-19-a-m.png)
+
+-En está sección el administrador puede registrar los usuarios que quiere, como también ver la información de todos los usuarios y también aceptar a los especialistas.
+
+# Administrador-Turnos (https://clinica-online-laboiv.web.app/bienvenido/turnos/ver-turnos)
+
+![Image text](https://i.ibb.co/3hR9Hvs/Captura-de-pantalla-2024-06-27-a-la-s-2-57-29-a-m.png)
+
+-En está sección el administrador puede ver la información de todos los turnos así como cancelar algunos si es necesario
