@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EspecialistaHorario, Horario, DiasHorario} from 'src/app/interfaces/Horarios';
 import { AutenticacionService } from 'src/app/servicios/autenticacion.service';
@@ -16,21 +17,27 @@ export class RegistrarHorariosComponent
   public horariosSabados : any[] = this.inicializarHorario("Sábado");
   public horariosDiaSemana : any[] = this.inicializarHorario("Lunes");
   public diasSemana : string [] = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sábado"]
+  public diasSemanaSinSabado : any[] = [{dia:"Lunes"},{dia:"Martes"},{dia:"Miercoles"},{dia:"Jueves"},{dia:"Viernes"}]
   public diasRestantes : string [] = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sábado"]
-
+  public diasRegistrados : string = "";
   public diaSemana : string = "";
   public horarios : Horario[] = [];
   public mensajeHorarios : string = "";
   public horarioUsuario : EspecialistaHorario | null = null;
   //public flagAltaHorarios = false;
   public accion = "ver";
+  public formulario: FormGroup;
+  public horariosAgregados : any[] = [{dia:"Lunes",horarios:[]},{dia:"Martes",horarios:[]},{dia:"Miercoles",horarios:[]},{dia:"Jueves",horarios:[]},{dia:"Viernes",horarios:[]},{dia:"Sábado",horarios:[]}]
+
   //cantidadConsultorios : number[] = [1,2,3,4,5,6];
   // consultorio : number = 0;
 
 
-  constructor(private spinner:NgxSpinnerService, private autenticacion:AutenticacionService, private firestore:FirestoreService)
+  constructor(private spinner:NgxSpinnerService, private autenticacion:AutenticacionService, private firestore:FirestoreService,fb:FormBuilder)
   {
-
+    this.formulario = fb.group({
+      horarios:  new FormArray([])
+     });
   }
 
   public async ngOnInit()
@@ -41,6 +48,7 @@ export class RegistrarHorariosComponent
     if(this.horarioUsuario != null && this.horarioUsuario?.diasHorarios.length != 0)
     {
       this.eliminarDiasRestantes();
+      console.log(this.horarioUsuario);
     }
     else
     {
@@ -72,22 +80,26 @@ export class RegistrarHorariosComponent
     this.spinner.show();
     setTimeout(async () => 
     {
-      let horariosTotal: Horario[]; 
-      let diasHorarios: DiasHorario[];
+      // let horariosTotal: Horario[]; 
+      // let diasHorarios: DiasHorario[];
+      console.log(this.horariosAgregados);
+      console.log(this.modificarHorarios());
       
       if(this.horarioUsuario != null)
       {
-        diasHorarios = this.horarioUsuario.diasHorarios;
-        horariosTotal = this.asignarDisponibilidad(this.inicializarHorario(this.diaSemana));
-        diasHorarios.push({dia:this.diaSemana,horarios:horariosTotal});
-        this.horarioUsuario = {uid:this.autenticacion.usuarioActual.uid,diasHorarios};
+        // diasHorarios = this.horarioUsuario.diasHorarios;
+        // horariosTotal = this.asignarDisponibilidad(this.inicializarHorario(this.diaSemana));
+        // diasHorarios.push({dia:this.diaSemana,horarios:horariosTotal});
+        // this.horarioUsuario = {uid:this.autenticacion.usuarioActual.uid,diasHorarios};
+        this.horarioUsuario = this.modificarHorarios();
         await this.firestore.editarHorarios(this.horarioUsuario.uid,this.horarioUsuario.diasHorarios);
       }
       else
       {
-        horariosTotal = this.asignarDisponibilidad(this.inicializarHorario(this.diaSemana));
-        diasHorarios = [{dia:this.diaSemana,horarios:horariosTotal}];
-        this.horarioUsuario = {uid:this.autenticacion.usuarioActual.uid,diasHorarios};
+        // horariosTotal = this.asignarDisponibilidad(this.inicializarHorario(this.diaSemana));
+        // diasHorarios = [{dia:this.diaSemana,horarios:horariosTotal}];
+        // this.horarioUsuario = {uid:this.autenticacion.usuarioActual.uid,diasHorarios};
+        this.horarioUsuario = this.modificarHorarios();
         await this.firestore.agregarHorarios(this.horarioUsuario);
       }
       this.diasRestantes.splice(this.diasRestantes.indexOf(this.diaSemana),1);
@@ -95,6 +107,54 @@ export class RegistrarHorariosComponent
       this.spinner.hide();
     }, 500);
   }
+
+  public modificarHorarios()
+  {
+    let diasHorariosAux : DiasHorario[] = []
+    let horarioAux : any = [];
+
+    for (let i = 0; i < this.horariosAgregados.length; i++) 
+    {
+      const horario = this.horariosAgregados[i]  
+
+      
+      if(horario.horarios.length > 0)
+      {
+        let diaHorario : DiasHorario | null = null
+        if(horario.dia != "Sábado")
+        {
+          horarioAux = this.inicializarHorario("Lunes");          
+        }
+        else
+        {
+          horarioAux = this.inicializarHorario("Sábado");          
+        }
+
+        for (let j = 0; j < horarioAux.length; j++) {
+          const horarioDos = horarioAux[j];
+          
+          for (let k = 0; k < horario.horarios.length; k++)
+          {
+            const horarioTres = horario.horarios[k];
+
+            if(horarioDos.hora == horarioTres)
+            {
+              horarioDos.estaActivo = true;
+            }
+          }
+          diaHorario= {dia:horario.dia,horarios:horarioAux};
+        }
+        if(diaHorario)
+        {
+          diasHorariosAux.push(diaHorario);
+        }
+      }
+    }
+
+    const nuevoHorario : EspecialistaHorario = {uid:this.firestore.datosUsuarioActual.uid,diasHorarios:diasHorariosAux}
+    return nuevoHorario;
+  }
+  
 
   public editarHorario()
   {
@@ -177,6 +237,7 @@ export class RegistrarHorariosComponent
       if(this.accion == "alta")
       {
         this.reiniciarInputs();
+        this.agregarHorariosAnteriores();
       }
       else
       {
@@ -189,12 +250,75 @@ export class RegistrarHorariosComponent
     }, 500);
   }
 
+  public agregarHorariosAnteriores()
+  {
+    if(this.horarioUsuario)
+    {
+      let indice = -1;
+      for (let i = 0; i < this.horarioUsuario.diasHorarios.length; i++) 
+      {
+        switch(this.horarioUsuario.diasHorarios[i].dia)
+        {
+          case "Lunes":
+            indice = 0
+            break;
+          case "Martes":
+            indice = 1
+            break;
+          case "Miercoles":
+            indice = 2
+            break;
+          case "Jueves":
+            indice = 3
+            break;
+          case "Viernes":
+            indice = 4
+            break;
+          case "Sábado":
+            indice = 5
+            break;
+        }
+
+        for (let j = 0; j < this.horarioUsuario.diasHorarios[i].horarios.length; j++) {
+          const horario = this.horarioUsuario.diasHorarios[i].horarios[j];
+
+          if(horario.estaActivo)
+          {
+            this.horariosAgregados[indice].horarios.push(horario.hora);
+          }
+        }
+      }
+    }
+  }
+
   private reiniciarInputs()
   {
     this.horarios = [];
     this.mensajeHorarios = "";
     this.diaSemana = "";
     //this.consultorio = 0;
+  }
+
+  public mostrarDiaSeleccionado()
+  {
+    this.mensajeHorarios = this.obtenerDia();
+  }
+
+  public obtenerDia()
+  {
+    let dia = "";
+    
+    for(let i = 0; i < this.diasRegistrados.length; i++)
+    {
+      dia += this.horarios[i].hora
+
+      if(i != (this.diasRegistrados.length - 1))
+      {
+        dia += "-";
+      }
+    }
+
+    return dia;
   }
 
   public mostrarHorarioSeleccionado()
@@ -217,6 +341,18 @@ export class RegistrarHorariosComponent
     }
 
     return horario;
+  }
+
+  cambioHorario(dia:string,event: any) {
+    
+    // const horariosElegidos = (this.formulario.controls['horarios'] as FormArray);
+    if (event.target.checked) {
+      this.agregarHorarioCheck(event.target.value,dia);
+    } 
+    else 
+    {
+      this.borrarHorarioCheck(event.target.value,dia);
+    }
   }
 
   private inicializarHorario(diaSemana:string)
@@ -273,4 +409,63 @@ export class RegistrarHorariosComponent
       return horariosDiaSemana;
     }
   }
+
+  verificarHorarios(dia:string,hora:string)
+  {
+    if(this.horarioUsuario)
+    {
+      for (let i = 0; i < this.horarioUsuario?.diasHorarios.length; i++) {
+        const horario = this.horarioUsuario?.diasHorarios[i]
+        if(horario.dia == dia)
+        {
+          for (let j = 0; j < horario.horarios.length; j++) {
+            const horaHorario = horario.horarios[j];
+
+            if(horaHorario.hora == hora && horaHorario.estaActivo)
+            {
+              return true;
+            }
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  agregarHorarioCheck(hora:any,dia:string)
+  {
+    for (let i = 0; i < this.horariosAgregados.length; i++) 
+      {
+        const horario = this.horariosAgregados[i];
+        if(horario.dia == dia)
+        {
+          horario.horarios.push(hora)
+        }
+      }
+  }
+
+  borrarHorarioCheck(horaABorrar:any,dia:string)
+  {
+    for (let i = 0; i < this.horariosAgregados.length; i++) 
+      {
+        const horario = this.horariosAgregados[i];
+        if(horario.dia == dia)
+        {
+          for (let j = 0; j < horario.horarios.length; j++) {
+            const hora = horario.horarios[j];
+            if(horaABorrar == hora)
+            {
+              horario.horarios.splice(j,1);
+            }
+          }
+        }
+      }
+  }
+
+  // agregarHorario()
+  // {
+  //   console.log(this.horariosAgregados);
+  // }
 }
+

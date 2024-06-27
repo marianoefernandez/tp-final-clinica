@@ -239,6 +239,15 @@ export class RegistroComponent
     }
   }
 
+  public elegirTipo(tipo:string)
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      this.tipoUsuario = tipo;      
+      this.spinner.hide();
+    }, 1500);
+  }
+
   public mostrarError(error:string)
   {
     switch(error)

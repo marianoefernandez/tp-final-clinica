@@ -1,21 +1,54 @@
-body
-{
-    background-color: #523c59af;
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: auto; */
-    border-radius: 40px;
-    overflow: hidden;
-    margin: 10px 100px;
-    transition: .5s;
-}
-
 .lista-horarios
 {
-    height: 800px;
+    background-color: #523c59af;
+    border-radius: 40px;
+    overflow: hidden;
+    transition: .5s;
+    min-height: 90vh;
     overflow-y: scroll;
     flex-wrap: wrap;
+}
+
+.hora
+{
+    width: 100px;
+    height: 50px;
+    margin: 4px;
+    border-color: white;
+    background: rgb(255,5,5);
+    background: radial-gradient(circle, rgba(255,5,5,1) 15%, rgba(0,0,0,1) 100%);
+}
+
+.hora:hover
+{
+    cursor:default;
+}
+
+.horarios
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.check
+{
+    width: 13px;
+    height: 13px;
+}
+
+.check-text
+{
+    font-size: medium;
+    margin-left: 1.5px;
+    margin-right: 3px;
+    color: #c7baba;
+}
+
+.gris
+{
+    color: #d0c6c6;
 }
 
 table:hover
@@ -27,7 +60,7 @@ table:hover
 
 .alta-horarios
 {
-    height: 400px;
+    min-height: 90vh;
 }
 
 tr:first-child 

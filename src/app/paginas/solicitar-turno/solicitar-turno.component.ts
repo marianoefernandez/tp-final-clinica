@@ -90,6 +90,15 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     this.suscripcionPacientes.unsubscribe();
   }
 
+  volverAtras()
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      this.flagDiasCargados = false;   
+      this.spinner.hide();   
+    }, 1200);
+  }
+
   activarBuscador()
   {
     this.flagBuscador = false;
@@ -177,9 +186,11 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     }
   }
 
-  public verificarDisponibilidad(hora:string)
+  public verificarDisponibilidad(dia:any,hora:string)
   {
-    let contador = this.contarConsultorios(hora);
+    let contador = this.contarConsultorios(dia,hora);
+
+    console.log(dia);
 
     if(contador == this.CANTIDADCONSULTORIOS)
     {
@@ -188,7 +199,7 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
 
     for(let i = 0; i<this.horariosNoDisponibles.length; i++)
     {
-      if(this.horariosNoDisponibles[i].dia == this.diaElegido.dia && this.horariosNoDisponibles[i].hora == hora && this.horariosNoDisponibles[i].uidEspecialista == this.especialistaSeleccionado.uid)
+      if(this.horariosNoDisponibles[i].dia == dia.dia && this.horariosNoDisponibles[i].hora == hora && this.horariosNoDisponibles[i].uidEspecialista == this.especialistaSeleccionado.uid)
       {
         return false;
       }
@@ -197,12 +208,12 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     return true;
   }
 
-  public contarConsultorios(hora:string)
+  public contarConsultorios(dia:any,hora:string)
   {
     let contador = 0;
     for(let i = 0; i<this.horariosNoDisponibles.length; i++)
     {
-      if(this.horariosNoDisponibles[i].dia == this.diaElegido.dia && this.horariosNoDisponibles[i].hora == hora)
+      if(this.horariosNoDisponibles[i].dia == dia.dia && this.horariosNoDisponibles[i].hora == hora)
       {
         contador++;
       }
@@ -256,9 +267,9 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     return especialistasEncontrados;
   }
 
-  obtenerHorariosDiaSeleccionado(dia:number)
-  {
-    let diaString = this.obtenerDiaPorNumero(this.diaElegido.diaSemana);
+  obtenerHorariosDiaSeleccionado(dia:any)
+  {    
+    let diaString = this.obtenerDiaPorNumero(dia.diaSemana);
 
     for(let i = 0;i<this.horariosEspecialista.diasHorarios.length;i++)
     {
@@ -328,6 +339,7 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
 
     return diasString;
   }
+  
 
   public obtenerProximosDias(cantidadDias:number)
   { 
@@ -362,11 +374,11 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     return dias
   }
 
-  public elegirTurno(hora:any)
+  public elegirTurno(dia:any,hora:any)
   {
     this.spinner.show();
     const horaRegistro = hora.split(":");
-    const diaRegistro = new Date(this.diaElegido.anio,this.diaElegido.mes-1,this.diaElegido.dia,parseInt(horaRegistro[0]),parseInt(horaRegistro[1]));
+    const diaRegistro = new Date(dia.anio,dia.mes-1,dia.dia,parseInt(horaRegistro[0]),parseInt(horaRegistro[1]));
     console.log(diaRegistro);
     setTimeout(async () => 
     {
@@ -395,7 +407,7 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
           (
             {
               title:"Turno agregado con éxito",
-              text:"El turno fue agregado con éxito para el dïa " + this.diaElegido.dia + "/" + this.diaElegido.mes + "/" + this.diaElegido.anio + " y ya fue recibido por el Especialista. Aguarde un tiempo para ver si el mismo es aceptado o rechazado por el mismo. Revise la sección mis turnos para ver el estado del mismo",
+              text:"El turno fue agregado con éxito para el dïa " + dia.dia + "/" + dia.mes + "/" + dia.anio + " y ya fue recibido por el Especialista. Aguarde un tiempo para ver si el mismo es aceptado o rechazado por el mismo. Revise la sección mis turnos para ver el estado del mismo",
               icon:'success'
             }
           ).then(()=>
@@ -510,16 +522,19 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
       this.horarioDiaElegido = null;
       this.spinner.hide();
       this.flagDiasCargados = true;
-    }, 200);
+    }, 500);
   }
 
-  public elegirDia(dia:any)
-  {
-    this.spinner.show();
-    setTimeout(() => {
-      this.diaElegido = dia;
-      this.horarioDiaElegido = this.obtenerHorariosDiaSeleccionado(this.diaElegido);
-      this.spinner.hide();
-    }, 300);
-  }
+  // public elegirDia(dia:any)
+  // {
+  //   // this.spinner.show();
+  //   // setTimeout(() => {
+  //   //   this.diaElegido = dia;
+  //   //   console.log(dia.diaSemana);
+  //   //   this.horarioDiaElegido = this.obtenerHorariosDiaSeleccionado(this.diaElegido);
+  //   //   this.spinner.hide();
+  //   // }, 300);
+
+  //   return this.obtenerHorariosDiaSeleccionado(dia);
+  // }
 }

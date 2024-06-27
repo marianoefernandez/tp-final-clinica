@@ -1,41 +1,38 @@
-<!doctype html>
-<html lang="es">
-  <head>
-    <title>Usuarios</title>
-  </head>
-  <body>
-<main>
-  <div class="container py-4">
-    <header class="pb-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-        <span class="fs-4">Como administrador puedes añadir o validar usuarios</span>
-      </a>
-    </header>
-    <div [hidden]="escondoInteraccion" class="p-5 mb-4 rounded-3" style="background-color:#EFD5C3;">
-        <app-listar-usuarios *ngIf="componente == 'listar'"></app-listar-usuarios>
-        <app-registrar-todos-usuarios *ngIf="componente == 'registrar'"></app-registrar-todos-usuarios>
-    </div>
-    <div class="row align-items-md-stretch">
-      <div class="col-md-6">
-        <div id class="h-100 p-5 text-white rounded-3" style="background-color:#08843e">
-          <h2>¿Necesitas generar usuarios? Registra los que quieras</h2>
-          <p>Haz click en el siguiente boton para registrar usuarios en el sistema, puedes generar usuarios de todo tipo.</p>
-          <button class="btn btn-outline-light" type="button" (click)="abrirComponente('registrar')">Registrar</button>
+<body>
+  <main>   
+    <div class="container py-4">
+      <header *ngIf="componente == ''" class="pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+          <span class="fs-4">Como administrador puedes añadir o validar usuarios</span>
+        </a>
+      </header>
+      <div [hidden]="escondoInteraccion" class="p-2 mb-4 rounded-3" style="background-color:#EFD5C3;">
+          <div *ngIf="componente != ''" style="text-align: center;">
+            <button (click)="volverAtras()" class="boton grande">Volver Atras</button>
+          </div> 
+          <app-listar-usuarios *ngIf="componente == 'listar'"></app-listar-usuarios>
+          <app-registrar-todos-usuarios *ngIf="componente == 'registrar'"></app-registrar-todos-usuarios>
+      </div>
+      <div class="row align-items-md-stretch" *ngIf="componente == ''">
+        <div class="col-md-6">
+          <div id class="h-100 p-5 text-white rounded-3" style="background-color:#08843e">
+            <h2>¿Necesitas generar usuarios? Registra los que quieras</h2>
+            <p>Haz click en el siguiente boton para registrar usuarios en el sistema, puedes generar usuarios de todo tipo.</p>
+            <button class="btn btn-outline-light" type="button" (click)="abrirComponente('registrar')">Registrar</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="h-100 p-5 text-white bg-primary rounded-3">
+            <h2>¿Necesitas validar un usuario? o simplemente quieres ver la lista de los mismos</h2>
+            <p>Haz click en el siguiente boton para ver la lista de usuarios, puedes habilitar o deshabilitar el acceso a los usuarios especialistas</p>
+            <button class="btn btn-outline-light" type="button" (click)="abrirComponente('listar')" >Ver lista de usuarios</button>
+          </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="h-100 p-5 text-white bg-primary rounded-3">
-          <h2>¿Necesitas validar un usuario? o simplemente quieres ver la lista de los mismos</h2>
-          <p>Haz click en el siguiente boton para ver la lista de usuarios, puedes habilitar o deshabilitar el acceso a los usuarios especialistas</p>
-          <button class="btn btn-outline-light" type="button" (click)="abrirComponente('listar')" >Ver lista de usuarios</button>
-        </div>
-      </div>
+      <footer class="pt-3 mt-4 text-muted border-top">
+        &copy; 2024
+      </footer>
     </div>
-    <footer class="pt-3 mt-4 text-muted border-top">
-      &copy; 2024
-    </footer>
-  </div>
-</main> 
-  </body>
-</html>
+  </main> 
+</body>
 <router-outlet></router-outlet>

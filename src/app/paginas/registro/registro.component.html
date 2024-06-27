@@ -1,147 +1,147 @@
-<!doctype html>
-<html lang="es">
-  <head>
-    <title>Registro</title>
-  </head>
-  <body class="bg-dark">
-<div class="container">
-  <main>
-    <div class="py-5 text-center">
-      <h2>Registrar usuario</h2>
-      <p class="lead">Por medio del siguiente formulario se puede registrar un nuevo usuario para la clinica online de Mariano</p>
-    </div>
-    <div class="row g-5">
-      <div class="col-md-7 col-lg-8">
-        <div class="formulario">
-            <div class="col-md-5" id="tipo-usuario">
-                <label for="tipo-usuario" class="form-label">Tipo de Usuario</label>
-                <select (change)="lanzarSpinner(500)" class="form-select" [(ngModel)] = "tipoUsuario" name = "tipo-usuario" required>
+<body class="bg-dark">
+    <div class="container">
+    <main>
+        <div class="py-5 text-center">
+        <h2>Registrar usuario</h2>
+        <p class="lead">Por medio del siguiente formulario se puede registrar un nuevo usuario para la clinica online de Mariano</p>
+        </div>
+        <div class="row g-5">
+        <div>
+            <div id="tipo-usuario" class="text-center">
+                <label for="tipo-usuario" style="font-size:x-large" class="form-label">Tipo de Usuario</label>
+                <br>
+                <br>
+
+                <input (click)="elegirTipo('Paciente')" class="imagen" type="image" height="250px" width="300px" style="margin-right: 150px;" src="../../../assets/paciente.png">
+                <input (click)="elegirTipo('Especialista')" class="imagen" type="image" height="250px" width="300px" src="../../../assets/medico.png">
+                <!-- <select (change)="lanzarSpinner(500)" class="form-select" [(ngModel)] = "tipoUsuario" name = "tipo-usuario" required>
                     <option value="">Elegir tipo de usuario...</option>
                     <option>Paciente</option>
                     <option>Especialista</option>
-                </select>
+                </select> -->
             </div>
-        </div>
-        <hr class="mb-4">
-        <form *ngIf="tipoUsuario != ''" [formGroup]="formulario" (ngSubmit)="registrarse()" class="needs-validation" novalidate #form="ngForm">
-            <h4 class="mb-3">Registro de usuario de tipo : {{tipoUsuario}}</h4>
-            <div class="row g-3">
-                <div class="col-sm-6">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre"  placeholder="Ingrese nombre" required formControlName="nombre">
-                    <span *ngIf="esValidoElCampo('nombre')" class="form-text text-danger">
-                        {{obtenerError('nombre')}}
-                    </span>
-                </div>
+            <hr class="mb-4">
+            <form *ngIf="tipoUsuario != ''" [formGroup]="formulario" (ngSubmit)="registrarse()" class="needs-validation" novalidate #form="ngForm">
+                <h4 class="mb-3">Registro de usuario de tipo : {{tipoUsuario}}</h4>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre"  placeholder="Ingrese nombre" required formControlName="nombre">
+                        <span *ngIf="esValidoElCampo('nombre')" class="form-text text-danger">
+                            {{obtenerError('nombre')}}
+                        </span>
+                    </div>
 
-                <div class="col-sm-6">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido"  placeholder="Ingrese apellido" required formControlName="apellido">
-                    <span *ngIf="esValidoElCampo('apellido')" class="form-text text-danger">
-                        {{obtenerError('apellido')}}
-                    </span>
-                </div>
+                    <div class="col-sm-6">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellido"  placeholder="Ingrese apellido" required formControlName="apellido">
+                        <span *ngIf="esValidoElCampo('apellido')" class="form-text text-danger">
+                            {{obtenerError('apellido')}}
+                        </span>
+                    </div>
 
-                <div class="col-sm-6">
-                    <label for="edad" class="form-label">Edad</label>
-                    <input type="number" class="form-control" id="edad"  placeholder="Ingrese edad" required formControlName="edad">
-                    <span *ngIf="esValidoElCampo('edad')" class="form-text text-danger">
-                        {{obtenerError('edad')}}
-                    </span>
-                </div>
-
-                <div class="col-sm-6">
-                    <label for="dni" class="form-label">DNI</label>
-                    <input type="number" class="form-control" id="dni"  placeholder="Ingrese dni" required formControlName="dni">
-                    <span *ngIf="esValidoElCampo('dni')" class="form-text text-danger">
-                        {{obtenerError('dni')}}
-                    </span>
-                </div>
-
-                <div class="col-12">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email"  placeholder="Ingrese email (ej: mariano@gmail.com)" required formControlName="email">
-                    <span *ngIf="esValidoElCampo('email')" class="form-text text-danger">
-                        {{obtenerError('email')}}
-                    </span>
-                </div>
-
-                <div class="col-12">
-                    <label for="clave" class="form-label">Contraseña<span> (Minimo 6 caracteres)</span></label>
-                    <input type="password" class="form-control" id="clave" placeholder="*********" required formControlName="clave">
-                    <span *ngIf="esValidoElCampo('clave')" class="form-text text-danger">
-                        {{obtenerError('clave')}}
-                    </span>
-                </div>
-                
-                <div class="col-6">
-                    <label for="archivo" class="form-label" id="foto1" [(ngModel)] = "imagenPerfilUno" name="imagenPerfilUno" [ngModelOptions]="{standalone: true}" >Imagen de perfil</label>
-                    <input type="file" class="archivo" (change)="guardarImagenUno($event)">
-                    <span *ngIf="validarImagenUno()" class="form-text text-danger">
-                        Seleccione una imagen por favor
-                    </span>
-                </div>
-
-                <div class="col-6" *ngIf="tipoUsuario == 'Paciente'">
-                    <label for="archivo" class="form-label" id="foto2" [(ngModel)] = "imagenPerfilDos" name="imagenPerfilDos" [ngModelOptions]="{standalone: true}" >Imagen de perfil 2</label>
-                    <input type="file" class="archivo" (change)="guardarImagenDos($event)">
-                    <span *ngIf="validarImagenDos()" class="form-text text-danger">
-                        Seleccione una imagen por favor
-                    </span>
-                </div>
-
-                <div class="col-12" *ngIf="tipoUsuario == 'Paciente'">
-                    <label for="obra-social" class="form-label">Obra social</label>
-                    <input type="text" class="form-control" id="obra-social"  placeholder="Ingrese obra social" required formControlName="obraSocial">
-                    <span *ngIf="esValidoElCampo('obraSocial')" class="form-text text-danger">
-                        {{obtenerError('obraSocial')}}
-                    </span>
-                </div>
-
-                <div class="col-12" *ngIf="tipoUsuario == 'Especialista'">
-                    <label for="especialidad" class="form-label">Especialidad</label>
                     <br>
-                    <!-- <label for="especialidad" class="form-label">Especialidad</label>
-                    <br>    
-                    <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Psicologia">
-                    <label>Psicologia</label><br>
-                    <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Cardiología">
-                    <label>Cardiología</label><br>
-                    <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Neurología">
-                    <label>Neurología</label><br>
-                    <input formControlName="especialidad" name = "otro" type="radio" name="especialidad" class="especialidad" value="Otro">
-                    <label>Otro (Especifica cual)</label>
-                    <input *ngIf="verificarEspecialidad()" [(ngModel)] = "seleccionEspecialidad" name="imagenPerfilUno" [ngModelOptions]="{standalone: true}" type="text" class="especialidad" placeholder="Ej:Genética"> -->
+                    <br>
+                    <div class="col-sm-6">
+                        <label for="edad" class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="edad"  placeholder="Ingrese edad" required formControlName="edad">
+                        <span *ngIf="esValidoElCampo('edad')" class="form-text text-danger">
+                            {{obtenerError('edad')}}
+                        </span>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="dni" class="form-label">DNI</label>
+                        <input type="number" class="form-control" id="dni"  placeholder="Ingrese dni" required formControlName="dni">
+                        <span *ngIf="esValidoElCampo('dni')" class="form-text text-danger">
+                            {{obtenerError('dni')}}
+                        </span>
+                    </div>
+
+                    <div class="col-9">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email"  placeholder="Ingrese email (ej: mariano@gmail.com)" required formControlName="email">
+                        <span *ngIf="esValidoElCampo('email')" class="form-text text-danger">
+                            {{obtenerError('email')}}
+                        </span>
+                    </div>
+
+                    <div class="col-9">
+                        <label for="clave" class="form-label">Contraseña<span> (Minimo 6 caracteres)</span></label>
+                        <input type="password" class="form-control" id="clave" placeholder="*********" required formControlName="clave">
+                        <span *ngIf="esValidoElCampo('clave')" class="form-text text-danger">
+                            {{obtenerError('clave')}}
+                        </span>
+                    </div>
                     
-                    <p-multiSelect [options]="listaEspecialidades" formControlName="especialidad" name="especialidad" class="especialidad" optionLabel="especialidad" placeholder="Elige una especialidad"></p-multiSelect>
-                    <br>
-                    <label for="especialidad" class="form-label">No encuentras tu especialidad. Agregala a la lista: </label>
-                    <input type="text" placeholder="Ej: Genética" style="margin-left: 5px;" [(ngModel)] = "especialidadAgregada" name="especialidad-agregada" [ngModelOptions]="{standalone: true}">       
-                    <input (click)="agregarEspecialidad()" class="btn btn-primary" style="margin-left: 5px;" value="Agregar">
-                    <span *ngIf="esValidoElCampo('especialidad')" class="form-text text-danger">
-                        {{obtenerError('especialidad')}}
-                    </span>
-                    <span>
-                        {{mensajeConfirmacion}}
-                    </span>
-                </div>
-            </div>
+                    <div class="col-6">
+                        <label style="margin-right: 5px;" for="archivo" class="form-label" id="foto1" [(ngModel)] = "imagenPerfilUno" name="imagenPerfilUno" [ngModelOptions]="{standalone: true}" >Imagen de perfil: </label>
+                        <input type="file" class="archivo" (change)="guardarImagenUno($event)">
+                        <span *ngIf="validarImagenUno()" class="form-text text-danger">
+                            Seleccione una imagen por favor
+                        </span>
+                    </div>
 
-            <div class="captcha" *ngIf="validarFormulario()">
-                <re-captcha (resolved)="resolverCaptcha($event)" id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
-                <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
-                  <div *ngIf="recaptcha.errors?.['required']">This field is required.</div>
+                    <div class="col-6" *ngIf="tipoUsuario == 'Paciente'">
+                        <label style="margin-right: 5px;" for="archivo" class="form-label" id="foto2" [(ngModel)] = "imagenPerfilDos" name="imagenPerfilDos" [ngModelOptions]="{standalone: true}" >Imagen de perfil 2: </label>
+                        <input type="file" class="archivo" (change)="guardarImagenDos($event)">
+                        <span *ngIf="validarImagenDos()" class="form-text text-danger">
+                            Seleccione una imagen por favor
+                        </span>
+                    </div>
+
+                    <div class="col-9" *ngIf="tipoUsuario == 'Paciente'">
+                        <label for="obra-social" class="form-label">Obra social</label>
+                        <input type="text" class="form-control" id="obra-social"  placeholder="Ingrese obra social" required formControlName="obraSocial">
+                        <span *ngIf="esValidoElCampo('obraSocial')" class="form-text text-danger">
+                            {{obtenerError('obraSocial')}}
+                        </span>
+                    </div>
+
+                    <div class="col-9" *ngIf="tipoUsuario == 'Especialista'">
+                        <label for="especialidad" class="form-label text-center">Especialidad</label>
+                        <br>
+                        <!-- <label for="especialidad" class="form-label">Especialidad</label>
+                        <br>    
+                        <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Psicologia">
+                        <label>Psicologia</label><br>
+                        <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Cardiología">
+                        <label>Cardiología</label><br>
+                        <input formControlName="especialidad" type="radio" name="especialidad" class="especialidad" value="Neurología">
+                        <label>Neurología</label><br>
+                        <input formControlName="especialidad" name = "otro" type="radio" name="especialidad" class="especialidad" value="Otro">
+                        <label>Otro (Especifica cual)</label>
+                        <input *ngIf="verificarEspecialidad()" [(ngModel)] = "seleccionEspecialidad" name="imagenPerfilUno" [ngModelOptions]="{standalone: true}" type="text" class="especialidad" placeholder="Ej:Genética"> -->
+                        
+                        <p-multiSelect [options]="listaEspecialidades" formControlName="especialidad" name="especialidad" class="especialidad" optionLabel="especialidad" placeholder="Elige una especialidad"></p-multiSelect>
+                        <br>
+                        <label for="especialidad" class="form-label">No encuentras tu especialidad. Agregala a la lista: </label>
+                        <input type="text" placeholder="Ej: Genética" style="margin-left: 5px;" [(ngModel)] = "especialidadAgregada" name="especialidad-agregada" [ngModelOptions]="{standalone: true}">       
+                        <input (click)="agregarEspecialidad()" class="btn btn-primary" style="margin-left: 5px;" value="Agregar">
+                        <span *ngIf="esValidoElCampo('especialidad')" class="form-text text-danger">
+                            {{obtenerError('especialidad')}}
+                        </span>
+                        <span>
+                            {{mensajeConfirmacion}}
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <button [disabled]="flagCaptcha" class="w-100 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Registrarse</button>
-        </form>
-      </div>
+
+                <div class="captcha" *ngIf="validarFormulario()">
+                    <re-captcha (resolved)="resolverCaptcha($event)" id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
+                    <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
+                    <div *ngIf="recaptcha.errors?.['required']">This field is required.</div>
+                    </div>
+                    <!-- <re-captcha (resolved)="resolverCaptcha($event)" style="margin-left: 50px;" siteKey="6LczZhApAAAAAInPmFvFW0s_3sLQ2z7p5ElsK5zg"></re-captcha> -->
+                </div>
+                <button [disabled]="flagCaptcha" class="w-50 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Registrarse</button>
+            </form>
+        </div>
+        </div>
+    </main>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2024 Clinica Online Fernández Mariano 4A</p>
+    </footer>
     </div>
-  </main>
-  <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2024 Clinica Online Fernández Mariano 4A</p>
-  </footer>
-</div>
-  </body>
-</html>
+</body>
 <router-outlet></router-outlet>

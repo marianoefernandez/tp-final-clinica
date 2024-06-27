@@ -35,7 +35,26 @@ export class MiPerfilComponent
 
   formatearString(dato:any)
   {
-    return dato;
+    let mensajeAux = ""
+
+    for (let i = 0; i < dato.length; i++) {
+      const letra = dato[i];
+    
+      if(letra === letra.toUpperCase() || i === 0)
+      {
+        if(i !== 0)
+        {
+          mensajeAux+= " "
+        }    
+        mensajeAux += letra.toUpperCase();
+      }
+      else
+      {
+        mensajeAux += letra;
+      }
+    }
+    
+    return mensajeAux;
   }
 
   obtenerValor(dato:any)

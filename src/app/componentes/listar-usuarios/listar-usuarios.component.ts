@@ -16,6 +16,7 @@ export class ListarUsuariosComponent
   public listaEspecialistas: any[] = []; 
   public nombre : string = "";
   public dni : any = ""
+  public tipoUsuario = "Pacientes"
   @Output() eventoRepartidor = new EventEmitter<any>();
 
 
@@ -56,6 +57,19 @@ export class ListarUsuariosComponent
       especialista.estaActivo = !especialista.estaActivo;
       this.spinner.hide();
     }, 300);
+  }
+
+  cambiarTipoUsuario(tipoNuevo:string)
+  {
+
+    if(tipoNuevo != this.tipoUsuario)
+    {
+      this.spinner.show();
+      setTimeout(() => {
+        this.tipoUsuario = tipoNuevo; 
+        this.spinner.hide();   
+      }, 900); 
+    }
   }
 
   public obtenerEspecialidad(especialidad:any)
