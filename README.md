@@ -86,8 +86,6 @@ El especialista debe tener disponibilidad horaria y también deben haber consult
 
 -Está sección va a formar parte de la entrega del Sprint 3
 
-https://i.ibb.co/rF0bRFS/Captura-de-pantalla-2024-06-27-a-la-s-2-13-24-a-m.png
-
 # Administrador
 
 
