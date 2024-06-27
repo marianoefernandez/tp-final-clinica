@@ -43,7 +43,7 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 ![Image text](https://i.ibb.co/LQhKqV5/Captura-de-pantalla-2024-06-27-a-la-s-1-55-54-a-m.png)
 
--En está sección puedo ver los datos de mi perfil, cuando estoy logueado como paciente se ve así. Puedo cambiar la imagen de perfil
+-En está sección puedo ver los datos de mi perfil, cuando estoy logueado como paciente se ve así. Puedo ver dos imagenes de perfil.
 
 # Pacientes-Mis Turnos (https://clinica-online-laboiv.web.app/bienvenido/turnos/mis-turnos)
 
@@ -59,7 +59,34 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 -En está sección puedo ver puedo solicitar un turno a cada uno de los especialistas. 
 El especialista debe tener disponibilidad horaria y también deben haber consultorios en ese horario.
 
-# Especialista
+# Especialista-Pantalla Principal (https://clinica-online-laboiv.web.app/bienvenido)
+
+![Image text](https://i.ibb.co/rF0bRFS/Captura-de-pantalla-2024-06-27-a-la-s-2-13-24-a-m.png)
+
+-En está pantalla el especialista puede acceder a cada una de sus opciones
+-Mi Perfil para ver sus datos
+-Mis turnos para ver la información de todos los turnos que tenga asignado ese especialista
+-Pacientes (En desarrollo presente en el sprint 3)
+
+# Especialista-Mi Perfil (https://clinica-online-laboiv.web.app/bienvenido/mi-perfil)
+
+![Image text](https://i.ibb.co/fnLX92G/Captura-de-pantalla-2024-06-27-a-la-s-2-19-22-a-m.png)
+![Image text](https://i.ibb.co/PMNgmCF/Captura-de-pantalla-2024-06-27-a-la-s-2-20-31-a-m.png)
+![Image text](https://i.ibb.co/YhvgT4H/Captura-de-pantalla-2024-06-27-a-la-s-2-21-53-a-m.png)
+
+-En está sección puedo ver los datos de mi perfil, cuando estoy logueado como especialista puedo editar mis horarios.
+
+# Especialista-Mis Turnos (https://clinica-online-laboiv.web.app/bienvenido/turnos/mis-turnos)
+
+![Image text](https://i.ibb.co/xgQmb8x/Captura-de-pantalla-2024-06-27-a-la-s-2-24-06-a-m.png)
+
+-En está sección puedo ver cada uno de los turnos que tengo como especialista, pudiendo filtrar por especialidad tanto como especialista.
+
+# Especialista-Pacientes (EN DESARROLLO SPRINT 3)
+
+-Está sección va a formar parte de la entrega del Sprint 3
+
+https://i.ibb.co/rF0bRFS/Captura-de-pantalla-2024-06-27-a-la-s-2-13-24-a-m.png
 
 # Administrador
 
