@@ -36,13 +36,17 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     {
       this.spinner.show();
       setTimeout(async () => {
-        if(this.verificarId(turnos[0].idTurno))
+
+        if(turnos.length > 0)
         {
-          this.turnosDisponibles = this.turnosDisponibles.concat(turnos);          
-        }
-        else
-        {
-          this.turnosDisponibles = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario));
+          if(this.verificarId(turnos[0].idTurno))
+          {
+            this.turnosDisponibles = this.turnosDisponibles.concat(turnos);          
+          }
+          else
+          {
+            this.turnosDisponibles = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario));
+          }
         }
         this.spinner.hide();        
       }, 500);

@@ -18,6 +18,7 @@
             <br>
             <h3 class="text-dark" style="text-align: center; margin:auto">Turnos en la clinica del {{firestore.datosUsuarioActual.tipoUsuario}} {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</h3>
             <br>
+            <h1 style="text-align: center;" *ngIf="turnosDisponibles.length == 0"> No hay ningun turno disponible </h1>
             <div class="lista-turnos" *ngFor="let turno of turnosDisponibles index as i">
                 <div *ngIf="verificarBusqueda(turno)" class="card bg-primary turno">
                     <h3 *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente'" class="text-light texto-turnos">Especialista: {{obtenerApellidoNombre(turno.uidEspecialista)}}</h3>

@@ -1,7 +1,7 @@
 <body class="bg-dark">  
     <div class="py-2 text-center">
         <h2>Solicitar turno</h2>
-        <p class="lead text-light">Por medio del siguiente formulario se puede solicitar un nuevo turno para el paciente: {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</p>
+        <p *ngIf="firestore.datosUsuarioActual.tipoUsuario != 'Administrador'" class="lead text-light">Por medio del siguiente formulario se puede solicitar un nuevo turno para el paciente: {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</p>
     </div>
     
     <ng-container *ngIf="inicializarPagina()">
