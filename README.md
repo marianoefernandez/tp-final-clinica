@@ -18,7 +18,10 @@ Es la pantalla incial de mi web cuando se accede y uno no está logueado
 
 # Pantalla Registrarse (https://clinica-online-laboiv.web.app/sesiones/registro)
 
-![Image text](https://i.ibb.co/p4PwSTv/Captura-de-pantalla-2024-06-13-a-la-s-19-04-03.png)
+![Image text](https://i.ibb.co/ZBY2w4s/Captura-de-pantalla-2024-06-27-a-la-s-2-41-37-a-m.png)
+![Image text](https://i.ibb.co/nmQn1Wf/Captura-de-pantalla-2024-06-27-a-la-s-2-43-20-a-m.png)
+![Image text](https://i.ibb.co/whsykq3/Captura-de-pantalla-2024-06-27-a-la-s-2-44-18-a-m.png)
+
 
 -Esta pantalla me permite registrarme una cuenta de Paciente o de Especialista, si me registro como especialista necesito una validación de un administrador para habilitar la cuenta
 
