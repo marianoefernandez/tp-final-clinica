@@ -13,3 +13,12 @@ export interface Usuario
     estaActiva:boolean,
     hora: any;
 }
+
+export interface Historia
+{
+    altura:number,
+    peso:number,
+    temperatura:number,
+    presion:number,
+    datosDinamicos:any []
+}

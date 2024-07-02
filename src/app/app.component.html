@@ -6,4 +6,7 @@
   >
   <p style="font-size: 20px; color: white">Cargando...</p>
 </ngx-spinner>
-<router-outlet></router-outlet>
+
+<div [@cambioRuta]="ruta.snapshot.data" style="display: contents;" >
+  <router-outlet></router-outlet>  
+</div>

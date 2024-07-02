@@ -1,7 +1,7 @@
 <body class="bg-dark">  
     <div class="py-2 text-center">
         <h2>Solicitar turno</h2>
-        <p class="lead text-light">Por medio del siguiente formulario se puede solicitar un nuevo turno para el paciente: {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</p>
+        <p *ngIf="firestore.datosUsuarioActual.tipoUsuario != 'Administrador'" class="lead text-light">Por medio del siguiente formulario se puede solicitar un nuevo turno para el paciente: {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</p>
     </div>
     
     <ng-container *ngIf="inicializarPagina()">
@@ -25,36 +25,56 @@
                 </div>
             </div>
 
-            <div  class="text-center" *ngIf="pacienteTurno != null && flagDiasCargados == false" id="especialidad">
+            <div class="text-center" *ngIf="pacienteTurno != null && flagDiasCargados == false" id="especialidad">
                 <h3 *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Administrador'" >Usted eligio al paciente: {{pacienteTurno.nombre}} {{pacienteTurno.apellido}}</h3>
-                <label style="font-size: x-large;" for="">Elije especialidad:</label>  
-                <select (change)="lanzarSpinner(500)" class="form-select" [(ngModel)] = "especialidadSeleccionada" name = "especialidadSeleccionada" required>
+                <label *ngIf="especialidadSeleccionada == ''" style="font-size: x-large;" for="">Elije especialidad:</label>  
+                <!-- <select (change)="lanzarSpinner(500)" class="form-select" [(ngModel)] = "especialidadSeleccionada" name = "especialidadSeleccionada" required>
                     <option [disabled]="true" value="">Elegir especialidad...</option>
                     <option value="{{especialidad}}" *ngFor="let especialidad of especialidadesRegistradas; index as i">{{especialidad}}</option>
-                </select>
+                </select> -->
+
+                <div *ngIf="especialidadSeleccionada == ''" class="contenido" style="margin-top: 20px;">
+                    <ng-container *ngFor="let especialidad of especialidadesRegistradas; index as i">
+                        <!-- <h1>../../../assets/{{especialidad}}.png</h1> -->
+
+                        <div class="imagen" style="margin-right: 20px; margin-top:20px;">
+                            <input (click)="elegirEspecialidad(especialidad)" *ngIf="especialidad == 'Cardiología' || especialidad == 'Genética' || especialidad == 'Neurología' || especialidad == 'Nutrición' || especialidad == 'Psicologia' else elseblock2; " type="image" height="160px" width="280px" src="../../../assets/{{especialidad}}.png">
+                            <ng-template #elseblock2>
+                                <input (click)="elegirEspecialidad(especialidad)" type="image" height="160px" width="280px" src="../../../assets/Especialidad.png">
+                            </ng-template>
+                            <div style="text-align: center;">
+                                <label style="color:black" for="">{{especialidad}}</label>                                
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
             </div>
             <div *ngIf="flagDiasCargados == false" class="text-center" id="especialistas">
                 <h4 *ngIf="especialidadSeleccionada != ''" class="lead text-light">Especialistas encontrados para la especialidad: {{especialidadSeleccionada}}</h4>
                 <p style="font-size:large" class="lead text-light" *ngIf="especialidadSeleccionada != ''" >Seleccione el especialista al que quiere solicitar un turno</p>
 
+                <div style="text-align: center;" *ngIf="!flagDiasCargados && especialidadSeleccionada != ''">
+                    <button (click)="volverAtrasEspecialidad()" class="boton grande">Volver Atras</button>
+                </div>    
                 <!-- <div class="seleccion" *ngFor="let especialista of obtenerEspecialistasPorEspecialidad(especialidadSeleccionada); index as i"> -->
                     <!-- <div>
                         <input (click)="elegirEspecialista(especialista)" *ngFor="let especialista of obtenerEspecialistasPorEspecialidad(especialidadSeleccionada); index as i" class="btn btn-lg text-light bg-primary especialista" type="button" value="{{especialista.nombre}} {{especialista.apellido}}">
                     </div> -->
                     
                     <div class="eleccion">
-                        <div *ngFor="let especialista of obtenerEspecialistasPorEspecialidad(especialidadSeleccionada);" class="carta">
+                        <div (click)="elegirEspecialista(especialista)" *ngFor="let especialista of obtenerEspecialistasPorEspecialidad(especialidadSeleccionada);" class="carta">
+                            <div class="description">
+                                <h3>{{especialista.nombre}} {{especialista.apellido}}</h3>
+                                <!-- <button (click)="elegirEspecialista(especialista)" class="boton">Elegir</button> -->
+                            </div> 
+
                             <div class="head">
                                 <div class="circle"></div>
                                 <div class="img">
                                     <img src="{{especialista.imagenUno}}">
                                 </div>
                             </div>
-                    
-                            <div class="description">
-                                <h3>{{especialista.nombre}} {{especialista.apellido}}</h3>
-                                <button (click)="elegirEspecialista(especialista)" class="boton">Elegir</button>
-                            </div> 
                         </div>
                     </div>
 
@@ -72,7 +92,7 @@
                     <button (click)="volverAtras()" class="boton grande">Volver Atras</button>
                 </div>    
                 <div class="text-center" *ngIf="diasEspecialista.length != 0 else elseblock;">
-                    <h3 class="text-light">El especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}} está disponible los siguientes días: {{formatearDiasEnTexto(diasEspecialista)}}</h3>
+                    <!-- <h3 class="text-light">El especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}} está disponible los siguientes días: {{formatearDiasEnTexto(diasEspecialista)}}</h3>
                     <h4 class="text-light">Seleccione un día y horario:</h4>
 
                     <div class=""  *ngFor="let dia of diasDisponibles; index as i">
@@ -81,18 +101,18 @@
                             <input [disabled] = '! verificarDisponibilidad(dia,horario.hora)' *ngIf="horario.estaActivo" (click)="elegirTurno(dia,horario.hora)" class="btn btn-lg text-light hora" type="button" value="{{horario.hora}} ({{CANTIDADCONSULTORIOS - contarConsultorios(dia,horario.hora)}})">
                         </ng-container>
                         <hr class="mb-4">
-                    </div>
+                    </div> -->
 
-                    <!-- <input (click)="elegirDia(dia)" *ngFor="let dia of diasDisponibles; index as i" class="btn btn-lg text-light bg-primary dia" type="button" value="{{dia.dia}}/{{dia.mes}}/{{dia.anio}}"> -->
-                    <!-- <div *ngIf="diaElegido != null">
+                    <input (click)="elegirDia(dia)" *ngFor="let dia of diasDisponibles; index as i" class="btn btn-lg text-light dia" type="button" value="{{obtenerDia(dia.dia)}} de {{obtenerMesPorNumero(dia.mes)}}">
+                    <div *ngIf="diaElegido != null">
                         <h3 class="text-light">Seleccione el horario que desea elegir:</h3>
                         <div *ngIf="horarioDiaElegido!=null">
-                            <h3>Horarios disponibles del día {{obtenerDiaPorNumero(diaElegido.diaSemana)}} {{diaElegido.dia}}/{{diaElegido.mes}}/{{diaElegido.anio}} para el especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}} (Tener en cuenta que si el especialista ya tiene disponibilidad horaria o se supero la cantidad de consultorios disponibles no se podra elegir el horario)</h3>
+                            <h3>Horarios disponibles del día {{obtenerDiaPorNumero(diaElegido.diaSemana)}} {{diaElegido.dia}}/{{diaElegido.mes}}/{{diaElegido.anio}} para el especialista {{especialistaSeleccionado.nombre}} {{especialistaSeleccionado.apellido}}</h3>
                             <ng-container *ngFor="let horario of horarioDiaElegido; index as i">
-                                <input [disabled] = '! verificarDisponibilidad(horario.hora)' *ngIf="horario.estaActivo" (click)="elegirTurno(horario.hora)" class="btn btn-lg text-light bg-danger hora" type="button" value="{{horario.hora}} ({{CANTIDADCONSULTORIOS - contarConsultorios(horario.hora)}})">
+                                <input [disabled] = '! verificarDisponibilidad(diaElegido,horario.hora)' *ngIf="horario.estaActivo" (click)="elegirTurno(diaElegido,horario.hora)" class="btn btn-lg text-light bg-danger hora" type="button" value="{{horario.hora}} ({{CANTIDADCONSULTORIOS - contarConsultorios(diaElegido,horario.hora)}})">
                             </ng-container>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
 
                 <ng-template #elseblock>

@@ -101,7 +101,7 @@ export class VerTurnosComponent implements OnInit,OnDestroy
   {
     let horarioTurno : Date = horario.toDate()
 
-    return horarioTurno.toLocaleString().slice(0,-3).replace(",","");
+    return horarioTurno.toLocaleString("en-GB").slice(0,-3).replace(",","");
   }
 
   cancelarTurno(turnoSeleccionado:Turno)

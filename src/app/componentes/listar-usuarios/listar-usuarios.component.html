@@ -38,7 +38,7 @@
           <th>Obra Social</th>
           <th>Foto 1</th>
           <th>Foto 2</th>
-
+          <th>Historia Clinica</th>          
       </tr>
       <tr (click) = "elegirUsuario(paciente)" *ngFor="let paciente of listaPacientes; index as i" class="usuario">
         <td>{{paciente.apellido}}</td>
@@ -49,6 +49,8 @@
         <td>{{paciente.obraSocial}}</td>
         <td><img src="{{paciente.imagenUno}}" width="64" height="64"></td>
         <td><img src="{{paciente.imagenDos}}" width="64" height="64"></td>
+        <td *ngIf="paciente.historiaClinica"><button (click)="mostrarHistoriaClinica(paciente)" class="btn btn-primary" >Ver</button> </td>
+        <td *ngIf="!paciente.historiaClinica">No cargada</td>
       </tr>
   </table>
 
@@ -60,7 +62,7 @@
           <th>Edad</th>
           <th>Email</th>
           <th>Especialidad</th>
-          <th>Está habilitado</th>
+          <!-- <th>Está habilitado</th> -->
           <th>Foto</th>
           <th>¿Habilitar/Deshabilitar?</th>
       </tr>
@@ -71,7 +73,7 @@
         <td>{{especialista.edad}}</td>
         <td>{{especialista.email}}</td>
         <td>{{obtenerEspecialidad(especialista.especialidad)}}</td>
-        <td *ngIf="especialista.estaActivo; else elseBlock">Si</td>
+        <!-- <td *ngIf="especialista.estaActivo; else elseBlock">Si</td> -->
         <ng-template #elseBlock><td>No</td></ng-template>
         <td><img src="{{especialista.imagenUno}}" width="64" height="64"></td>
         <td *ngIf="especialista.estaActivo; else elseBlock2"><button class="btn btn-danger" (click)="activarDesactivarEspecialista(especialista)">Deshabilitar</button></td>

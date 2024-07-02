@@ -105,6 +105,8 @@ export class FirestoreService {
     }
   }
 
+  
+
   async editarHorarios(uid:string,dato:any)
   {
     try
@@ -204,6 +206,27 @@ export class FirestoreService {
         return true;
       });   
       return false;
+     }
+    catch(error:any)
+    {
+      console.log(error.code);
+      return null;
+    }
+  }
+
+  async actualizarInfoUsuario(uid:string,dato:any)
+  {
+    try
+    {
+      const consulta = query(this.usuarios, where("uid", "==", uid));
+      const consultaEjecuto = await getDocs(consulta);
+      consultaEjecuto.forEach(async (datos) => 
+      {
+        // doc.data() is never undefined for query doc snapshots
+        const id = datos.id;
+        await updateDoc(doc(this.firestore,"usuarios",id),dato)
+      });   
+      return true;
      }
     catch(error:any)
     {

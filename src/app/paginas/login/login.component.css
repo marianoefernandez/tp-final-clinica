@@ -20,8 +20,9 @@ body {
     height: 100px;
     font-size: 80px;
     line-height: 100px;
-    background: -webkit-linear-gradient(#41cdf0, #0e06ea);
-    -webkit-text-fill-color: transparent;
+    color: white;
+    /* background: -webkit-linear-gradient(#41cdf0, #0e06ea); */
+    /* -webkit-text-fill-color: transparent; */
 }
 
 .login-title {

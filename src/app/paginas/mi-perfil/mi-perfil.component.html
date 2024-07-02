@@ -55,6 +55,15 @@
                 <button (click)="cambiarValorBanderaHorarios()" class="btn btn-lg text-light" style="background-color:#7a1299">Editar horarios</button>
             </div>
           </ng-container>
+
+          <ng-container *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente' && firestore.datosUsuarioActual.historiaClinica">
+            <div id="btnHorario">
+                <button (click)="mostrarHistoriaClinica(firestore.datosUsuarioActual)" class="btn btn-lg text-light" style="background-color:#059210">Ver Historia Clinica</button>
+            </div>
+            <div id="btnHorario">
+                <button (click)="descargarPDF(firestore.datosUsuarioActual)" class="btn btn-lg text-light" style="background-color:#920505">Descargar PDF de Historia Clinica</button>
+            </div>
+          </ng-container>
         </div>
         <div *ngIf="!flagHorarios" style="text-align: center;">
             <button (click)="cambiarValorBanderaHorarios()" class="boton grande">Volver Atras</button>

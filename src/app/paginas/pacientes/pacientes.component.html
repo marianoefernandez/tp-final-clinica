@@ -1,2 +1,129 @@
-<h1>Pacientes</h1>
+<body class="bg-dark">
+    <br>
+    <h2 class="text-light" style="text-align: center; margin:auto">Mis Pacientes</h2>
+    <br>
+    <div  class="card contenido" style="background-color: rgb(182, 182, 175);"> 
+        <div style="text-align: center;" *ngIf="flagCrear">
+            <button (click)="cambiarFlagCrear('')" class="boton grande">Volver Atras</button>
+        </div>       
+        <div *ngIf="!flagCrear" class="contenido-busqueda">     
+            <br>
+            <h3 style="text-align: center;">Puede buscar el paciente que desee</h3>    
+            <br>         
+            <div class="barra-busqueda">
+                <input style="margin-top: 10px;" type="text" [(ngModel)]="palabraBusqueda" class="busqueda" placeholder="Buscar paciente...">
+            </div>
+            <br>
+            <h3 class="text-dark" style="text-align: center; margin:auto">Pacientes en la clinica del {{firestore.datosUsuarioActual.tipoUsuario}} {{firestore.datosUsuarioActual.nombre}} {{firestore.datosUsuarioActual.apellido}}</h3>
+            <br>
+            <h1 style="text-align: center;" *ngIf="pacientesEspecialista.length == 0"> No hay ningun paciente para este especialista </h1>
+            <div *ngIf="!flagCrear" class="eleccion" >
+                <div *ngFor="let paciente of pacientesEspecialista index as i" class="carta">
+                    <div class="description">
+                        <h3>{{paciente[0].nombre}} {{paciente[0].apellido}}</h3>
+                        <h5 style="color: white;">{{paciente[0].dni}}</h5>
+                        <h5 style="color: white;">{{paciente[0].edad}} años</h5>
+                        <h5 style="color: white;">{{paciente[0].obraSocial}}</h5>
+                    </div> 
+
+                    <div class="head">
+                        <div class="circle"></div>
+                        <div class="img">
+                            <img src="{{paciente[0].imagenUno}}">
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button (click)="mostrarHistoriaClinica(paciente[0])" *ngIf="verificarHistoriaClinica(paciente[0])" class="btn btn-outline-light bg-secondary" style="margin-right: 10px;">Ver Historia Clinica</button>
+                        <button (click)="cambiarFlagCrear(paciente[0])" *ngIf="verificarHistoriaClinica(paciente[0])" class="btn btn-outline-light bg-danger">Modificar Historia Clinica</button>
+                        <button (click)="cambiarFlagCrear(paciente[0])" *ngIf="!verificarHistoriaClinica(paciente[0])" class="btn btn-outline-light bg-success">Crear Historia Clinica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-center">
+            <form *ngIf="flagCrear" [formGroup]="formulario" (ngSubmit)="crearModificarHistoriaClinica()" class="needs-validation" novalidate #form="ngForm">
+                <h3>Ingrese los datos fijos: </h3>
+                <hr cl ass="mb-4">
+
+                <div class="row g-3">
+
+                    <div style="margin-left: 25%;">
+                        <div class="col-sm-6">
+                            <label for="altura" class="form-label">Altura (cm)</label> <span class="form-text text-danger"> *</span>
+                            <input type="number" class="form-control" id="altura"  placeholder="Ingrese una altura (cm)" required formControlName="altura">
+                            <span *ngIf="esValidoElCampo('altura')" class="form-text text-danger">
+                                {{obtenerError('altura')}}
+                            </span>
+                        </div>
+    
+                        <div class="col-sm-6">
+                            <label for="peso" class="form-label">Peso (kg)</label> <span class="form-text text-danger"> *</span>
+                            <input type="number" class="form-control" id="peso"  placeholder="Ingrese peso (kg)" required formControlName="peso">
+                            <span *ngIf="esValidoElCampo('peso')" class="form-text text-danger">
+                                {{obtenerError('peso')}}
+                            </span>
+                        </div>
+    
+                        <div class="col-sm-6">
+                            <label for="temperatura" class="form-label">Temperatura (°C)</label> <span class="form-text text-danger"> *</span>
+                            <input type="number" class="form-control" id="temperatura"  placeholder="Ingrese temperatura (°C)" required formControlName="temperatura">
+                            <span *ngIf="esValidoElCampo('temperatura')" class="form-text text-danger">
+                                {{obtenerError('temperatura')}}
+                            </span>
+                        </div>
+    
+                        <div class="col-sm-6">
+                            <label for="presion" class="form-label">Presion (mmHg)</label> <span class="form-text text-danger"> *</span>
+                            <input type="number" class="form-control" id="presion"  placeholder="Ingrese presión (mmHg)" required formControlName="presion">
+                            <span *ngIf="esValidoElCampo('presion')" class="form-text text-danger">
+                                {{obtenerError('presion')}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <h3>Ingrese los datos dinámicos (Opcional máximo 3): </h3>
+                    <hr class="mb-4">
+                    
+                    <div class="col-sm-6">
+                        <label for="claveUno" class="form-label">Dato 1 (Clave)</label>
+                        <input type="text" class="form-control" id="claveUno"  placeholder="Ingrese clave 1" required formControlName="claveUno">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="datoUno" class="form-label">Dato 1 (Valor)</label>
+                        <input type="text" class="form-control" id="datoUno"  placeholder="Ingrese valor 1" required formControlName="datoUno">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="claveDos" class="form-label">Dato 2 (Clave)</label>
+                        <input type="text" class="form-control" id="claveDos"  placeholder="Ingrese clave 2" required formControlName="claveDos">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="datoDos" class="form-label">Dato 2 (Valor)</label>
+                        <input type="text" class="form-control" id="datoDos"  placeholder="Ingrese valor 2" required formControlName="datoDos">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="claveTres" class="form-label">Dato 3 (Clave)</label>
+                        <input type="text" class="form-control" id="claveTres"  placeholder="Ingrese clave 3" required formControlName="claveTres">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="datoTres" class="form-label">Dato 3 (Valor)</label>
+                        <input type="text" class="form-control" id="datoTres"  placeholder="Ingrese valor 3" required formControlName="datoTres">
+                    </div>
+
+                    <hr class="mb-4">
+                    <div style="text-align: center; margin-bottom:25px">
+                        <button *ngIf="!flagHistoriaClinica" class="w-50 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Guardar Cambios</button>
+                        <!-- <button *ngIf="flagHistoriaClinica" class="w-50 btn btn-danger btn-lg" style="margin-top: 10px;" type="submit">Modificar Historia Clinica</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
 <router-outlet></router-outlet>

@@ -21,7 +21,7 @@ export class MisTurnosComponent implements OnInit,OnDestroy
   public consultoriosRestantes = [];
   public palabraBusqueda:string = ""
   public todosUsuarios: any[] = [];
-
+  public datosDinamicos : string[] = [];
 
   constructor(public firestore:FirestoreService,private spinner:NgxSpinnerService, private router:Router)
   {
@@ -36,13 +36,17 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     {
       this.spinner.show();
       setTimeout(async () => {
-        if(this.verificarId(turnos[0].idTurno))
+
+        if(turnos.length > 0)
         {
-          this.turnosDisponibles = this.turnosDisponibles.concat(turnos);          
-        }
-        else
-        {
-          this.turnosDisponibles = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario));
+          if(this.verificarId(turnos[0].idTurno))
+          {
+            this.turnosDisponibles = this.turnosDisponibles.concat(turnos);          
+          }
+          else
+          {
+            this.turnosDisponibles = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario));
+          }
         }
         this.spinner.hide();        
       }, 500);
@@ -51,6 +55,7 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     this.suscripcionUsuarios = this.firestore.obtenerUsuarios().subscribe(usuarios =>
     {
       this.todosUsuarios = this.todosUsuarios.concat(usuarios);
+      this.obtenerDatosDinamicos();
     })
   }
   
@@ -58,6 +63,25 @@ export class MisTurnosComponent implements OnInit,OnDestroy
   {
     this.suscripcionTurnos.unsubscribe();
     this.suscripcionUsuarios.unsubscribe();
+  }
+
+  obtenerDatosDinamicos()
+  {
+    for (let i = 0; i < this.todosUsuarios.length; i++) {
+      const usuario = this.todosUsuarios[i];
+
+      if(usuario.historiaClinica && usuario.historiaClinica.datosDinamicos.length)
+      {
+        for (let j = 0; j < usuario.historiaClinica.datosDinamicos.length; j++) {
+          const historia = usuario.historiaClinica.datosDinamicos[j];
+          this.datosDinamicos.push(historia.clave.charAt(0).toUpperCase() + historia.clave.slice(1));
+        }
+      }
+    }
+
+    const set = new Set(this.datosDinamicos);
+
+    this.datosDinamicos = [...set];
   }
 
   inicializarPagina()
@@ -72,19 +96,81 @@ export class MisTurnosComponent implements OnInit,OnDestroy
 
   verificarBusqueda(turno:Turno)
   {
-    if(this.tipoFiltrado == "Especialidad")
+
+    const historiaClinica = this.ObtenerHistoriaClinica(turno.uidPaciente);
+
+    switch(this.tipoFiltrado)
     {
-      return (turno.especialidad.toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
-    }
-    else
-    {
-      if(this.tipoFiltrado == "Paciente")
-      {
-        return (this.obtenerApellidoNombre(turno.uidPaciente).toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
-      }
+      case "Especialidad":
+        return (turno.especialidad.toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+      case "Paciente":
+       return (this.obtenerApellidoNombre(turno.uidPaciente).toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+      case "Fecha":
+        const fecha : any = turno.horarioTurno;
+        return (fecha.toDate().toLocaleDateString("en-GB").indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+      case "Hora":
+        const hora : any = turno.horarioTurno;
+        return (hora.toDate().toLocaleTimeString("en-GB").slice(0,-3).indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+      case "Estado":
+        return (turno.estadoTurno.toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+      case "Altura":
+        if(historiaClinica != null)
+        {
+          return (historiaClinica.altura.toString().toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+        }
+        return false;
+      case "Peso":
+        if(historiaClinica != null)
+        {
+          return (historiaClinica.peso.toString().toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+        }
+        return false;
+      case "Temperatura":
+        if(historiaClinica != null)
+        {
+          return (historiaClinica.temperatura.toString().toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+        }
+        return false;
+      case "Presión":
+        if(historiaClinica != null)
+        {
+          return (historiaClinica.presion.toString().toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+        }
+        return false;
+      default:
+        if(historiaClinica != null && historiaClinica.datosDinamicos)
+          {
+            let clave = this.tipoFiltrado.toLowerCase();
+
+            for (let i = 0; i < historiaClinica.datosDinamicos.length; i++) {
+              const dinamico = historiaClinica.datosDinamicos[i];
+              if(dinamico.clave == clave)
+              {
+                return (dinamico.valor.toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0); 
+              }
+            }
+
+            return true
+          }
+        return false;
     }
 
     return (this.obtenerApellidoNombre(turno.uidEspecialista).toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
+  }
+
+  ObtenerHistoriaClinica(uid:string)
+  {
+    for (let i = 0; i < this.todosUsuarios.length; i++) {
+      if(this.todosUsuarios[i].uid == uid)
+      {
+        if(this.todosUsuarios[i].historiaClinica)
+        {
+          return this.todosUsuarios[i].historiaClinica
+        }
+      }      
+    }
+
+    return null;
   }
 
   private verificarId(id:number)
@@ -121,7 +207,7 @@ export class MisTurnosComponent implements OnInit,OnDestroy
   {
     let horarioTurno : Date = horario.toDate()
 
-    return horarioTurno.toLocaleString().slice(0,-3).replace(",","");
+    return horarioTurno.toLocaleString("en-GB").slice(0,-3).replace(",","");
   }
 
   mostrarComentario(turnoSeleccionado:Turno)

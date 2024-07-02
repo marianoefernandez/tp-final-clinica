@@ -99,6 +99,17 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     }, 1200);
   }
 
+
+  volverAtrasEspecialidad()
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      this.especialidadSeleccionada = "";   
+      this.spinner.hide();   
+    }, 1200);
+  }
+
+
   activarBuscador()
   {
     this.flagBuscador = false;
@@ -120,6 +131,27 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
       this.listaFiltrada = this.listaNombresPacientes
         .filter(item => item.nombreCompleto.toLowerCase().indexOf(term.toLowerCase()) >= 0);
     });
+  }
+
+  elegirEspecialidad(nuevaEspecialidad:string)
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      this.especialidadSeleccionada = nuevaEspecialidad;
+      this.spinner.hide();      
+    }, 500);
+  }
+
+  obtenerDia(dia:number)
+  {
+    if(dia < 10)
+    {
+      return `0${dia}`;
+    }
+    else
+    {
+      return `${dia}`
+    }
   }
 
 
@@ -467,6 +499,38 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     return 6;
   }
 
+  public obtenerMesPorNumero(mes:number)
+  {
+    switch(mes)
+    {
+      case 1:
+        return "Enero";
+      case 2:
+        return "Febrero";
+      case 3:
+        return "Marzo";
+      case 4:
+        return "Abril";
+      case 5:
+        return "Mayo";
+      case 6:
+        return "Junio";
+      case 7:
+        return "Julio";
+      case 8:
+        return "Agosto";
+      case 9:
+        return "Septiembre";
+      case 10:
+        return "Octubre";
+      case 11:
+        return "Noviembre";
+      case 12:
+        return "Diciembre";   
+    }
+    return "Error";
+  }
+
   public obtenerDiaPorNumero(dia:number)
   {
     switch(dia)
@@ -525,16 +589,16 @@ export class SolicitarTurnoComponent implements OnInit,OnDestroy
     }, 500);
   }
 
-  // public elegirDia(dia:any)
-  // {
-  //   // this.spinner.show();
-  //   // setTimeout(() => {
-  //   //   this.diaElegido = dia;
-  //   //   console.log(dia.diaSemana);
-  //   //   this.horarioDiaElegido = this.obtenerHorariosDiaSeleccionado(this.diaElegido);
-  //   //   this.spinner.hide();
-  //   // }, 300);
+  public elegirDia(dia:any)
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      this.diaElegido = dia;
+      console.log(dia.diaSemana);
+      this.horarioDiaElegido = this.obtenerHorariosDiaSeleccionado(this.diaElegido);
+      this.spinner.hide();
+    }, 300);
 
-  //   return this.obtenerHorariosDiaSeleccionado(dia);
-  // }
+    return this.obtenerHorariosDiaSeleccionado(dia);
+  }
 }

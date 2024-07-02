@@ -24,6 +24,7 @@ body
 {
     display: flex;
     align-items:center;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -173,6 +174,8 @@ button
     height: 64px;
     margin: 4px;
     border-color: white;
+    background: rgb(5,125,255);
+    background: radial-gradient(circle, rgba(5,125,255,1) 15%, rgba(0,0,0,1) 100%);
 }
 
 .lista-busqueda
@@ -200,8 +203,6 @@ button
     background-color: rgba(255, 255, 255, 0.805);
     opacity: 0.7;
 }
-
-
 
 ul
 {
@@ -252,22 +253,42 @@ input:disabled
     height: 250px;
     background: rgb(5,125,255);
     background: radial-gradient(circle, rgba(5,125,255,1) 15%, rgba(0,0,0,1) 100%);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     overflow: hidden;
     transition: .5s;
     margin: 10px 15px;
-    border-radius: 20px;
+    border: 2.5px solid black;
+    /* border-radius: 20px; */
+    opacity: 0.8;
 }
 
 .carta:hover {
     box-shadow: 0 5px 15px rgba(3, 89, 92, .5);
-    transform: translateY(-15px);
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(1.1);
+    filter: brightness(1.1);
+    border: 3.5px solid rgb(155, 25, 166);
+    /* transform: translateY(-15px); */
 }
 
 .carta .head {
-    height: 125px;
+    height: 150px;
     width: 100%;
     position: relative;
+}
+
+.imagen
+{
+    border: rgb(0, 0, 0) 3px solid;
+    background-color: rgba(255, 255, 255, 0.644);
+    opacity: 0.8;
+}
+
+.imagen:hover
+{
+    opacity: 1;
+    transform:scale(1.1);
 }
 
 /* .carta .head .circle {
@@ -280,8 +301,8 @@ input:disabled
 } */
 
 .carta .head .img {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     position: absolute;
     background: #fff;
     padding: 2px;
@@ -299,7 +320,7 @@ input:disabled
 
 
 .carta .description {
-    height: 380px;
+    /* height: 380px; */
     /* padding: 20px 10px 10px 10px; */
     border-bottom: solid 1px rgba(6, 74, 76, .18);
     text-align: center;

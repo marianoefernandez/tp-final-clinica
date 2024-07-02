@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { noEstaLogueadoGuard } from './guards/no-esta-logueado.guard';
 import { estaLogueadoGuard } from './guards/esta-logueado.guard';
 import { ErrorComponent } from './paginas/error/error.component';
+import { animation } from '@angular/animations';
 
-const routes: Routes = 
+export const routes: Routes = 
 [
   {
     path:"",redirectTo:"home",pathMatch:"full"
@@ -12,22 +13,27 @@ const routes: Routes =
   {
     path:"home",
     loadChildren: ()=>import('./paginas/home/home.module').then(modulo => modulo.HomeModule),
-    canActivate:[noEstaLogueadoGuard]
+    canActivate:[noEstaLogueadoGuard],
+    data: { animation: 'hola' }
+
   },
   {
     path:"sesiones",
     loadChildren: ()=>import('./paginas/sesiones/sesiones.module').then(modulo => modulo.SesionesModule),
-    canActivate:[noEstaLogueadoGuard]
+    canActivate:[noEstaLogueadoGuard],
+    data: { animation: 'hola' }
   },
   {
     path:"bienvenido",
     loadChildren: ()=>import('./paginas/bienvenido/bienvenido.module').then(modulo => modulo.BienvenidoModule),
-    canActivate:[estaLogueadoGuard]
+    canActivate:[estaLogueadoGuard],
+    data: { animation: 'hola' }
   },
   {
     path:"encuesta",
     loadChildren: ()=>import('./paginas/encuesta/encuesta.module').then(modulo => modulo.EncuestaModule),
-    canActivate:[estaLogueadoGuard]
+    canActivate:[estaLogueadoGuard],
+    data: { animation: 'hola' }
   },
   {
     path:"**", component:ErrorComponent
