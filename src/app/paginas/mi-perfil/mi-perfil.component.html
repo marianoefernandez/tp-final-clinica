@@ -1,5 +1,5 @@
 <body class="bg-dark">
-    <div class="container bootstrap snippets bootdey">
+    <div *ngIf="flagOpcion" class="container bootstrap snippets bootdey">
         <div class="row" *ngIf="firestore.datosUsuarioActual != undefined && flagHorarios">
           <div class="profile-nav col-md-3">
               <div class="panel">
@@ -41,8 +41,8 @@
                       <h1 style="margin-left: 5px;">Información del usuario</h1>
                         <div class="row">
                             <ng-container *ngFor="let item of firestore.datosUsuarioActual | keyvalue">
-                                <div class="bio-row" *ngIf="item.key != 'imagenUno' && item.key != 'imagenDos' && item.key != 'uid'">
-                                    <p><span>{{formatearString(item.key)}} </span>: {{obtenerValor(item.value)}}</p>
+                                <div class="bio-row" *ngIf="item.key != 'imagenUno' && item.key != 'imagenDos' && item.key != 'uid' && item.key != 'historiaClinica' && item.key != 'historial'  ">
+                                    <p><span> {{item.key | capitalize}} </span>: {{obtenerValor(item.value)}}</p>
                                 </div>
                             </ng-container>
                         </div>
@@ -55,14 +55,58 @@
                 <button (click)="cambiarValorBanderaHorarios()" class="btn btn-lg text-light" style="background-color:#7a1299">Editar horarios</button>
             </div>
           </ng-container>
+          
+          <ng-container *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Administrador'">
 
-          <ng-container *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente' && firestore.datosUsuarioActual.historiaClinica">
-            <div id="btnHorario">
+            <select (change)="elegirOpcion()" style="width:50%; margin-left:26%; margin-top:15px; height:45px" [(ngModel)] = "opcionElegida" name = "opcionElegida" required>
+                <option [disabled]="true" value="">Elije que informe descargar...</option>
+                <option value="1">Log de ingresos al sistema</option>
+                <option value="2">Cantidad de turnos por especialidad</option>
+                <option value="3">Cantidad de turnos por día</option>
+                <option value="4">Cantidad de turnos solicitado por médico</option>
+                <option value="5">Cantidad de turnos finalizados por médico</option>
+            </select>
+            
+            <div *ngIf="opcionElegida == '4' || opcionElegida == '5'" style="margin-left:40%;">
+                <mat-form-field class="example-form-field">
+                    <mat-label>Elija dos fechas</mat-label>
+                    <mat-date-range-input
+                      [formGroup]="fechas"
+                      [rangePicker]="campaignTwoPicker"
+                      [comparisonStart]="fechas.value.inicio"
+                      [comparisonEnd]="fechas.value.fin">
+                      <input matStartDate placeholder="Primer fecha" formControlName="inicio">
+                      <input matEndDate placeholder="Segunda fecha" formControlName="fin">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="campaignTwoPicker"></mat-datepicker-toggle>
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-date-range-picker #campaignTwoPicker></mat-date-range-picker>
+                  </mat-form-field>
+            </div>
+
+
+
+            <div *ngIf="opcionElegida != ''" id="btnHorario">
+                <button (click)="administrarDescargas('excel')" class="btn btn-lg text-light" style="background-color:#176906;margin-right:25px">Descargar Estadisticas</button>
+                <button (click)="administrarDescargas('ver')" class="btn btn-lg text-light" style="background-color:#005bbc">Ver Estadisticas</button>
+            </div>
+          </ng-container>
+
+
+          <ng-container *ngIf="turnosDisponibles.length">
+            <!-- <div id="btnHorario">
                 <button (click)="mostrarHistoriaClinica(firestore.datosUsuarioActual)" class="btn btn-lg text-light" style="background-color:#059210">Ver Historia Clinica</button>
-            </div>
+            </div> -->
             <div id="btnHorario">
-                <button (click)="descargarPDF(firestore.datosUsuarioActual)" class="btn btn-lg text-light" style="background-color:#920505">Descargar PDF de Historia Clinica</button>
+                <button (click)="descargarPDF()" class="btn btn-lg text-light" style="background-color:#920505; margin-right:30px">Descargar PDF de Historia Clinica</button>
+                <button (click)="descargarPDFEspecialidad()" *ngIf="especialidadElegida != ''" class="btn btn-lg text-light" style="background-color:#036336">Descargar PDF por Especialidad</button>
             </div>
+
+            <select (change)="lanzarSpinner(500)" style="width:50%; margin-left:26%; margin-top:15px; height:45px" [(ngModel)] = "especialidadElegida" name = "especialidadElegida" required>
+                <option [disabled]="true" value="">Elegir especialidad...</option>
+                <option value="{{especialidad}}" *ngFor="let especialidad of especialidadesRegistradas; index as i">{{especialidad}}</option>
+            </select>
+
           </ng-container>
         </div>
         <div *ngIf="!flagHorarios" style="text-align: center;">
@@ -70,6 +114,39 @@
             <app-registrar-horarios [hidden]="flagHorarios" ></app-registrar-horarios>
         </div> 
     </div>
+
+    <div *ngIf="!flagOpcion">
+        <div *ngIf="!flagImprimir" style="text-align:center">
+            <button (click)="cambiarFlag()" class="btn btn-lg text-light" style="background-color:#005bbc; margin-right:30px">Volver Atras</button>
+            <button (click)="cambiarFlagGrafico()" *ngIf="!flagGraficos" class="btn btn-lg text-light" style="background-color:#470771; margin-right:30px">Ver Grafico</button>
+            <button (click)="cambiarFlagGrafico()" *ngIf="flagGraficos" class="btn btn-lg text-light" style="background-color:#097107; margin-right:30px">Ver Estadisticas</button>
+            <button (click)="administrarDescargas('excel')" *ngIf="!flagGraficos" class="btn btn-lg text-light" style="background-color:#097107">Descargar Estadisticas</button>
+            <button (click)="descargarGraficoPDF('Grafico')" *ngIf="flagGraficos" class="btn btn-lg text-light" style="background-color:#710707">Descargar Grafico</button>
+        </div>
+        <h2 style="text-align: center; color:white;">{{elementoSeleccionado}}</h2>
+
+        <div [hidden]="flagImprimir" class="card contenido">
+            <table  *ngIf="listaSeleccionada && !flagGraficos">
+                <tr>
+                  <th *ngFor="let item of listaSeleccionada[0] | keyvalue">{{item.key | capitalize}}</th>
+                </tr>
+                <tr *ngFor="let elemento of listaSeleccionada; index as i" class="usuario">
+                  <td *ngFor="let item of elemento | keyvalue">{{item.value}}</td>
+                </tr>
+            </table>  
+
+            <div style="text-align:center;" *ngIf="flagGraficos">
+                <apx-chart #chart
+                  [series]="chartOptions.series"
+                  [chart]="chartOptions.chart"
+                  [xaxis]="chartOptions.xaxis"
+                  [title]="chartOptions.title"
+                  [labels]="labels"
+                ></apx-chart>
+            </div>
+        </div>
+    </div>
+    
 </body>
 
 <router-outlet></router-outlet>

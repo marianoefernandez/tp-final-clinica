@@ -15,12 +15,12 @@
                 <button (click)="cambiarTipoFiltro('Estado')" class="btn btn-outline-light bg-primary">Estado</button>
                 <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Paciente'" (click)="cambiarTipoFiltro('Especialista')" class="btn btn-outline-light bg-primary">Especialista</button>
                 <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro('Paciente')" class="btn btn-outline-light bg-primary">Paciente</button>
-                <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro('Altura')" class="btn btn-outline-light bg-primary">Altura</button>
-                <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro('Peso')" class="btn btn-outline-light bg-primary">Peso</button>
-                <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro('Temperatura')" class="btn btn-outline-light bg-primary">Temperatura</button>
-                <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro('Presión')" class="btn btn-outline-light bg-primary">Presión</button>
+                <button (click)="cambiarTipoFiltro('Altura')" class="btn btn-outline-light bg-primary">Altura</button>
+                <button (click)="cambiarTipoFiltro('Peso')" class="btn btn-outline-light bg-primary">Peso</button>
+                <button (click)="cambiarTipoFiltro('Temperatura')" class="btn btn-outline-light bg-primary">Temperatura</button>
+                <button (click)="cambiarTipoFiltro('Presión')" class="btn btn-outline-light bg-primary">Presión</button>
                 <ng-container *ngFor="let dinamico of datosDinamicos index as i">
-                    <button *ngIf="firestore.datosUsuarioActual.tipoUsuario == 'Especialista'" (click)="cambiarTipoFiltro(dinamico)" class="btn btn-outline-light bg-primary">{{dinamico}}</button>
+                    <button (click)="cambiarTipoFiltro(dinamico)" class="btn btn-outline-light bg-primary">{{dinamico}}</button>
                 </ng-container>
                 <br>
                 <input style="margin-top: 10px;" type="text" [(ngModel)]="palabraBusqueda" class="busqueda" placeholder="Buscar turno...">

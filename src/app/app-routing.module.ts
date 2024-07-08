@@ -14,26 +14,25 @@ export const routes: Routes =
     path:"home",
     loadChildren: ()=>import('./paginas/home/home.module').then(modulo => modulo.HomeModule),
     canActivate:[noEstaLogueadoGuard],
-    data: { animation: 'hola' }
+    data: { animation: 'HomePage' }
 
   },
   {
     path:"sesiones",
     loadChildren: ()=>import('./paginas/sesiones/sesiones.module').then(modulo => modulo.SesionesModule),
     canActivate:[noEstaLogueadoGuard],
-    data: { animation: 'hola' }
+    data: { animation: 'SesionesPage' }
   },
   {
     path:"bienvenido",
     loadChildren: ()=>import('./paginas/bienvenido/bienvenido.module').then(modulo => modulo.BienvenidoModule),
     canActivate:[estaLogueadoGuard],
-    data: { animation: 'hola' }
+    data: { animation: 'BienvenidoPage' }
   },
   {
     path:"encuesta",
     loadChildren: ()=>import('./paginas/encuesta/encuesta.module').then(modulo => modulo.EncuestaModule),
-    canActivate:[estaLogueadoGuard],
-    data: { animation: 'hola' }
+    canActivate:[estaLogueadoGuard]
   },
   {
     path:"**", component:ErrorComponent

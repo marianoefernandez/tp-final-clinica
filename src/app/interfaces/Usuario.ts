@@ -20,5 +20,6 @@ export interface Historia
     peso:number,
     temperatura:number,
     presion:number,
-    datosDinamicos:any []
+    datosDinamicos:any [],
+    // uidUsuario:string
 }

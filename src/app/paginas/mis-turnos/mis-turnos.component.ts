@@ -22,6 +22,7 @@ export class MisTurnosComponent implements OnInit,OnDestroy
   public palabraBusqueda:string = ""
   public todosUsuarios: any[] = [];
   public datosDinamicos : string[] = [];
+  public intervalo:any
 
   constructor(public firestore:FirestoreService,private spinner:NgxSpinnerService, private router:Router)
   {
@@ -31,6 +32,14 @@ export class MisTurnosComponent implements OnInit,OnDestroy
   ngOnInit()
   {
     this.inicializarPagina();
+
+    this.intervalo = setInterval(() => {
+      this.obtenerDatosDinamicos();
+      if(this.datosDinamicos.length)
+      {
+        clearInterval(this.intervalo);
+      }
+    }, 100);
 
     this.suscripcionTurnos = this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario).subscribe(async turnos =>
     {
@@ -55,7 +64,6 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     this.suscripcionUsuarios = this.firestore.obtenerUsuarios().subscribe(usuarios =>
     {
       this.todosUsuarios = this.todosUsuarios.concat(usuarios);
-      this.obtenerDatosDinamicos();
     })
   }
   
@@ -67,13 +75,13 @@ export class MisTurnosComponent implements OnInit,OnDestroy
 
   obtenerDatosDinamicos()
   {
-    for (let i = 0; i < this.todosUsuarios.length; i++) {
-      const usuario = this.todosUsuarios[i];
+    for (let i = 0; i < this.turnosDisponibles.length; i++) {
+      const turno : any = this.turnosDisponibles[i];
 
-      if(usuario.historiaClinica && usuario.historiaClinica.datosDinamicos.length)
+      if(turno.historiaClinica && turno.historiaClinica.datosDinamicos.length)
       {
-        for (let j = 0; j < usuario.historiaClinica.datosDinamicos.length; j++) {
-          const historia = usuario.historiaClinica.datosDinamicos[j];
+        for (let j = 0; j < turno.historiaClinica.datosDinamicos.length; j++) {
+          const historia = turno.historiaClinica.datosDinamicos[j];
           this.datosDinamicos.push(historia.clave.charAt(0).toUpperCase() + historia.clave.slice(1));
         }
       }
@@ -82,6 +90,7 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     const set = new Set(this.datosDinamicos);
 
     this.datosDinamicos = [...set];
+    
   }
 
   inicializarPagina()
@@ -94,10 +103,10 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     return true;
   }
 
-  verificarBusqueda(turno:Turno)
+  verificarBusqueda(turno:any)
   {
 
-    const historiaClinica = this.ObtenerHistoriaClinica(turno.uidPaciente);
+    const historiaClinica = turno.historiaClinica;
 
     switch(this.tipoFiltrado)
     {
@@ -146,11 +155,11 @@ export class MisTurnosComponent implements OnInit,OnDestroy
               const dinamico = historiaClinica.datosDinamicos[i];
               if(dinamico.clave == clave)
               {
-                return (dinamico.valor.toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0); 
+                return (dinamico.valor.toString().toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
               }
             }
 
-            return true
+            return false;
           }
         return false;
     }
@@ -158,20 +167,20 @@ export class MisTurnosComponent implements OnInit,OnDestroy
     return (this.obtenerApellidoNombre(turno.uidEspecialista).toLowerCase().indexOf(this.palabraBusqueda.toLowerCase()) >=0);
   }
 
-  ObtenerHistoriaClinica(uid:string)
-  {
-    for (let i = 0; i < this.todosUsuarios.length; i++) {
-      if(this.todosUsuarios[i].uid == uid)
-      {
-        if(this.todosUsuarios[i].historiaClinica)
-        {
-          return this.todosUsuarios[i].historiaClinica
-        }
-      }      
-    }
+  // ObtenerHistoriaClinica(uid:string)
+  // {
+  //   for (let i = 0; i < this.todosUsuarios.length; i++) {
+  //     if(this.todosUsuarios[i].uid == uid)
+  //     {
+  //       if(this.todosUsuarios[i].historiaClinica)
+  //       {
+  //         return this.todosUsuarios[i].historiaClinica
+  //       }
+  //     }      
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
 
   private verificarId(id:number)
   {

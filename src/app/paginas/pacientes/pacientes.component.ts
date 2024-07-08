@@ -11,11 +11,11 @@ import swal from 'sweetalert2'
 @Component({
   selector: 'app-pacientes',
   templateUrl: './pacientes.component.html',
-  styleUrls: ['./pacientes.component.css']
+  styleUrls: ['./pacientes.component.css'],
 })
 export class PacientesComponent {
 
-  public turnosDisponibles:Turno[] = [];
+  public turnosDisponibles:any[] = [];
   public suscripcionTurnos!: Subscription;
   public suscripcionUsuarios!: Subscription;
   public tipoFiltrado: string = "Paciente";
@@ -28,8 +28,11 @@ export class PacientesComponent {
   // public historiaClinica : Historia | null = null;
   public flagCrear = false;
   public pacienteElegidoUid:string = "";
+  public turnoElegido:any;
+  public turnosTotales = [];
 
   public formulario: FormGroup = this.forms.group({
+    turnoElegido: ['', ],
     altura: ['', [Validators.required, Validators.min(70), Validators.max(250)]],
     peso: ['', [Validators.required, Validators.min(0), Validators.max(500)]],
     temperatura: ['', [Validators.required, Validators.min(25), Validators.max(50)]],
@@ -55,7 +58,22 @@ export class PacientesComponent {
     this.spinner.show();
 
     setTimeout(async () => {
-      const turnos = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario));
+      await this.cargarTurnosDisponibles();
+  
+      await this.obtenerPacientes();
+      this.spinner.hide();
+    }, 500);
+  }
+  
+  ngOnDestroy()
+  {
+    // this.suscripcionTurnos.unsubscribe();
+    // this.suscripcionUsuarios.unsubscribe();
+  }
+
+  async cargarTurnosDisponibles()
+  {
+    const turnos = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario));
 
       for (let i = 0; i < turnos.length ; i++) {
         const turnoAux = turnos[i];
@@ -66,52 +84,20 @@ export class PacientesComponent {
           this.uidPacientes.push(turnoAux.uidPaciente);
         }           
       }
-  
-      await this.obtenerPacientes();
-      this.spinner.hide();
-    }, 500);
-    
 
-    // this.suscripcionTurnos = this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,this.firestore.datosUsuarioActual.tipoUsuario).subscribe(async turnos =>
-    // {
-    //   this.spinner.show();
-    //   setTimeout(async () => {
-
-    //     if(turnos.length > 0)
-    //     {
-    //       if(this.verificarId(turnos[0].idTurno) && turnos[0].estadoTurno == "Realizado")
-    //       {
-    //         this.turnosDisponibles = this.turnosDisponibles.concat(turnos[0]);   
-    //         this.uidPacientes = this.uidPacientes.concat(turnos[0].uidPaciente);       
-    //       }
-    //       else
-    //       {
-    //         for (let i = 0; i < turnos.length; i++) {
-    //           const turnoAux = turnos[i];
-
-    //           if(turnoAux.estadoTurno == "Realizado")
-    //           {
-    //             this.turnosDisponibles.push(turnoAux);
-    //             this.uidPacientes.push(turnoAux.uidPaciente);
-    //           }           
-    //         }
-    //       }
-    //     }
-    //     this.spinner.hide();        
-    //   }, 500);
-    // })
-
-    // this.suscripcionUsuarios = this.firestore.obtenerUsuarios().subscribe(usuarios =>
-    // {
-    //   this.todosUsuarios = this.todosUsuarios.concat(usuarios);
-    // })
+      this.turnosDisponibles.sort(function (a, b) { 
+        if(a.horarioTurno.toDate().getTime() > b.horarioTurno.toDate().getTime())
+         {
+           return -1;
+         }
+         else
+         {
+           return 1;
+         }
+     })
   }
-  
-  ngOnDestroy()
-  {
-    // this.suscripcionTurnos.unsubscribe();
-    // this.suscripcionUsuarios.unsubscribe();
-  }
+
+
 
   verificarHistoriaClinica(paciente:any)
   {
@@ -127,62 +113,151 @@ export class PacientesComponent {
     return false;
   }
 
+  async cambiarTurno()
+  {
+    if(this.formulario.value["turnoElegido"] != "")
+    {
+      this.spinner.show();
+       
+      setTimeout(() => {
+        let indice = parseInt(this.formulario.value["turnoElegido"]);
+        if(this.turnosTotales[indice].historiaClinica)
+        {
+          this.formulario.setValue(
+            {
+              turnoElegido:indice.toString(),
+              altura:this.turnosTotales[indice].historiaClinica.altura,
+              peso:this.turnosTotales[indice].historiaClinica.peso,
+              temperatura:this.turnosTotales[indice].historiaClinica.temperatura,
+              presion:this.turnosTotales[indice].historiaClinica.presion,
+              datoUno:this.turnosTotales[indice].historiaClinica.datosDinamicos.length > 0 ? this.turnosTotales[indice].historiaClinica.datosDinamicos[0]["valor"] : "",
+              claveUno: this.turnosTotales[indice].historiaClinica.datosDinamicos.length > 0 ? this.turnosTotales[indice].historiaClinica.datosDinamicos[0]["clave"] : "",
+              claveDos: this.turnosTotales[indice].historiaClinica.datosDinamicos.length > 1 ? this.turnosTotales[indice].historiaClinica.datosDinamicos[1]["clave"] : "",
+              datoDos:this.turnosTotales[indice].historiaClinica.datosDinamicos.length > 1 ? this.turnosTotales[indice].historiaClinica.datosDinamicos[1]["valor"] : "",
+              claveTres: this.turnosTotales[indice].historiaClinica.datosDinamicos.length > 2 ? this.turnosTotales[indice].historiaClinica.datosDinamicos[2]["clave"] : "",
+              datoTres:this.turnosTotales[indice].historiaClinica.datosDinamicos.length > 2 ? this.turnosTotales[indice].historiaClinica.datosDinamicos[2]["valor"] : "",
+            }
+          ); 
+        }
+        else
+        {
+          this.formulario.setValue(
+            {
+              turnoElegido:indice.toString(),
+              altura:"",
+              peso:"",
+              temperatura:"",
+              presion:"",
+              datoUno:"",
+              claveUno: "",
+              claveDos: "",
+              datoDos:"",
+              claveTres: "",
+              datoTres:""
+            });   
+          }
+        this.spinner.hide();
+      }, 850); 
+    }
+  }
+
+  // async obtenerUltimasAtenciones()
+  // {
+
+  //   let ultimosTurnos = await this.obtenerTurnos();
+  //   let ultimosTurnosAux = []
+
+  //   for (let index = 0; index < ultimosTurnos.length; index++) {
+  //     const turno = ultimosTurnos[index];
+
+  //     if (turno.historiaClinica)
+  //     {
+  //       ultimosTurnosAux.push()  
+  //     }
+      
+  //   }
+  // }
+
   crearModificarHistoriaClinica()
   {
     this.spinner.show();
     setTimeout(async () => {
-      if(!this.esValidoElCampo('altura') && !this.esValidoElCampo('peso') && !this.esValidoElCampo('temperatura') && !this.esValidoElCampo('presion'))
+
+      console.log(this.formulario.value['turnoElegido']);
+
+      if(this.formulario.value['turnoElegido'] != "")
       {
-        const datosDinamicos : any = []
-
-        if(this.formulario.value["claveUno"] != "" && this.formulario.value["datoUno"] != "")
-        {
-          const datoDinamico = {clave:this.formulario.value["claveUno"],valor:this.formulario.value["datoUno"]}
-          datosDinamicos.push(datoDinamico);
-        }   
-
-        if(this.formulario.value["claveDos"] != "" && this.formulario.value["datoDos"] != "")
-        {
-          const datoDinamico = {clave:this.formulario.value["claveDos"],valor:this.formulario.value["datoDos"]}
-          datosDinamicos.push(datoDinamico);
-        }   
-
-
-        if(this.formulario.value["claveTres"] != "" && this.formulario.value["datoTres"] != "")
-        {
-          const datoDinamico = {clave:this.formulario.value["claveTres"],valor:this.formulario.value["datoTres"]}
-          datosDinamicos.push(datoDinamico);
-        }   
-
-        const historiaClinica:Historia = 
-        {
-          altura:this.formulario.value["altura"],
-          peso:this.formulario.value["peso"],
-          temperatura:this.formulario.value["temperatura"],
-          presion:this.formulario.value["presion"],
-          datosDinamicos:datosDinamicos
-        }
-
-        const historiaUser = {historiaClinica:historiaClinica}
-
-        await this.firestore.actualizarInfoUsuario(this.pacienteElegidoUid,historiaUser);
-        this.pacientesEspecialista = []
-        await this.obtenerPacientes();
-
-        
-
-        swal.fire
-        (
+        if(!this.esValidoElCampo('altura') && !this.esValidoElCampo('peso') && !this.esValidoElCampo('temperatura') && !this.esValidoElCampo('presion') && (this.formulario.value['altura'] != "" && this.formulario.value['peso'] != "" && this.formulario.value['temperatura'] != "" && this.formulario.value['presion'] != ""))
           {
-            title:"Éxito",
-            text:"Historia clínica cargada con éxito!",
-            icon:"success"  
+            const datosDinamicos : any = []
+            let indiceTurno = parseInt(this.formulario.value['turnoElegido'])
+
+            const turno = this.turnosTotales[indiceTurno];
+    
+            if(this.formulario.value["claveUno"] && this.formulario.value["datoUno"] && this.formulario.value["claveUno"] != "" && this.formulario.value["datoUno"] != "")
+            {
+              const datoDinamico = {clave:this.formulario.value["claveUno"],valor:this.formulario.value["datoUno"]}
+              datosDinamicos.push(datoDinamico);
+            }   
+    
+            if(this.formulario.value["claveDos"] && this.formulario.value["datoDos"] && this.formulario.value["claveDos"] != "" && this.formulario.value["datoDos"] != "")
+            {
+              const datoDinamico = {clave:this.formulario.value["claveDos"],valor:this.formulario.value["datoDos"]}
+              datosDinamicos.push(datoDinamico);
+            }   
+    
+    
+            if(this.formulario.value["claveTres"] && this.formulario.value["datoTres"] && this.formulario.value["claveTres"] != "" && this.formulario.value["datoTres"] != "")
+            {
+              const datoDinamico = {clave:this.formulario.value["claveTres"],valor:this.formulario.value["datoTres"]}
+              datosDinamicos.push(datoDinamico);
+            }   
+    
+            const historiaClinica:Historia = 
+            {
+              altura:this.formulario.value["altura"],
+              peso:this.formulario.value["peso"],
+              temperatura:this.formulario.value["temperatura"],
+              presion:this.formulario.value["presion"],
+              datosDinamicos:datosDinamicos,
+            }
+    
+            const historia = {historiaClinica:historiaClinica}        
+    
+            await this.firestore.actualizarTurno(turno.idTurno,historia);
+            this.pacientesEspecialista = []
+            await this.obtenerPacientes();
+            this.turnoElegido = "";
+            this.turnosTotales = [];
+            this.turnosDisponibles = [];
+            await this.cargarTurnosDisponibles();
+    
+            swal.fire
+            (
+              {
+                title:"Éxito",
+                text:"Historia clínica cargada con éxito!",
+                icon:"success"  
+              }
+            ).then(respuesta =>
+              {
+                this.cambiarFlagCrear("");
+              }
+            )        
           }
-        ).then(respuesta =>
+          else
           {
-            this.cambiarFlagCrear("");
+            swal.fire
+            (
+              {
+                title:"Error",
+                text:"Hubo un error en alguno de los datos fijos. Fijese por favor",
+                icon:"error"
+              }
+            )
+            this.formulario.markAllAsTouched();
           }
-        )        
+          this.spinner.hide();
       }
       else
       {
@@ -190,58 +265,56 @@ export class PacientesComponent {
         (
           {
             title:"Error",
-            text:"Hubo un error en alguno de los datos fijos. Fijese por favor",
+            text:"Elija al turno al cual cargarle la historia clinica",
             icon:"error"
           }
         )
-        this.formulario.markAllAsTouched();
       }
       this.spinner.hide();
     }, 1100);
   }
 
-  public mostrarHistoriaClinica(paciente:any)
+  public mostrarHistoriaClinica(turno:any,paciente:any)
   {
-    if(paciente.historiaClinica)
+    if(turno.historiaClinica)
     {
       let datosDinamicos = "";
 
-      switch(paciente.historiaClinica.datosDinamicos.length)
+      switch(turno.historiaClinica.datosDinamicos.length)
       {
         case 0:
           datosDinamicos += "<h3>No hay ningun dato dinámico cargado</h3>"
           break;
         case 1:
           datosDinamicos += 
-          `<h3>${paciente.historiaClinica.datosDinamicos[0].clave}: ${paciente.historiaClinica.datosDinamicos[0].valor}</h3>`
+          `<h3>${turno.historiaClinica.datosDinamicos[0].clave}: ${turno.historiaClinica.datosDinamicos[0].valor}</h3>`
           break;
         case 2:
           datosDinamicos += 
-          `<h3>${paciente.historiaClinica.datosDinamicos[0].clave}: ${paciente.historiaClinica.datosDinamicos[0].valor}</h3>
-           <h3>${paciente.historiaClinica.datosDinamicos[1].clave}: ${paciente.historiaClinica.datosDinamicos[1].valor}</h3>`          
+          `<h3>${turno.historiaClinica.datosDinamicos[0].clave}: ${turno.historiaClinica.datosDinamicos[0].valor}</h3>
+           <h3>${turno.historiaClinica.datosDinamicos[1].clave}: ${turno.historiaClinica.datosDinamicos[1].valor}</h3>`          
           break;
         case 3:
           datosDinamicos += 
-          `<h3>${paciente.historiaClinica.datosDinamicos[0].clave}: ${paciente.historiaClinica.datosDinamicos[0].valor}</h3>
-           <h3>${paciente.historiaClinica.datosDinamicos[1].clave}: ${paciente.historiaClinica.datosDinamicos[1].valor}</h3>
-           <h3>${paciente.historiaClinica.datosDinamicos[2].clave}: ${paciente.historiaClinica.datosDinamicos[2].valor}</h3>
+          `<h3>${turno.historiaClinica.datosDinamicos[0].clave}: ${turno.historiaClinica.datosDinamicos[0].valor}</h3>
+           <h3>${turno.historiaClinica.datosDinamicos[1].clave}: ${turno.historiaClinica.datosDinamicos[1].valor}</h3>
+           <h3>${turno.historiaClinica.datosDinamicos[2].clave}: ${turno.historiaClinica.datosDinamicos[2].valor}</h3>
            `          
           break;
       }
 
       swal.fire(
         {
-          title:`Historia clinica del paciente ${paciente.nombre} ${paciente.apellido}.`,
+          title:`Historia clinica del paciente ${paciente.nombre} ${paciente.apellido} \n dia ${turno.horarioTurno.toDate().toLocaleString("en-GB").slice(0,-3).replace(",","")}`,
           html:
           `
           <h1>Datos Fijos</h1>
-          <br>
-          <h3>Altura: ${paciente.historiaClinica.altura} cm </h3>
-          <h3>Peso: ${paciente.historiaClinica.peso} kg </h3>
-          <h3>Temperatura: ${paciente.historiaClinica.temperatura} °C </h3>
-          <h3>Presión: ${paciente.historiaClinica.presion} mmHg </h3>
+          <h3>Altura: ${turno.historiaClinica.altura} cm </h3>
+          <h3>Peso: ${turno.historiaClinica.peso} kg </h3>
+          <h3>Temperatura: ${turno.historiaClinica.temperatura} °C </h3>
+          <h3>Presión: ${turno.historiaClinica.presion} mmHg </h3>
 
-          <br><br>
+          <br>
           <h1>Datos Dinámicos</h1>
           ${datosDinamicos}
           `
@@ -262,9 +335,6 @@ export class PacientesComponent {
       const usuario = await this.firestore.obtenerUsuariosEspecificos('uid',uid);
       this.pacientesEspecialista.push(usuario);
     }
-
-    console.log(this.pacientesEspecialista);
-
   }
 
   esValidoElCampo(campo: string): boolean | null 
@@ -297,30 +367,93 @@ export class PacientesComponent {
     return null;
   }
 
+  async obtenerTurnos()
+  {
+    let turnos = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,"Especialista"));
+    let turnosAux = [];
+    
+    for (let i = 0; i < turnos.length; i++) {
+      const turno = turnos[i];
+
+      if(turno.uidPaciente == this.pacienteElegidoUid && turno.estadoTurno == "Realizado")
+      {
+        turnosAux.push(turno);
+      }
+
+    }
+
+    // turnosAux.sort((a, b) => a.horarioTurno.toDate().getTime() > b.horarioTurno.toDate().getTime());
+
+    turnosAux.sort(function (a, b) { 
+       if(a.horarioTurno.toDate().getTime() > b.horarioTurno.toDate().getTime())
+        {
+          return -1;
+        }
+        else
+        {
+          return 1;
+        }
+    })
+    return turnosAux;
+
+  }
+
+  async obtenerTurnosHistoriaClinica(uidPaciente)
+  {
+    let turnos = await firstValueFrom(this.firestore.obtenerTurnosPorUid(this.firestore.datosUsuarioActual.uid,"Especialista"));
+    let turnosAux = [];
+    
+    for (let i = 0; i < turnos.length; i++) {
+      const turno = turnos[i];
+
+      if(turno.uidPaciente == this.pacienteElegidoUid && turno.estadoTurno == "Realizado")
+      {
+        turnosAux.push(turno);
+      }
+
+    }
+
+    // turnosAux.sort((a, b) => a.horarioTurno.toDate().getTime() > b.horarioTurno.toDate().getTime());
+
+    turnosAux.sort(function (a, b) { 
+       if(a.horarioTurno.toDate().getTime() > b.horarioTurno.toDate().getTime())
+        {
+          return -1;
+        }
+        else
+        {
+          return 1;
+        }
+    })
+    return turnosAux;
+
+  }
+
   cambiarFlagCrear(paciente:any)
   {
     this.spinner.show();
-    setTimeout(() => {
+    setTimeout(async () => {
       this.flagCrear = !this.flagCrear;   
       if(this.flagCrear)
       {
-        if(paciente.historiaClinica)
-        {
-          this.formulario.setValue(
-            {
-              altura:paciente.historiaClinica.altura,
-              peso:paciente.historiaClinica.peso,
-              temperatura:paciente.historiaClinica.temperatura,
-              presion:paciente.historiaClinica.presion,
-              claveUno: paciente.historiaClinica.datosDinamicos.length > 0 ? paciente.historiaClinica.datosDinamicos[0]["clave"] : "",
-              datoUno:paciente.historiaClinica.datosDinamicos.length > 0 ? paciente.historiaClinica.datosDinamicos[0]["valor"] : "",
-              claveDos: paciente.historiaClinica.datosDinamicos.length > 1 ? paciente.historiaClinica.datosDinamicos[1]["clave"] : "",
-              datoDos:paciente.historiaClinica.datosDinamicos.length > 1 ? paciente.historiaClinica.datosDinamicos[1]["valor"] : "",
-              claveTres: paciente.historiaClinica.datosDinamicos.length > 2 ? paciente.historiaClinica.datosDinamicos[2]["clave"] : "",
-              datoTres:paciente.historiaClinica.datosDinamicos.length > 2 ? paciente.historiaClinica.datosDinamicos[2]["valor"] : "",
-            }
-          ); 
-        }
+        this.formulario.reset();
+        // if(paciente.historiaClinica)
+        // {
+        //   this.formulario.setValue(
+        //     {
+        //       altura:paciente.historiaClinica.altura,
+        //       peso:paciente.historiaClinica.peso,
+        //       temperatura:paciente.historiaClinica.temperatura,
+        //       presion:paciente.historiaClinica.presion,
+        //       claveUno: paciente.historiaClinica.datosDinamicos.length > 0 ? paciente.historiaClinica.datosDinamicos[0]["clave"] : "",
+        //       datoUno:paciente.historiaClinica.datosDinamicos.length > 0 ? paciente.historiaClinica.datosDinamicos[0]["valor"] : "",
+        //       claveDos: paciente.historiaClinica.datosDinamicos.length > 1 ? paciente.historiaClinica.datosDinamicos[1]["clave"] : "",
+        //       datoDos:paciente.historiaClinica.datosDinamicos.length > 1 ? paciente.historiaClinica.datosDinamicos[1]["valor"] : "",
+        //       claveTres: paciente.historiaClinica.datosDinamicos.length > 2 ? paciente.historiaClinica.datosDinamicos[2]["clave"] : "",
+        //       datoTres:paciente.historiaClinica.datosDinamicos.length > 2 ? paciente.historiaClinica.datosDinamicos[2]["valor"] : "",
+        //     }
+        //   ); 
+        // }
       }
       if(paciente == "")
       {
@@ -329,6 +462,7 @@ export class PacientesComponent {
       else
       {
         this.pacienteElegidoUid = paciente.uid;
+        this.turnosTotales = await this.obtenerTurnos();
       }
       this.spinner.hide();   
     }, 850);
@@ -390,7 +524,7 @@ export class PacientesComponent {
   {
     let horarioTurno : Date = horario.toDate()
 
-    return horarioTurno.toLocaleString().slice(0,-3).replace(",","");
+    return horarioTurno.toLocaleString("en-GB").slice(0,-3).replace(",","");
   }
 
   public navigate(url:string)

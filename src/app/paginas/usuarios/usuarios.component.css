@@ -35,6 +35,11 @@ span
     font-size: 15px;
 }
 
+.verde
+{
+	background-color: #458114;
+}
+
 .boton:active {
 	transform: scale(0.95);
 }

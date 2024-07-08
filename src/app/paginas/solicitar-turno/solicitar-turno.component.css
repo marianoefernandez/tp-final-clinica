@@ -249,7 +249,7 @@ input:disabled
 
 .carta {
     position: relative;
-    width: 250px;
+    width: 400px;
     height: 250px;
     background: rgb(5,125,255);
     background: radial-gradient(circle, rgba(5,125,255,1) 15%, rgba(0,0,0,1) 100%);

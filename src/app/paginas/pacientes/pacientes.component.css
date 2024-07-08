@@ -54,8 +54,8 @@
 
 .carta {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 525px;
     background: rgb(5,125,255);
     background: radial-gradient(circle, rgba(5,125,255,1) 15%, rgba(0,0,0,1) 100%);
     /* border-radius: 5px; */

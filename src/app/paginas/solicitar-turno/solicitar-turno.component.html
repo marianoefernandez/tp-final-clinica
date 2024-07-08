@@ -38,9 +38,9 @@
                         <!-- <h1>../../../assets/{{especialidad}}.png</h1> -->
 
                         <div class="imagen" style="margin-right: 20px; margin-top:20px;">
-                            <input (click)="elegirEspecialidad(especialidad)" *ngIf="especialidad == 'Cardiología' || especialidad == 'Genética' || especialidad == 'Neurología' || especialidad == 'Nutrición' || especialidad == 'Psicologia' else elseblock2; " type="image" height="160px" width="280px" src="../../../assets/{{especialidad}}.png">
+                            <input (click)="elegirEspecialidad(especialidad)" *ngIf="especialidad == 'Cardiología' || especialidad == 'Genética' || especialidad == 'Neurología' || especialidad == 'Nutrición' || especialidad == 'Psicologia' else elseblock2; " type="image" height="160px" width="400px" src="../../../assets/{{especialidad}}.png">
                             <ng-template #elseblock2>
-                                <input (click)="elegirEspecialidad(especialidad)" type="image" height="160px" width="280px" src="../../../assets/Especialidad.png">
+                                <input (click)="elegirEspecialidad(especialidad)" type="image" height="160px" width="400px" src="../../../assets/Especialidad.png">
                             </ng-template>
                             <div style="text-align: center;">
                                 <label style="color:black" for="">{{especialidad}}</label>                                

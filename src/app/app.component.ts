@@ -26,10 +26,6 @@ export class AppComponent {
     
   }
 
-  // intervalo = setInterval(() => {
-  //   console.log(this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation']);
-  // }, 1000);
-
   public navigate(url:string)
   {
     this.router.navigateByUrl(url);

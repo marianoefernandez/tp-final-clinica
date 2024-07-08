@@ -17,6 +17,7 @@ export class FirestoreService {
   private horarios = collection(this.firestore,"horarios");
   private turnos = collection(this.firestore,"turnos");
   private idAutoIncremental = collection(this.firestore,"idAutoIncremental");
+  private logs = collection(this.firestore,"logs");
 
   public datosUsuarioActual : any;
 
@@ -25,6 +26,19 @@ export class FirestoreService {
     try
     {
       return addDoc(this.usuarios,usuario);
+    }
+    catch(error:any)
+    {
+      console.log(error.code);
+      return null;
+    }
+  }
+
+  agregarInformacionLogs(log:any)
+  {
+    try
+    {
+      return addDoc(this.logs,log);
     }
     catch(error:any)
     {
@@ -235,6 +249,27 @@ export class FirestoreService {
     }
   }
 
+  async actualizarTurno(idTurno:number,dato:any)
+  {
+    try
+    {
+      const consulta = query(this.turnos, where("idTurno", "==", idTurno));
+      const consultaEjecuto = await getDocs(consulta);
+      consultaEjecuto.forEach(async (datos) => 
+      {
+        // doc.data() is never undefined for query doc snapshots
+        const id = datos.id;
+        await updateDoc(doc(this.firestore,"turnos",id),dato)
+      });   
+      return true;
+     }
+    catch(error:any)
+    {
+      console.log(error.code);
+      return null;
+    }
+  }
+
   async actualizarEstadoEspecialista(uid:string,dato:any)
   {
     try
@@ -339,7 +374,6 @@ export class FirestoreService {
     });
   }
   
-
   obtenerTurnos(): Observable<any[]> 
   {
     return new Observable<any[]>((observable) => {
@@ -350,6 +384,20 @@ export class FirestoreService {
           turnos.push(turno);
         });
         observable.next(turnos);
+      });
+    });
+  }
+
+  obtenerLogs(): Observable<any[]> 
+  {
+    return new Observable<any[]>((observable) => {
+      onSnapshot(this.logs, (snap) => {
+        const logs: any[] = [];
+        snap.docChanges().forEach(x => {
+          const log = x.doc.data() as any;
+          logs.push(log);
+        });
+        observable.next(logs);
       });
     });
   }

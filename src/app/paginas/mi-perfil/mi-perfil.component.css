@@ -13,9 +13,23 @@ body
     min-height: 90vh;
 }
 
+.contenido
+{
+    overflow-y: scroll;
+    border: rgb(255, 255, 255) 2px solid;
+    background-color: white;
+    max-height: 500px;
+    margin: 10 10 10 10;
+}
+
 .profile-nav, .profile-info{
     margin-top:30px;   
 }
+
+.example-form-field {
+    margin-top: 20px;
+    margin-right: 15px;
+  }
 
 .arrow
 {
@@ -456,4 +470,47 @@ ul.summary-list > li:last-child  {
 .boton:hover
 {
     opacity: 1;
+}
+
+table 
+{
+    border-collapse: collapse;
+    min-width: 100%;
+    max-width: 100%;
+    /* margin: 25px 0; */
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* .especial
+{
+    margin: 30px auto;
+} */
+
+tr:first-child 
+{
+    background-color: #1c87c9;
+    color: #fff;
+}
+  
+th,td 
+{
+    padding: 10px;
+    border: 1px solid #666;
+}
+
+td
+{
+    background-color: #ffffff;
+
+}
+
+.usuarios
+{
+    height: 400px;
+	overflow-y: scroll;
+    flex-wrap: wrap;
+	background-color: #c9bbbb;
 }

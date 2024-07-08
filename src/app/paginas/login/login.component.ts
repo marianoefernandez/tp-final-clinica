@@ -5,6 +5,7 @@ import {NgxSpinnerService} from 'ngx-spinner'
 import { firstValueFrom } from 'rxjs';
 import swal from 'sweetalert2';
 import { FirestoreService } from 'src/app/servicios/firestore.service';
+import { Logs } from 'src/app/interfaces/Informes';
 
 @Component({
   selector: 'app-login',
@@ -69,6 +70,15 @@ export class LoginComponent {
             await this.firestore.obtenerInfoUsuario(respuesta.user?.uid);
             if(this.firestore.datosUsuarioActual.tipoUsuario === "Administrador" || this.firestore.datosUsuarioActual.tipoUsuario === "Paciente" || this.firestore.datosUsuarioActual.estaActivo)
             {
+              const log : Logs = 
+              {
+                nombre:this.firestore.datosUsuarioActual.nombre,
+                apellido:this.firestore.datosUsuarioActual.apellido,
+                hora:new Date(),
+                tipoUsuario:this.firestore.datosUsuarioActual.tipoUsuario,
+                dni:this.firestore.datosUsuarioActual.dni
+              }
+              await this.firestore.agregarInformacionLogs(log)
               this.navigate("bienvenido");
             }
             else

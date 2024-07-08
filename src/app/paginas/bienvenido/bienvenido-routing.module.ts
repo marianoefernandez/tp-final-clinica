@@ -17,7 +17,8 @@ const routes: Routes =
       },
       {
         path:"turnos",
-        loadChildren: ()=>import('../turnos/turnos.module').then(modulo => modulo.TurnosModule)
+        loadChildren: ()=>import('../turnos/turnos.module').then(modulo => modulo.TurnosModule),
+        data: { animation: 'TurnosPage' }
       }
       ,
       {
