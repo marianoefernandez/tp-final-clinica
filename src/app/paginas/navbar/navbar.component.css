@@ -14,9 +14,15 @@
     cursor: pointer;
 }
 
-#navbar
+#nav
 {
     margin: 78px;
+}
+
+.navbar
+{
+    background-color: red;
+    border:3px solid;
 }
 
 .navbar-brand

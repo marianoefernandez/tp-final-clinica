@@ -1,15 +1,21 @@
 <body>
 
   <div style="text-align: center;">
+    <button class="btn btn-lg text-light" (click)="cambiarFlag(true)" style="background-color:#7a1299; margin-right:25px">Fab Button</button>
+    <button class="btn btn-lg text-light" (click)="cambiarFlag(false)" style="background-color:#994112">Tabla</button>
+  </div>
+
+  <div style="text-align: center;">
     <button (click)="cambiarTipoUsuario('Pacientes')" class="boton grande">Pacientes</button>
     <button (click)="cambiarTipoUsuario('Especialistas')" class="boton grande">Especialistas</button>
     <button (click)="cambiarTipoUsuario('Administradores')" class="boton grande">Administradores</button>
     <br>
   </div> 
 
+  
   <h2 style="text-align: center;">Mostrando los {{tipoUsuario}}</h2>
 
-  <table *ngIf="tipoUsuario == 'Administradores'" class="especial">
+  <table *ngIf="tipoUsuario == 'Administradores' && !flagFabButton" class="especial">
       <tr>
         <th>Apellido</th>
         <th>Nombre</th>
@@ -28,7 +34,7 @@
       </tr>
   </table>
   
-  <table *ngIf="tipoUsuario == 'Pacientes'" class="especial">
+  <table *ngIf="tipoUsuario == 'Pacientes'  && !flagFabButton" class="especial">
     <tr>
           <th>Apellido</th>
           <th>Nombre</th>
@@ -54,7 +60,7 @@
       </tr>
   </table>
 
-  <table *ngIf="tipoUsuario == 'Especialistas'">
+  <table *ngIf="tipoUsuario == 'Especialistas'  && !flagFabButton">
     <tr>
           <th>Apellido</th>
           <th>Nombre</th>
@@ -80,4 +86,39 @@
         <ng-template #elseBlock2><td><button class="btn btn-success" (click)="activarDesactivarEspecialista(especialista)">Habilitar</button></td></ng-template>
       </tr>
   </table>
+
+  <div *ngIf="flagFabButton">
+    <div class="fabbotons" style="text-align: center;" *ngIf="tipoUsuario == 'Pacientes'">
+      <ng-container *ngFor="let paciente of listaPacientes; index as i">
+        <div>
+          <button (click)="descargarExcel(paciente)" mat-fab class="fab bg-danger" style="margin-right: 20px;">
+            <img class="foto" src="{{paciente.imagenUno}}" width="110px" height="110px" alt="">
+          </button>
+          <p>{{paciente.nombre}} {{paciente.apellido}}</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="fabbotons" style="text-align: center;" *ngIf="tipoUsuario == 'Especialistas'">
+      <ng-container *ngFor="let especialista of listaEspecialistas; index as i">
+        <div>
+          <button (click)="descargarExcel(especialista)" mat-fab class="fab bg-primary" style="margin-right: 20px;">
+            <img class="foto" src="{{especialista.imagenUno}}" width="110px" height="110px" alt="">
+          </button>
+          <p>{{especialista.nombre}} {{especialista.apellido}}</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="fabbotons" style="text-align: center;" *ngIf="tipoUsuario == 'Administradores'">
+      <ng-container *ngFor="let administrador of listaAdministradores; index as i">
+        <div>
+          <button mat-fab class="fab oro" style="margin-right: 20px;">
+            <img class="foto" src="{{administrador.imagenUno}}" width="110px" height="110px" alt="">
+          </button>
+          <p>{{administrador.nombre}} {{administrador.apellido}}</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </body>

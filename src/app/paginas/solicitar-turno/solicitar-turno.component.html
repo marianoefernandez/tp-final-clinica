@@ -103,7 +103,7 @@
                         <hr class="mb-4">
                     </div> -->
 
-                    <input (click)="elegirDia(dia)" *ngFor="let dia of diasDisponibles; index as i" class="btn btn-lg text-light dia" type="button" value="{{obtenerDia(dia.dia)}} de {{obtenerMesPorNumero(dia.mes)}}">
+                    <input (click)="elegirDia(dia)" *ngFor="let dia of diasDisponibles; index as i" class="btn btn-lg text-light dia" type="button" value="{{dia | dia}}">
                     <div *ngIf="diaElegido != null">
                         <h3 class="text-light">Seleccione el horario que desea elegir:</h3>
                         <div *ngIf="horarioDiaElegido!=null">

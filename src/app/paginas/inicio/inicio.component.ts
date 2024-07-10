@@ -16,6 +16,8 @@ export class InicioComponent {
 
   }
 
+
+  public color = "red";
   public tipoSeleccionado :string = "";
   public mensajePerfil : string = "";
   public imagenPerfil : string = "";

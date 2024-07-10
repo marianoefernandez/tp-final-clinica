@@ -9,7 +9,7 @@
 
         <div class="description">
             <h3>Mi Perfil</h3>
-            <p>{{mensajePerfil}}</p>
+            <p [appSubrayar]="color"> {{mensajePerfil}}</p>
             <button (click)="navigate('bienvenido/mi-perfil')">Acceder a mi perfil</button>
         </div> 
     </div>
@@ -24,7 +24,7 @@
 
         <div class="description">
             <h3>Mis Turnos</h3>
-            <p>En está sección puedes ver y administrar los turnos que tengas asignados</p>
+            <p [appSubrayar]="color">En está sección puedes ver y administrar los turnos que tengas asignados</p>
             <button (click)="navigate('bienvenido/turnos/mis-turnos')" >Mis turnos</button>
         </div> 
     </div>
@@ -39,7 +39,7 @@
 
         <div class="description">
             <h3>Solicitar Turno</h3>
-            <p>Necesitas un turno a la brevedad. Solicitalo</p>
+            <p [appSubrayar]="color">Necesitas un turno a la brevedad. Solicitalo</p>
             <button (click)="navigate('bienvenido/turnos/solicitar-turno')">Solicitar Turno</button>
         </div> 
     </div>
@@ -54,7 +54,7 @@
 
         <div class="description">
             <h3>Pacientes</h3>
-            <p>En está sección podes ver a todos los pacientes que hayas atendido al menos una vez.</p>
+            <p [appSubrayar]="color">En está sección podes ver a todos los pacientes que hayas atendido al menos una vez.</p>
             <button (click)="navigate('bienvenido/pacientes')">PACIENTES</button>
         </div> 
     </div>
@@ -69,7 +69,7 @@
 
         <div class="description">
             <h3>Usuarios</h3>ß
-            <p>Administra a los usuarios registrados en la clinica.</p>
+            <p [appSubrayar]="color">Administra a los usuarios registrados en la clinica.</p>
             <button (click)="navigate('bienvenido/usuarios')">Administra a los usuarios</button>
         </div> 
     </div>
@@ -84,7 +84,7 @@
 
         <div class="description">
             <h3>Turnos</h3>
-            <p>Puedes ver los turnos de la clinica y cancelarlos si es necesario</p>
+            <p [appSubrayar]="color">Puedes ver los turnos de la clinica y cancelarlos si es necesario</p>
             <button (click)="navigate('bienvenido/turnos/ver-turnos')">Ver Turnos</button>
         </div> 
     </div>

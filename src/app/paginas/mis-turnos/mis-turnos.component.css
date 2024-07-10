@@ -36,9 +36,15 @@
     transition: .5s;
     text-align: center;
     border: 5px solid;
-    border-color: rgb(0, 0, 0);
+    /* border-color: rgb(0, 0, 0); */
     margin: 10px;
+    background-color: #007bff;
 }
+
+/* .turno:hover
+{
+    border: 8px solid;
+} */
 
 .texto-turnos
 {

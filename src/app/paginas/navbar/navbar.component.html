@@ -1,5 +1,6 @@
-<div id="navbar">
-  <nav class="navbar navbar-light bg-primary fixed-top">    
+<div id="nav">
+  <!-- <nav class="navbar navbar-light bg-primary fixed-top">     -->
+  <nav [appNavbar]="tipoSeleccionado" class="navbar fixed-top">    
     <a class="navbar-brand text-light">
         <img style="border-radius: 100%;" src="{{firestore.datosUsuarioActual.imagenUno}}" width="40" height="40" class="d-inline-block align-top" alt="">
         {{autenticacion.usuarioActual.email}} ({{tipoSeleccionado}})

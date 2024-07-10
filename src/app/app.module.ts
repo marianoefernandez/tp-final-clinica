@@ -15,6 +15,8 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from '../environments/environment';
+import { TurnoscolorDirective } from './directivas/turnoscolor.directive';
+import { NavbarDirective } from './directivas/navbar.directive';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAQcbxYDaaTa5gQya6GglbXHSrhD_22-ig",

@@ -10,6 +10,31 @@ table
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
+.fab
+{
+    width: 128px;
+    height: 128px;
+    border: black 2px solid ;
+}
+
+.oro
+{
+    background-color: gold;
+}
+
+.fabbotons
+{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.foto
+{
+    border-radius: 50%;
+}
+
+
 .especial
 {
     margin: 30px auto;

@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <div style="text-align: center; margin-top:15px" >
+      <div *ngIf="componente == ''" style="text-align: center; margin-top:15px" >
         <button (click)="descargarExcel()" class="boton grande verde">Descargar Excel Usuarios</button>        
       </div>
       <footer style="color:white" class="pt-3 mt-4 border-top">
